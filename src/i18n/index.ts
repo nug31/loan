@@ -20,8 +20,8 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: 'id', // Default language: Indonesian
-    fallbackLng: 'id',
+    lng: 'en', // Default language: English
+    fallbackLng: 'en',
     
     interpolation: {
       escapeValue: false // React already does escaping
@@ -31,6 +31,15 @@ i18n
       order: ['localStorage', 'navigator', 'htmlTag'],
       caches: ['localStorage']
     }
+  });
+
+// Clear any existing language preference to use new default
+if (typeof window !== 'undefined') {
+  const storedLang = localStorage.getItem('i18nextLng');
+  if (storedLang === 'id') {
+    localStorage.removeItem('i18nextLng');
+    i18n.changeLanguage('en');
+  }
   });
 
 export default i18n;

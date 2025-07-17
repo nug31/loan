@@ -109,22 +109,22 @@ export const Dashboard: React.FC = () => {
         <button className="group relative overflow-hidden flex flex-col items-center justify-center space-y-2 p-4 bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
           <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           <Package size={24} className="relative z-10" />
-          <span className="text-sm font-semibold relative z-10">Jelajahi Barang</span>
+          <span className="text-sm font-semibold relative z-10">Browse Items</span>
         </button>
         <button className="group relative overflow-hidden flex flex-col items-center justify-center space-y-2 p-4 bg-gradient-to-br from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
           <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           <FileText size={24} className="relative z-10" />
-          <span className="text-sm font-semibold relative z-10">Ajukan Peminjaman</span>
+          <span className="text-sm font-semibold relative z-10">Request Loan</span>
         </button>
         <button className="group relative overflow-hidden flex flex-col items-center justify-center space-y-2 p-4 bg-gradient-to-br from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
           <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           <Calendar size={24} className="relative z-10" />
-          <span className="text-sm font-semibold relative z-10">Lihat Kalender</span>
+          <span className="text-sm font-semibold relative z-10">View Calendar</span>
         </button>
         <button className="group relative overflow-hidden flex flex-col items-center justify-center space-y-2 p-4 bg-gradient-to-br from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
           <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           <Users size={24} className="relative z-10" />
-          <span className="text-sm font-semibold relative z-10">Profil Saya</span>
+          <span className="text-sm font-semibold relative z-10">My Profile</span>
         </button>
       </div>
     </div>
@@ -142,7 +142,7 @@ export const Dashboard: React.FC = () => {
                 {t('dashboard.welcome')}, {user?.firstName || user?.email}! 👋
               </h1>
               <p className="text-gray-600 text-lg">
-                Berikut yang terjadi dengan peminjaman dan barang Anda hari ini.
+                Here's what's happening with your loans and items today.
               </p>
             </div>
             <div className="text-right space-y-2">
@@ -151,7 +151,7 @@ export const Dashboard: React.FC = () => {
                 <p className="text-sm font-medium text-gray-700">Live</p>
               </div>
               <p className="text-sm text-gray-500 font-medium">
-                {new Date().toLocaleDateString(i18n.language === 'id' ? 'id-ID' : 'en-US', {
+                {new Date().toLocaleDateString(i18n.language === 'en' ? 'en-US' : 'id-ID', {
                   weekday: 'long',
                   year: 'numeric',
                   month: 'long',
@@ -176,7 +176,7 @@ export const Dashboard: React.FC = () => {
                 icon={<Package className="text-white" size={28} />}
                 color="bg-gradient-to-r from-blue-500 to-blue-600"
                 gradient="bg-gradient-to-br from-blue-500 to-purple-600"
-                change="+12% dari bulan lalu"
+                change="+12% from last month"
               />
               <StatCard
                 title={t('dashboard.activeLoans')}
@@ -184,7 +184,7 @@ export const Dashboard: React.FC = () => {
                 icon={<FileText className="text-white" size={28} />}
                 color="bg-gradient-to-r from-green-500 to-green-600"
                 gradient="bg-gradient-to-br from-green-500 to-emerald-600"
-                change="+8% dari bulan lalu"
+                change="+8% from last month"
               />
               <StatCard
                 title={t('dashboard.pendingRequests')}
