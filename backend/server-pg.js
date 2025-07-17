@@ -24,6 +24,9 @@ const allowedOrigins = [
   /\.up\.railway\.app$/
 ];
 
+// Log CORS for debugging
+console.log('🔒 CORS allowed origins:', allowedOrigins);
+
 app.use(cors({
   origin: function (origin, callback) {
     // Allow requests with no origin (like mobile apps or curl requests)
