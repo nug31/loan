@@ -286,19 +286,19 @@ export const ItemCatalog: React.FC = () => {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
             <input
               type="text"
-              placeholder={t('Search') + '...'}
+              placeholder="Search..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
-          
+
           <button
             onClick={() => setShowFilters(!showFilters)}
             className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
           >
             <Filter size={20} />
-            <span>{t('Filters')}</span>
+            <span>Filters</span>
           </button>
         </div>
         
@@ -306,13 +306,13 @@ export const ItemCatalog: React.FC = () => {
           <div className="mt-4 pt-4 border-t border-gray-200">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">{t('Category')}</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
                 <select
                   value={selectedCategory}
                   onChange={(e) => setSelectedCategory(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
-                  <option value="all">{t('All Categories')}</option>
+                  <option value="all">All Categories</option>
                   {categories.map(category => (
                     <option key={category.id} value={category.name}>
                       {category.name}
@@ -320,34 +320,34 @@ export const ItemCatalog: React.FC = () => {
                   ))}
                 </select>
               </div>
-              
+
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">{t('Condition')}</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Condition</label>
                 <select
                   value={selectedCondition}
                   onChange={(e) => setSelectedCondition(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
-                  <option value="all">{t('All Conditions')}</option>
-                  <option value="excellent">{t('Excellent')}</option>
-                  <option value="good">{t('Good')}</option>
-                  <option value="fair">{t('Fair')}</option>
-                  <option value="poor">{t('Poor')}</option>
+                  <option value="all">All Conditions</option>
+                  <option value="excellent">Excellent</option>
+                  <option value="good">Good</option>
+                  <option value="fair">Fair</option>
+                  <option value="poor">Poor</option>
                 </select>
               </div>
-              
+
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">{t('Sort by')}</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Sort by</label>
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
-                  <option value="name">{t('Name')}</option>
-                  <option value="category">{t('Category')}</option>
-                  <option value="condition">{t('Condition')}</option>
-                  <option value="availability">{t('Availability')}</option>
-                  <option value="value">{t('Value')}</option>
+                  <option value="name">Name</option>
+                  <option value="category">Category</option>
+                  <option value="condition">Condition</option>
+                  <option value="availability">Availability</option>
+                  <option value="value">Value</option>
                 </select>
               </div>
             </div>

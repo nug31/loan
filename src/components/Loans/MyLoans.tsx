@@ -192,12 +192,12 @@ export const MyLoans: React.FC = () => {
         <div className="text-center py-12">
           <Package className="mx-auto text-gray-400 mb-4" size={48} />
           <h3 className="text-lg font-medium text-gray-900 mb-2">
-            {t('No ' + activeTab + ' loans found')}
+            No {activeTab} loans found
           </h3>
           <p className="text-gray-600">
-            {activeTab === 'active' && t("You don't have any active loans at the moment.")}
-            {activeTab === 'pending' && t("You don't have any pending loan requests.")}
-            {activeTab === 'history' && t("You haven't completed any loans yet.")}
+            {activeTab === 'active' && "You don't have any active loans at the moment."}
+            {activeTab === 'pending' && "You don't have any pending loan requests."}
+            {activeTab === 'history' && "You haven't completed any loans yet."}
           </p>
         </div>
       ) : (
