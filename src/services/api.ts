@@ -1,11 +1,20 @@
-// Use environment variable or fallback to localhost
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3002/api';
+// Use environment variable or fallback to Railway URL
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://loan-production-a1a2.up.railway.app/api';
 
 // Check if we're in demo mode (when backend is not available)
 const IS_DEMO_MODE = API_BASE_URL.includes('your-backend-url.herokuapp.com') ||
                      import.meta.env.VITE_DEMO_MODE === 'true';
 
-const ACTUAL_API_URL = IS_DEMO_MODE ? 'http://localhost:3002/api' : API_BASE_URL;
+const ACTUAL_API_URL = IS_DEMO_MODE ? 'https://loan-production-a1a2.up.railway.app/api' : API_BASE_URL;
+
+// Debug logging
+console.log('🔧 API Configuration:', {
+  VITE_API_BASE_URL: import.meta.env.VITE_API_BASE_URL,
+  VITE_DEMO_MODE: import.meta.env.VITE_DEMO_MODE,
+  API_BASE_URL,
+  IS_DEMO_MODE,
+  ACTUAL_API_URL
+});
 
 export interface ApiResponse<T> {
   data?: T;
@@ -131,11 +140,11 @@ class ApiService {
         options
       });
 
-      // If Railway backend fails, fallback to demo mode for this request
-      if (error instanceof Error && (error.message.includes('Failed to fetch') || error.name === 'AbortError')) {
-        console.log('🎭 Railway backend failed, falling back to demo mode for this request');
-        return this.handleDemoMode<T>(endpoint, options);
-      }
+      // Temporarily disable fallback to debug Railway connection
+      // if (error instanceof Error && (error.message.includes('Failed to fetch') || error.name === 'AbortError')) {
+      //   console.log('🎭 Railway backend failed, falling back to demo mode for this request');
+      //   return this.handleDemoMode<T>(endpoint, options);
+      // }
 
       return {
         error: error instanceof Error ? error.message : 'Unknown error occurred'
