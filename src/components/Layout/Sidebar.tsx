@@ -11,6 +11,7 @@ import {
   Activity,
   Tag
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 
 interface SidebarProps {
@@ -20,24 +21,25 @@ interface SidebarProps {
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, isOpen }) => {
+  const { t } = useTranslation();
   const { isAdmin } = useAuth();
 
   const menuItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: Home, adminOnly: false },
-    { id: 'catalog', label: 'Item Catalog', icon: Package, adminOnly: false },
-    { id: 'my-loans', label: 'My Loans', icon: FileText, adminOnly: false },
-    { id: 'calendar', label: 'Calendar', icon: Calendar, adminOnly: false },
+    { id: 'dashboard', label: t('navigation.dashboard'), icon: Home, adminOnly: false },
+    { id: 'catalog', label: t('navigation.itemCatalog'), icon: Package, adminOnly: false },
+    { id: 'my-loans', label: t('navigation.myLoans'), icon: FileText, adminOnly: false },
+    { id: 'calendar', label: t('navigation.calendar'), icon: Calendar, adminOnly: false },
     ...(isAdmin ? [
-      { id: 'admin-items', label: 'Manage Items', icon: Package, adminOnly: true },
-      { id: 'admin-categories', label: 'Manage Categories', icon: Tag, adminOnly: true },
-      { id: 'admin-loans', label: 'Manage Loans', icon: FileText, adminOnly: true },
-      { id: 'admin-users', label: 'Manage Users', icon: Users, adminOnly: true },
-      { id: 'analytics', label: 'Analytics', icon: BarChart3, adminOnly: true },
+      { id: 'admin-items', label: t('navigation.manageItems'), icon: Package, adminOnly: true },
+      { id: 'admin-categories', label: t('navigation.manageCategories'), icon: Tag, adminOnly: true },
+      { id: 'admin-loans', label: t('navigation.manageLoans'), icon: FileText, adminOnly: true },
+      { id: 'admin-users', label: t('navigation.manageUsers'), icon: Users, adminOnly: true },
+      { id: 'analytics', label: t('navigation.analytics'), icon: BarChart3, adminOnly: true },
       { id: 'activity', label: 'Activity Logs', icon: Activity, adminOnly: true },
       { id: 'security', label: 'Security', icon: Shield, adminOnly: true },
     ] : []),
     ...(isAdmin ? [
-      { id: 'settings', label: 'Settings', icon: Settings, adminOnly: true },
+      { id: 'settings', label: t('navigation.settings'), icon: Settings, adminOnly: true },
     ] : []),
   ];
 

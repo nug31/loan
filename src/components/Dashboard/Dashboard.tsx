@@ -66,7 +66,7 @@ export const Dashboard: React.FC = () => {
   const RecentActivity: React.FC = () => (
     <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6">
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-xl font-bold text-gray-900">{t('Recent Activity')}</h3>
+        <h3 className="text-xl font-bold text-gray-900">{t('dashboard.recentActivity')}</h3>
         <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
       </div>
       <div className="space-y-3">
@@ -85,9 +85,9 @@ export const Dashboard: React.FC = () => {
             </div>
             <div className="flex-1">
               <p className="text-sm font-semibold text-gray-900 group-hover:text-blue-900 transition-colors">
-                {t('Loan')} {loan.status === 'pending' ? t('requested') :
-                       loan.status === 'active' ? t('approved') :
-                       loan.status === 'overdue' ? t('overdue') : t('returned')}
+                {t('navigation.loans')} {loan.status === 'pending' ? t('loans.status.pending') :
+                       loan.status === 'active' ? t('loans.status.approved') :
+                       loan.status === 'overdue' ? t('loans.status.overdue') : t('loans.status.returned')}
               </p>
               <p className="text-xs text-gray-600 group-hover:text-gray-700 transition-colors">
                 {new Date(loan.requestedAt).toLocaleDateString()}
@@ -104,27 +104,27 @@ export const Dashboard: React.FC = () => {
 
   const QuickActions: React.FC = () => (
     <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6">
-      <h3 className="text-xl font-bold text-gray-900 mb-6">{t('Quick Actions')}</h3>
+      <h3 className="text-xl font-bold text-gray-900 mb-6">{t('dashboard.quickActions')}</h3>
       <div className="grid grid-cols-2 gap-4">
         <button className="group relative overflow-hidden flex flex-col items-center justify-center space-y-2 p-4 bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
           <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           <Package size={24} className="relative z-10" />
-          <span className="text-sm font-semibold relative z-10">{t('Browse Items')}</span>
+          <span className="text-sm font-semibold relative z-10">Jelajahi Barang</span>
         </button>
         <button className="group relative overflow-hidden flex flex-col items-center justify-center space-y-2 p-4 bg-gradient-to-br from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
           <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           <FileText size={24} className="relative z-10" />
-          <span className="text-sm font-semibold relative z-10">{t('Request Loan')}</span>
+          <span className="text-sm font-semibold relative z-10">Ajukan Peminjaman</span>
         </button>
         <button className="group relative overflow-hidden flex flex-col items-center justify-center space-y-2 p-4 bg-gradient-to-br from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
           <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           <Calendar size={24} className="relative z-10" />
-          <span className="text-sm font-semibold relative z-10">{t('View Calendar')}</span>
+          <span className="text-sm font-semibold relative z-10">Lihat Kalender</span>
         </button>
         <button className="group relative overflow-hidden flex flex-col items-center justify-center space-y-2 p-4 bg-gradient-to-br from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
           <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           <Users size={24} className="relative z-10" />
-          <span className="text-sm font-semibold relative z-10">{t('My Profile')}</span>
+          <span className="text-sm font-semibold relative z-10">Profil Saya</span>
         </button>
       </div>
     </div>
@@ -139,10 +139,10 @@ export const Dashboard: React.FC = () => {
           <div className="relative flex items-center justify-between">
             <div className="space-y-2">
               <h1 className="text-4xl font-bold gradient-text">
-                {t('Welcome back')}, {user?.firstName || user?.email}! 👋
+                {t('dashboard.welcome')}, {user?.firstName || user?.email}! 👋
               </h1>
               <p className="text-gray-600 text-lg">
-                {t("Here's what's happening with your loans and items today.")}
+                Berikut yang terjadi dengan peminjaman dan barang Anda hari ini.
               </p>
             </div>
             <div className="text-right space-y-2">
@@ -171,30 +171,30 @@ export const Dashboard: React.FC = () => {
           {isAdmin ? (
             <>
               <StatCard
-                title="Total Items"
+                title={t('dashboard.totalItems')}
                 value={dashboardStats.totalItems}
                 icon={<Package className="text-white" size={28} />}
                 color="bg-gradient-to-r from-blue-500 to-blue-600"
                 gradient="bg-gradient-to-br from-blue-500 to-purple-600"
-                change="+12% from last month"
+                change="+12% dari bulan lalu"
               />
               <StatCard
-                title="Active Loans"
+                title={t('dashboard.activeLoans')}
                 value={dashboardStats.activeLoans}
                 icon={<FileText className="text-white" size={28} />}
                 color="bg-gradient-to-r from-green-500 to-green-600"
                 gradient="bg-gradient-to-br from-green-500 to-emerald-600"
-                change="+8% from last month"
+                change="+8% dari bulan lalu"
               />
               <StatCard
-                title="Pending Requests"
+                title={t('dashboard.pendingRequests')}
                 value={dashboardStats.pendingRequests}
                 icon={<Clock className="text-white" size={28} />}
                 color="bg-gradient-to-r from-yellow-500 to-yellow-600"
                 gradient="bg-gradient-to-br from-yellow-500 to-orange-600"
               />
               <StatCard
-                title="Overdue Items"
+                title={t('dashboard.overdueItems')}
                 value={dashboardStats.overdueItems}
                 icon={<AlertTriangle className="text-white" size={28} />}
                 color="bg-gradient-to-r from-red-500 to-red-600"
@@ -204,14 +204,14 @@ export const Dashboard: React.FC = () => {
           ) : (
             <>
               <StatCard
-                title="My Active Loans"
+                title={t('dashboard.activeLoans')}
                 value={activeUserLoans.length}
                 icon={<FileText className="text-white" size={28} />}
                 color="bg-gradient-to-r from-green-500 to-green-600"
                 gradient="bg-gradient-to-br from-green-500 to-emerald-600"
               />
               <StatCard
-                title="Pending Requests"
+                title={t('dashboard.pendingRequests')}
                 value={pendingUserLoans.length}
                 icon={<Clock className="text-white" size={28} />}
                 color="bg-gradient-to-r from-yellow-500 to-yellow-600"
