@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { BarChart3, TrendingUp, Download, Calendar, Package, Users, Clock, AlertTriangle } from 'lucide-react';
+import { BarChart3, TrendingUp, Download, Calendar, Package, Users, Clock, AlertTriangle, FileSpreadsheet, FileText } from 'lucide-react';
 import { useData } from '../../contexts/DataContext';
+import { exportToCSV } from '../../utils/exportUtils';
 
 export const Analytics: React.FC = () => {
   const { dashboardStats, loans, items, categories } = useData();
   const [dateRange, setDateRange] = useState('30');
+  const [showExportMenu, setShowExportMenu] = useState(false);
 
   const loansByStatus = {
     active: loans.filter(l => l.status === 'active').length,
@@ -58,6 +60,25 @@ export const Analytics: React.FC = () => {
     </div>
   );
 
+  const handleExport = (format: 'excel' | 'pdf') => {
+    const analyticsData = [
+      { metric: 'Total Items', value: dashboardStats.totalItems },
+      { metric: 'Active Loans', value: dashboardStats.activeLoans },
+      { metric: 'Overdue Items', value: dashboardStats.overdueItems },
+      { metric: 'Total Users', value: dashboardStats.totalUsers },
+      { metric: 'Utilization Rate', value: `${utilizationRate.toFixed(1)}%` },
+      { metric: 'Date Range', value: `Last ${dateRange} days` }
+    ];
+
+    if (format === 'excel') {
+      exportToCSV(analyticsData, 'analytics-report', ['metric', 'value']);
+    } else {
+      // For PDF, we'll use the same CSV approach for now
+      exportToCSV(analyticsData, 'analytics-report', ['metric', 'value']);
+    }
+    setShowExportMenu(false);
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -73,10 +94,36 @@ export const Analytics: React.FC = () => {
             <option value="90">Last 90 days</option>
             <option value="365">Last year</option>
           </select>
-          <button className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-            <Download size={20} />
-            <span>Export Report</span>
-          </button>
+          <div className="relative">
+            <button
+              onClick={() => setShowExportMenu(!showExportMenu)}
+              className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              <Download size={20} />
+              <span>Export Report</span>
+            </button>
+
+            {showExportMenu && (
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+                <div className="p-2">
+                  <button
+                    onClick={() => handleExport('excel')}
+                    className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg flex items-center space-x-2"
+                  >
+                    <FileSpreadsheet size={16} />
+                    <span>Export to Excel</span>
+                  </button>
+                  <button
+                    onClick={() => handleExport('pdf')}
+                    className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg flex items-center space-x-2"
+                  >
+                    <FileText size={16} />
+                    <span>Export to PDF</span>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 

@@ -38,31 +38,50 @@ export const ItemCatalog: React.FC = () => {
     setRequestItem(null);
   };
 
-  const handleRequestSubmit = (e: React.FormEvent) => {
+  const handleRequestSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user || !requestItem) return;
-    const startDate = new Date(date + 'T' + (startTime || '09:00'));
-    const endDate = new Date(returnDate + 'T17:00');
-    requestLoan({
-      itemId: requestItem.id,
-      userId: user.id,
-      quantity: 1,
-      startDate,
-      endDate,
-      notes: reason,
-      status: 'pending',
-      remindersSent: 0
-    });
-    setShowRequestForm(false);
-    setNotification(`Request for '${requestItem.name}' has been sent!`);
-    setTimeout(() => setNotification(null), 2000);
-    setRequestItem(null);
+    if (!user || !requestItem) {
+      console.error('❌ Missing user or requestItem:', { user, requestItem });
+      return;
+    }
+
+    try {
+      const startDate = new Date(date + 'T' + (startTime || '09:00'));
+      const endDate = new Date(returnDate + 'T17:00');
+
+      console.log('🔄 Submitting loan request for:', requestItem.name);
+      console.log('👤 User:', user);
+      console.log('📦 Item:', requestItem);
+      console.log('📅 Dates:', { startDate, endDate });
+
+      const loanData = {
+        itemId: requestItem.id,
+        userId: user.id,
+        quantity: 1,
+        startDate,
+        endDate,
+        purpose: reason,
+        status: 'pending' as const
+      };
+
+      console.log('📋 Loan data to send:', loanData);
+
+      await requestLoan(loanData);
+
+      setShowRequestForm(false);
+      setNotification(`✅ SUCCESS: Request for '${requestItem.name}' has been sent! Check "My Loans" to see your request.`);
+      setTimeout(() => setNotification(null), 5000);
+      setRequestItem(null);
+
+      console.log('✅ Loan request completed successfully');
+    } catch (error) {
+      console.error('❌ Error submitting loan request:', error);
+      setNotification(`❌ ERROR: Failed to submit request for '${requestItem?.name}'. Please try again.`);
+      setTimeout(() => setNotification(null), 5000);
+    }
   };
 
-  const handleRequest = (itemName: string) => {
-    setNotification(`Request for '${itemName}' has been sent!`);
-    setTimeout(() => setNotification(null), 2000);
-  };
+
 
   const filteredItems = React.useMemo(() => {
     let filtered = searchQuery ? searchItems(searchQuery) : items;
@@ -116,7 +135,7 @@ export const ItemCatalog: React.FC = () => {
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
       <div className="aspect-w-16 aspect-h-9">
         <img
-          src={item.images[0] || '/placeholder-image.jpg'}
+          src={item.images?.[0] || '/placeholder-image.jpg'}
           alt={item.name}
           className="w-full h-48 object-cover"
         />

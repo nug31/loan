@@ -23,3 +23,15 @@ dist-ssr
 *.sln
 *.sw?
 .env
+
+# Database files
+*.sqlite
+*.db
+database.sqlite
+backend/database.sqlite
+
+# Test files
+test-*.json
+test-*.js
+test.html
+test-login.html

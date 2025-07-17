@@ -32,10 +32,10 @@ export const LoanCalendar: React.FC = () => {
   const getLoansForDate = (date: Date) => {
     const dateStr = date.toDateString();
     return loans.filter(loan => {
-      const startDate = loan.startDate.toDateString();
-      const endDate = loan.endDate.toDateString();
-      return startDate === dateStr || endDate === dateStr || 
-             (loan.startDate <= date && loan.endDate >= date);
+      const startDate = new Date(loan.startDate).toDateString();
+      const endDate = new Date(loan.endDate).toDateString();
+      return startDate === dateStr || endDate === dateStr ||
+             (new Date(loan.startDate) <= date && new Date(loan.endDate) >= date);
     });
   };
 
@@ -66,8 +66,8 @@ export const LoanCalendar: React.FC = () => {
         <div className="space-y-1">
           {userLoans.slice(0, 2).map(loan => {
             const item = getItemById(loan.itemId);
-            const isStartDate = loan.startDate.toDateString() === date.toDateString();
-            const isEndDate = loan.endDate.toDateString() === date.toDateString();
+            const isStartDate = new Date(loan.startDate).toDateString() === date.toDateString();
+            const isEndDate = new Date(loan.endDate).toDateString() === date.toDateString();
             
             return (
               <div
@@ -222,13 +222,13 @@ export const LoanCalendar: React.FC = () => {
           {loans
             .filter(loan => {
               const today = new Date();
-              const endDate = loan.endDate;
+              const endDate = new Date(loan.endDate);
               return endDate >= today && endDate <= new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
             })
             .slice(0, 5)
             .map(loan => {
               const item = getItemById(loan.itemId);
-              const daysUntil = Math.ceil((loan.endDate.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
+              const daysUntil = Math.ceil((new Date(loan.endDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
               
               return (
                 <div key={loan.id} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
@@ -242,7 +242,7 @@ export const LoanCalendar: React.FC = () => {
                   <div className="flex-1">
                     <p className="font-medium text-gray-900">{item?.name}</p>
                     <p className="text-sm text-gray-600">
-                      Due {loan.endDate.toLocaleDateString()} ({daysUntil} days)
+                      Due {new Date(loan.endDate).toLocaleDateString()} ({daysUntil} days)
                     </p>
                   </div>
                   {isAdmin && (

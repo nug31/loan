@@ -11,6 +11,7 @@ import { LoanCalendar } from './components/Calendar/LoanCalendar';
 import { ManageItems } from './components/Admin/ManageItems';
 import { ManageLoans } from './components/Admin/ManageLoans';
 import { ManageUsers } from './components/Admin/ManageUsers';
+import ManageCategories from './components/Admin/ManageCategories';
 import { Analytics } from './components/Analytics/Analytics';
 import { ActivityLogs } from './components/Activity/ActivityLogs';
 import { Security } from './components/Security/Security';
@@ -27,7 +28,7 @@ const AuthWrapper: React.FC = () => {
 };
 
 const AppContent: React.FC = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isAdmin } = useAuth();
   const [activeTab, setActiveTab] = useState('dashboard');
 
   if (!isAuthenticated) {
@@ -50,6 +51,8 @@ const AppContent: React.FC = () => {
         return <ManageLoans />;
       case 'admin-users':
         return <ManageUsers />;
+      case 'admin-categories':
+        return <ManageCategories />;
       case 'analytics':
         return <Analytics />;
       case 'activity':
@@ -57,7 +60,7 @@ const AppContent: React.FC = () => {
       case 'security':
         return <Security />;
       case 'settings':
-        return <Settings />;
+        return isAdmin ? <Settings /> : <Dashboard />;
       default:
         return <Dashboard />;
     }

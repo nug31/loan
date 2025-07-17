@@ -1,5 +1,5 @@
-import { DataTypes } from 'sequelize';
-import sequelize from '../config/database.js';
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/database.js');
 
 const Loan = sequelize.define('Loan', {
   id: {
@@ -85,4 +85,4 @@ const Loan = sequelize.define('Loan', {
   timestamps: true
 });
 
-export default Loan; 
+module.exports = Loan;

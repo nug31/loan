@@ -16,31 +16,29 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeTab, onTabChange
   };
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
       <Sidebar
         activeTab={activeTab}
         onTabChange={onTabChange}
         isOpen={isSidebarOpen}
       />
-      
-      {/* Overlay for mobile */}
+
+      {/* Enhanced overlay for mobile */}
       {isSidebarOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-30 lg:hidden transition-all duration-300"
           onClick={() => setIsSidebarOpen(false)}
         />
       )}
-      
+
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header
           onMenuToggle={handleMenuToggle}
           isMenuOpen={isSidebarOpen}
         />
-        
+
         <main className="flex-1 overflow-x-hidden overflow-y-auto">
-          <div className="container mx-auto px-4 py-6">
-            {children}
-          </div>
+          {children}
         </main>
       </div>
     </div>

@@ -41,9 +41,10 @@ export const MyLoans: React.FC = () => {
     }
   };
 
-  const getDaysUntilDue = (endDate: Date) => {
+  const getDaysUntilDue = (endDate: string | Date) => {
     const today = new Date();
-    const diffTime = endDate.getTime() - today.getTime();
+    const endDateObj = new Date(endDate);
+    const diffTime = endDateObj.getTime() - today.getTime();
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   };
 
@@ -74,21 +75,24 @@ export const MyLoans: React.FC = () => {
   };
 
   const LoanCard: React.FC<{ loan: Loan }> = ({ loan }) => {
-    const item = getItemById(loan.itemId);
+    const item = loan.item || getItemById(loan.itemId);
     const daysUntilDue = getDaysUntilDue(loan.endDate);
-    
+
     return (
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center space-x-3">
             <img
-              src={item?.images[0] || '/placeholder-image.jpg'}
+              src={item?.images?.[0] || '/placeholder-image.jpg'}
               alt={item?.name}
               className="w-16 h-16 object-cover rounded-lg"
             />
             <div>
               <h3 className="text-lg font-semibold text-gray-900">{item?.name}</h3>
               <p className="text-sm text-gray-600">{item?.category}</p>
+              {item?.location && (
+                <p className="text-xs text-gray-500">📍 {item.location}</p>
+              )}
               <div className="flex items-center space-x-2 mt-1">
                 <span className={`px-2 py-1 rounded-full text-xs font-medium flex items-center space-x-1 ${getStatusColor(loan.status)}`}>
                   {getStatusIcon(loan.status)}
@@ -101,7 +105,7 @@ export const MyLoans: React.FC = () => {
           <div className="text-right">
             <p className="text-sm text-gray-500">Quantity: {loan.quantity}</p>
             <p className="text-sm text-gray-500">
-              Due: {loan.endDate.toLocaleDateString()}
+              Due: {new Date(loan.endDate).toLocaleDateString()}
             </p>
             {loan.status === 'active' && (
               <p className={`text-sm font-medium ${
@@ -116,7 +120,7 @@ export const MyLoans: React.FC = () => {
         <div className="border-t border-gray-200 pt-4">
           <div className="flex items-center justify-between">
             <div className="text-sm text-gray-600">
-              <p>Requested: {loan.requestedAt.toLocaleDateString()}</p>
+              {loan.purpose && <p>Purpose: {loan.purpose}</p>}
               {loan.notes && <p>Notes: {loan.notes}</p>}
             </div>
             
