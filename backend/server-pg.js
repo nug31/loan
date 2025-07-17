@@ -18,7 +18,10 @@ const allowedOrigins = [
   'http://localhost:5174',
   'http://localhost:5175',
   'https://loan-management-nug.netlify.app',
-  'https://main--loan-management-nug.netlify.app'
+  'https://main--loan-management-nug.netlify.app',
+  /\.netlify\.app$/,
+  /\.railway\.app$/,
+  /\.up\.railway\.app$/
 ];
 
 app.use(cors({
@@ -26,7 +29,15 @@ app.use(cors({
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
 
-    if (allowedOrigins.indexOf(origin) !== -1) {
+    // Check string origins
+    if (allowedOrigins.some(allowed => {
+      if (typeof allowed === 'string') {
+        return allowed === origin;
+      } else if (allowed instanceof RegExp) {
+        return allowed.test(origin);
+      }
+      return false;
+    })) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
