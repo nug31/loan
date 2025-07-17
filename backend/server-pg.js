@@ -618,6 +618,12 @@ app.delete('/api/categories/:id', async (req, res) => {
   }
 });
 
+// Debug middleware to log all requests
+app.use((req, res, next) => {
+  console.log(`📝 ${req.method} ${req.path} - Origin: ${req.headers.origin}`);
+  next();
+});
+
 // Authentication endpoints
 app.post('/api/auth/login', async (req, res) => {
   try {
