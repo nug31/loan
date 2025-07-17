@@ -140,11 +140,11 @@ class ApiService {
         options
       });
 
-      // Temporarily disable fallback to debug Railway connection
-      // if (error instanceof Error && (error.message.includes('Failed to fetch') || error.name === 'AbortError')) {
-      //   console.log('🎭 Railway backend failed, falling back to demo mode for this request');
-      //   return this.handleDemoMode<T>(endpoint, options);
-      // }
+      // Fallback to demo mode if Railway backend fails
+      if (error instanceof Error && (error.message.includes('Failed to fetch') || error.name === 'AbortError')) {
+        console.log('🎭 Railway backend failed, falling back to demo mode for this request');
+        return this.handleDemoMode<T>(endpoint, options);
+      }
 
       return {
         error: error instanceof Error ? error.message : 'Unknown error occurred'
