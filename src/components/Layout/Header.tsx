@@ -46,7 +46,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen }) => {
                 LoanMitra
               </span>
               <span className="text-xs text-blue-600 font-semibold hidden sm:block -mt-1 tracking-wide">
-                Asset Management
+                by NUG
               </span>
             </div>
           </div>

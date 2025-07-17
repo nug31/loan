@@ -92,11 +92,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, isOpen
         <div className="relative p-6 border-t border-white/20 bg-white/30 backdrop-blur-sm">
           <div className="flex items-center space-x-4">
             <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
-              <span className="text-white font-bold text-lg drop-shadow-sm">LM</span>
+              <span className="text-white font-bold text-lg drop-shadow-sm">NUG</span>
             </div>
             <div>
               <p className="text-sm font-bold text-gray-900">LoanMitra</p>
-              <p className="text-xs text-gray-500 font-medium">v1.0.0 • Premium</p>
+              <p className="text-xs text-gray-500 font-medium">Developed by NUG</p>
             </div>
           </div>
         </div>
