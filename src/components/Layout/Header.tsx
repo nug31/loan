@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { Bell, Search, Menu, X, User, Settings, LogOut, Package, Handshake } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { useData } from '../../contexts/DataContext';
-import LanguageSwitcher from '../UI/LanguageSwitcher';
 
 interface HeaderProps {
   onMenuToggle: () => void;
@@ -11,7 +9,6 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen }) => {
-  const { t } = useTranslation();
   const { user, logout, isAdmin } = useAuth();
   const { notifications, markNotificationRead } = useData();
   const [showNotifications, setShowNotifications] = useState(false);
@@ -64,8 +61,6 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen }) => {
               className="pl-12 pr-4 py-3 bg-gray-50/80 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 focus:bg-white transition-all duration-300 w-80 backdrop-blur-sm"
             />
           </div>
-
-          <LanguageSwitcher />
 
           <div className="relative">
             <button

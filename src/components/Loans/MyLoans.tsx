@@ -3,7 +3,6 @@ import { Calendar, Clock, Package, AlertTriangle, CheckCircle, X, RotateCcw, Eye
 import { useAuth } from '../../contexts/AuthContext';
 import { useData } from '../../contexts/DataContext';
 import { Loan } from '../../types';
-import { useTranslation } from 'react-i18next';
 
 export const MyLoans: React.FC = () => {
   const { user } = useAuth();
@@ -12,7 +11,6 @@ export const MyLoans: React.FC = () => {
   const [selectedLoan, setSelectedLoan] = useState<Loan | null>(null);
   const [showReturnModal, setShowReturnModal] = useState(false);
   const [showExtensionModal, setShowExtensionModal] = useState(false);
-  const { t } = useTranslation();
 
   const userLoans = getUserLoans(user?.id || '');
   const activeLoans = userLoans.filter(loan => loan.status === 'active');
@@ -159,10 +157,10 @@ export const MyLoans: React.FC = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">{t('My Loans')}</h1>
+        <h1 className="text-2xl font-bold text-gray-900">My Loans</h1>
         <button className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
           <Download size={20} />
-          <span>{t('Export Report')}</span>
+          <span>Export Report</span>
         </button>
       </div>
 
@@ -170,9 +168,9 @@ export const MyLoans: React.FC = () => {
       <div className="bg-white rounded-lg shadow-sm border border-gray-200">
         <div className="flex border-b border-gray-200">
           {[
-            { key: 'active', label: t('Active Loans'), count: activeLoans.length },
-            { key: 'pending', label: t('Pending'), count: pendingLoans.length },
-            { key: 'history', label: t('History'), count: historyLoans.length }
+            { key: 'active', label: 'Active Loans', count: activeLoans.length },
+            { key: 'pending', label: 'Pending', count: pendingLoans.length },
+            { key: 'history', label: 'History', count: historyLoans.length }
           ].map((tab) => (
             <button
               key={tab.key}

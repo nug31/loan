@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff, Lock, Mail, AlertCircle, Handshake } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 
 interface LoginFormProps {
@@ -8,7 +7,6 @@ interface LoginFormProps {
 }
 
 export const LoginForm: React.FC<LoginFormProps> = ({ onToggleForm }) => {
-  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -112,10 +110,10 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onToggleForm }) => {
 
               <div className="mt-6">
                 <h2 className="text-2xl font-bold text-white mb-2">
-                  {t('auth.loginTitle')}
+                  Welcome Back
                 </h2>
                 <p className="text-white/70 text-sm">
-                  {t('auth.loginTitle')}
+                  Sign in to continue your journey
                 </p>
               </div>
             </div>

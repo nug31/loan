@@ -3,7 +3,6 @@ import { Search, Filter, Grid, List, Package, Eye, Calendar, Tag } from 'lucide-
 import { useData } from '../../contexts/DataContext';
 import { Item } from '../../types';
 import { useAuth } from '../../contexts/AuthContext';
-import { useTranslation } from 'react-i18next';
 
 export const ItemCatalog: React.FC = () => {
   const { items, categories, searchItems, requestLoan } = useData();
@@ -22,7 +21,6 @@ export const ItemCatalog: React.FC = () => {
   const [startTime, setStartTime] = useState(''); // jam mulai
   const [returnDate, setReturnDate] = useState(''); // tanggal pengembalian
   const [returnTime, setReturnTime] = useState(''); // jam pengembalian
-  const { t } = useTranslation();
 
   const openRequestForm = (item: Item) => {
     setRequestItem(item);
@@ -227,40 +225,40 @@ export const ItemCatalog: React.FC = () => {
       {showRequestForm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
           <form onSubmit={handleRequestSubmit} className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md space-y-4">
-            <h2 className="text-xl font-bold mb-2">{t('Request Item')}</h2>
+            <h2 className="text-xl font-bold mb-2">Request Item</h2>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">{t('Item')}</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Item</label>
               <input type="text" value={requestItem?.name || ''} readOnly className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">{t('Reason')}</label>
-              <textarea value={reason} onChange={e => setReason(e.target.value)} required className="w-full px-3 py-2 border border-gray-300 rounded-lg" placeholder={t('Enter your reason for borrowing...')} />
+              <label className="block text-sm font-medium text-gray-700 mb-1">Reason</label>
+              <textarea value={reason} onChange={e => setReason(e.target.value)} required className="w-full px-3 py-2 border border-gray-300 rounded-lg" placeholder="Enter your reason for borrowing..." />
             </div>
             <div className="flex space-x-2">
               <div className="flex-1">
-                <label className="block text-sm font-medium text-gray-700 mb-1">{t('Start Date')}</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
                 <input type="date" value={date} onChange={e => setDate(e.target.value)} required className="w-full px-3 py-2 border border-gray-300 rounded-lg" />
               </div>
               <div className="flex-1">
-                <label className="block text-sm font-medium text-gray-700 mb-1">{t('Return Date')}</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Return Date</label>
                 <input type="date" value={returnDate} onChange={e => setReturnDate(e.target.value)} required className="w-full px-3 py-2 border border-gray-300 rounded-lg" />
               </div>
             </div>
             <div className="flex space-x-2">
               <div className="flex-1">
-                <label className="block text-sm font-medium text-gray-700 mb-1">{t('Start Time')}</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Start Time</label>
                 <input type="time" value={startTime} onChange={e => setStartTime(e.target.value)} required className="w-full px-3 py-2 border border-gray-300 rounded-lg" />
               </div>
             </div>
             <div className="flex justify-end space-x-2 pt-2">
-              <button type="button" onClick={closeRequestForm} className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300">{t('Cancel')}</button>
-              <button type="submit" className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700">{t('Submit')}</button>
+              <button type="button" onClick={closeRequestForm} className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300">Cancel</button>
+              <button type="submit" className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700">Submit</button>
             </div>
           </form>
         </div>
       )}
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">{t('Item Catalog')}</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Item Catalog</h1>
         <div className="flex items-center space-x-2">
           <button
             onClick={() => setViewMode('grid')}

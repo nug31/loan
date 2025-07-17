@@ -11,13 +11,10 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useData } from '../../contexts/DataContext';
-import { useTranslation } from 'react-i18next';
-import i18n from '../../i18n';
 
 export const Dashboard: React.FC = () => {
   const { user, isAdmin } = useAuth();
   const { dashboardStats, loans, getUserLoans, getOverdueLoans } = useData();
-  const { t } = useTranslation();
 
   console.log('🔍 Dashboard render - dashboardStats:', dashboardStats);
 
@@ -42,12 +39,12 @@ export const Dashboard: React.FC = () => {
       <div className="relative bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6 card-hover group-hover:text-white transition-colors duration-300">
         <div className="flex items-center justify-between">
           <div className="space-y-2">
-            <p className="text-sm font-medium text-gray-600 group-hover:text-white/80 transition-colors">{t(title)}</p>
+            <p className="text-sm font-medium text-gray-600 group-hover:text-white/80 transition-colors">{title}</p>
             <p className="text-3xl font-bold text-gray-900 group-hover:text-white transition-colors">{value}</p>
             {change && (
               <p className="text-sm text-green-600 group-hover:text-green-200 flex items-center transition-colors">
                 <TrendingUp size={14} className="mr-1" />
-                {t(change)}
+                {change}
               </p>
             )}
           </div>
@@ -66,7 +63,7 @@ export const Dashboard: React.FC = () => {
   const RecentActivity: React.FC = () => (
     <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6">
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-xl font-bold text-gray-900">{t('dashboard.recentActivity')}</h3>
+        <h3 className="text-xl font-bold text-gray-900">Recent Activity</h3>
         <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
       </div>
       <div className="space-y-3">
@@ -85,9 +82,9 @@ export const Dashboard: React.FC = () => {
             </div>
             <div className="flex-1">
               <p className="text-sm font-semibold text-gray-900 group-hover:text-blue-900 transition-colors">
-                {t('navigation.loans')} {loan.status === 'pending' ? t('loans.status.pending') :
-                       loan.status === 'active' ? t('loans.status.approved') :
-                       loan.status === 'overdue' ? t('loans.status.overdue') : t('loans.status.returned')}
+                Loan {loan.status === 'pending' ? 'requested' :
+                       loan.status === 'active' ? 'approved' :
+                       loan.status === 'overdue' ? 'overdue' : 'returned'}
               </p>
               <p className="text-xs text-gray-600 group-hover:text-gray-700 transition-colors">
                 {new Date(loan.requestedAt).toLocaleDateString()}
@@ -104,7 +101,7 @@ export const Dashboard: React.FC = () => {
 
   const QuickActions: React.FC = () => (
     <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6">
-      <h3 className="text-xl font-bold text-gray-900 mb-6">{t('dashboard.quickActions')}</h3>
+      <h3 className="text-xl font-bold text-gray-900 mb-6">Quick Actions</h3>
       <div className="grid grid-cols-2 gap-4">
         <button className="group relative overflow-hidden flex flex-col items-center justify-center space-y-2 p-4 bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
           <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -139,7 +136,7 @@ export const Dashboard: React.FC = () => {
           <div className="relative flex items-center justify-between">
             <div className="space-y-2">
               <h1 className="text-4xl font-bold gradient-text">
-                {t('dashboard.welcome')}, {user?.firstName || user?.email}! 👋
+                Welcome back, {user?.firstName || user?.email}! 👋
               </h1>
               <p className="text-gray-600 text-lg">
                 Here's what's happening with your loans and items today.
@@ -151,7 +148,7 @@ export const Dashboard: React.FC = () => {
                 <p className="text-sm font-medium text-gray-700">Live</p>
               </div>
               <p className="text-sm text-gray-500 font-medium">
-                {new Date().toLocaleDateString(i18n.language === 'en' ? 'en-US' : 'id-ID', {
+                {new Date().toLocaleDateString('en-US', {
                   weekday: 'long',
                   year: 'numeric',
                   month: 'long',
@@ -171,7 +168,7 @@ export const Dashboard: React.FC = () => {
           {isAdmin ? (
             <>
               <StatCard
-                title={t('dashboard.totalItems')}
+                title="Total Items"
                 value={dashboardStats.totalItems}
                 icon={<Package className="text-white" size={28} />}
                 color="bg-gradient-to-r from-blue-500 to-blue-600"
@@ -179,7 +176,7 @@ export const Dashboard: React.FC = () => {
                 change="+12% from last month"
               />
               <StatCard
-                title={t('dashboard.activeLoans')}
+                title="Active Loans"
                 value={dashboardStats.activeLoans}
                 icon={<FileText className="text-white" size={28} />}
                 color="bg-gradient-to-r from-green-500 to-green-600"
@@ -187,14 +184,14 @@ export const Dashboard: React.FC = () => {
                 change="+8% from last month"
               />
               <StatCard
-                title={t('dashboard.pendingRequests')}
+                title="Pending Requests"
                 value={dashboardStats.pendingRequests}
                 icon={<Clock className="text-white" size={28} />}
                 color="bg-gradient-to-r from-yellow-500 to-yellow-600"
                 gradient="bg-gradient-to-br from-yellow-500 to-orange-600"
               />
               <StatCard
-                title={t('dashboard.overdueItems')}
+                title="Overdue Items"
                 value={dashboardStats.overdueItems}
                 icon={<AlertTriangle className="text-white" size={28} />}
                 color="bg-gradient-to-r from-red-500 to-red-600"
@@ -204,14 +201,14 @@ export const Dashboard: React.FC = () => {
           ) : (
             <>
               <StatCard
-                title={t('dashboard.activeLoans')}
+                title="My Active Loans"
                 value={activeUserLoans.length}
                 icon={<FileText className="text-white" size={28} />}
                 color="bg-gradient-to-r from-green-500 to-green-600"
                 gradient="bg-gradient-to-br from-green-500 to-emerald-600"
               />
               <StatCard
-                title={t('dashboard.pendingRequests')}
+                title="Pending Requests"
                 value={pendingUserLoans.length}
                 icon={<Clock className="text-white" size={28} />}
                 color="bg-gradient-to-r from-yellow-500 to-yellow-600"
