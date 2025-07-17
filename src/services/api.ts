@@ -1,4 +1,11 @@
+// Use environment variable or fallback to localhost
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3002/api';
+
+// Check if we're in demo mode (when backend is not available)
+const IS_DEMO_MODE = API_BASE_URL.includes('your-backend-url.herokuapp.com') ||
+                     import.meta.env.VITE_DEMO_MODE === 'true';
+
+const ACTUAL_API_URL = IS_DEMO_MODE ? 'http://localhost:3002/api' : API_BASE_URL;
 
 export interface ApiResponse<T> {
   data?: T;
@@ -6,12 +13,65 @@ export interface ApiResponse<T> {
   message?: string;
 }
 
+// Mock data for demo mode
+const MOCK_USER = {
+  id: '1',
+  name: 'Demo User',
+  email: 'demo@example.com',
+  role: 'user',
+  department: 'Demo Department',
+  isActive: true
+};
+
+const MOCK_STATS = {
+  totalItems: 15,
+  activeLoans: 3,
+  pendingRequests: 2,
+  overdueItems: 1,
+  totalUsers: 8,
+  availableItems: 12,
+  popularItems: [
+    { name: 'Laptop Dell XPS', count: 5 },
+    { name: 'Proyektor Epson', count: 3 },
+    { name: 'Kamera Canon', count: 2 }
+  ]
+};
+
 class ApiService {
+  private handleDemoMode<T>(endpoint: string, options: RequestInit = {}): Promise<ApiResponse<T>> {
+    console.log('🎭 Demo Mode - Simulating API call:', endpoint);
+
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        // Simulate different endpoints
+        if (endpoint === '/auth/login') {
+          resolve({ data: { user: MOCK_USER, token: 'demo-token' } as T });
+        } else if (endpoint === '/auth/register') {
+          resolve({ data: { user: MOCK_USER, message: 'Registration successful' } as T });
+        } else if (endpoint === '/dashboard/stats') {
+          resolve({ data: MOCK_STATS as T });
+        } else if (endpoint.startsWith('/items')) {
+          resolve({ data: [] as T });
+        } else if (endpoint.startsWith('/loans')) {
+          resolve({ data: [] as T });
+        } else if (endpoint.startsWith('/users')) {
+          resolve({ data: [MOCK_USER] as T });
+        } else {
+          resolve({ data: {} as T });
+        }
+      }, 500); // Simulate network delay
+    });
+  }
   private async request<T>(
     endpoint: string,
     options: RequestInit = {}
   ): Promise<ApiResponse<T>> {
-    const url = `${API_BASE_URL}${endpoint}`;
+    // Handle demo mode
+    if (IS_DEMO_MODE) {
+      return this.handleDemoMode<T>(endpoint, options);
+    }
+
+    const url = `${ACTUAL_API_URL}${endpoint}`;
     try {
       console.log('🔄 API Request:', { url, options });
 

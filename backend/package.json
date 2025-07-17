@@ -2,11 +2,10 @@
   "name": "loan-management-backend",
   "version": "1.0.0",
   "description": "Backend for Loan Management System",
-  "main": "src/index.js",
-
+  "main": "server-pg.js",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js",
+    "start": "node server-pg.js",
+    "dev": "nodemon server-pg.js",
     "test": "jest"
   },
   "dependencies": {
