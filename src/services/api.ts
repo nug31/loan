@@ -75,13 +75,21 @@ class ApiService {
     try {
       console.log('🔄 API Request:', { url, options });
 
-      const response = await fetch(url, {
+      // Add timeout for Railway requests
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
+      const requestOptions = {
+        ...options,
+        signal: controller.signal,
         headers: {
           'Content-Type': 'application/json',
           ...options.headers,
         },
-        ...options,
-      });
+      };
+
+      const response = await fetch(url, requestOptions);
+      clearTimeout(timeoutId);
 
       console.log('🔍 API Response:', {
         status: response.status,
@@ -122,6 +130,13 @@ class ApiService {
         url,
         options
       });
+
+      // If Railway backend fails, fallback to demo mode for this request
+      if (error instanceof Error && (error.message.includes('Failed to fetch') || error.name === 'AbortError')) {
+        console.log('🎭 Railway backend failed, falling back to demo mode for this request');
+        return this.handleDemoMode<T>(endpoint, options);
+      }
+
       return {
         error: error instanceof Error ? error.message : 'Unknown error occurred'
       };
