@@ -2,6 +2,8 @@
 
 A comprehensive loan management system built with React (TypeScript) frontend and Node.js backend with PostgreSQL database.
 
+**Latest Update**: Removed i18n dependencies for improved performance and simplified codebase.
+
 ## Features
 
 ### 🔐 Authentication & Authorization

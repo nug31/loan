@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { DataProvider } from './contexts/DataContext';
+
+// Version 1.0.1 - Fixed translation errors by removing i18n completely
 import { LoginForm } from './components/Auth/LoginForm';
 import { RegisterForm } from './components/Auth/RegisterForm';
 import { Layout } from './components/Layout/Layout';
