@@ -27,34 +27,13 @@ const allowedOrigins = [
 // Log CORS for debugging
 console.log('🔒 CORS allowed origins:', allowedOrigins);
 
+// Temporary: Allow all origins for debugging
 app.use(cors({
-  origin: function (origin, callback) {
-    console.log('🔍 CORS check for origin:', origin);
-
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-
-    // Check string origins and regex patterns
-    const isAllowed = allowedOrigins.some(allowed => {
-      if (typeof allowed === 'string') {
-        return allowed === origin;
-      } else if (allowed instanceof RegExp) {
-        return allowed.test(origin);
-      }
-      return false;
-    });
-
-    if (isAllowed) {
-      console.log('✅ CORS allowed for:', origin);
-      callback(null, true);
-    } else {
-      console.log('❌ CORS blocked for:', origin);
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: true, // Allow all origins temporarily
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  optionsSuccessStatus: 200
 }));
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
@@ -1289,9 +1268,11 @@ async function startServer() {
     ]);
     console.log('✅ Sample loans created');
 
-    app.listen(PORT, () => {
+    app.listen(PORT, '0.0.0.0', () => {
       console.log(`🚀 PostgreSQL server running on port ${PORT}`);
       console.log(`📊 Health check: http://localhost:${PORT}/health`);
+      console.log(`🌐 Railway URL: https://loan-production-a1a2.up.railway.app`);
+      console.log(`🔒 CORS: Allowing all origins for debugging`);
     });
   } catch (error) {
     console.error('❌ Error:', error.message);
