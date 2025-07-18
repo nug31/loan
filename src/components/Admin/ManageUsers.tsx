@@ -6,6 +6,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { apiService } from '../../services/api';
 
 // Transform API user data to match frontend UserType
+// Updated: Simple and clean design for better UX
 const transformApiUser = (apiUser: any): UserType => {
   try {
     console.log('🔄 Transforming API user:', apiUser);
