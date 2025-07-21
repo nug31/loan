@@ -468,7 +468,11 @@ export const ManageUsers: React.FC = () => {
                 <tr key={user.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                        user.role === 'admin'
+                          ? 'bg-gradient-to-br from-red-500 to-red-600'
+                          : 'bg-gradient-to-br from-blue-500 to-blue-600'
+                      }`}>
                         <User size={16} className="text-white" />
                       </div>
                       <div>
@@ -540,7 +544,11 @@ export const ManageUsers: React.FC = () => {
               <div key={user.id} className="bg-white rounded-lg border border-gray-200 p-4">
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                      user.role === 'admin'
+                        ? 'bg-gradient-to-br from-red-500 to-red-600'
+                        : 'bg-gradient-to-br from-blue-500 to-blue-600'
+                    }`}>
                       <User size={18} className="text-white" />
                     </div>
                     <div>
@@ -704,9 +712,9 @@ export const ManageUsers: React.FC = () => {
                   <select
                     value={formData.role}
                     onChange={(e) => setFormData(prev => ({ ...prev, role: e.target.value as 'admin' | 'user' }))}
-                    disabled={editingUser && !canChangeRole(editingUser, formData.role === 'admin' ? 'user' : 'admin')}
+                    disabled={editingUser ? !canChangeRole(editingUser, formData.role === 'admin' ? 'user' : 'admin') : false}
                     className={`w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                      editingUser && !canChangeRole(editingUser, formData.role === 'admin' ? 'user' : 'admin')
+                      editingUser ? !canChangeRole(editingUser, formData.role === 'admin' ? 'user' : 'admin') : false
                         ? 'bg-gray-100 cursor-not-allowed'
                         : ''
                     }`}
