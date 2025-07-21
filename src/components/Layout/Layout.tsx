@@ -16,7 +16,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeTab, onTabChange
   };
 
   return (
-    <div className="flex h-screen bg-gradient-to-br from-gray-50 via-gray-100 to-gray-50">
+    <div className="flex h-screen bg-gradient-to-br from-amber-50 via-blue-50 to-red-50">
       <Sidebar
         activeTab={activeTab}
         onTabChange={onTabChange}

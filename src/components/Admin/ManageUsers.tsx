@@ -353,7 +353,7 @@ export const ManageUsers: React.FC = () => {
                 setEditingUser(null);
                 setShowAddModal(true);
               }}
-              className="w-full sm:w-auto px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white rounded-lg transition-colors flex items-center justify-center gap-2"
             >
               <Plus size={18} />
               Add User
@@ -468,8 +468,8 @@ export const ManageUsers: React.FC = () => {
                 <tr key={user.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
-                        <User size={16} className="text-gray-600" />
+                      <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
+                        <User size={16} className="text-white" />
                       </div>
                       <div>
                         <div className="font-medium text-gray-900">
@@ -491,8 +491,8 @@ export const ManageUsers: React.FC = () => {
                   <td className="px-6 py-4">
                     <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                       user.role === 'admin'
-                        ? 'bg-purple-100 text-purple-800'
-                        : 'bg-gray-100 text-gray-800'
+                        ? 'bg-red-100 text-red-800'
+                        : 'bg-blue-100 text-blue-800'
                     }`}>
                       {user.role === 'admin' ? 'Admin' : 'User'}
                     </span>
@@ -540,8 +540,8 @@ export const ManageUsers: React.FC = () => {
               <div key={user.id} className="bg-white rounded-lg border border-gray-200 p-4">
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
-                      <User size={18} className="text-gray-600" />
+                    <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
+                      <User size={18} className="text-white" />
                     </div>
                     <div>
                       <div className="font-medium text-gray-900">
@@ -582,8 +582,8 @@ export const ManageUsers: React.FC = () => {
                     <div>
                       <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                         user.role === 'admin'
-                          ? 'bg-purple-100 text-purple-800'
-                          : 'bg-gray-100 text-gray-800'
+                          ? 'bg-red-100 text-red-800'
+                          : 'bg-blue-100 text-blue-800'
                       }`}>
                         {user.role === 'admin' ? 'Admin' : 'User'}
                       </span>
@@ -745,7 +745,7 @@ export const ManageUsers: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="w-full sm:w-auto px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors"
+                  className="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white rounded-lg transition-colors"
                 >
                   {editingUser ? 'Update User' : 'Add User'}
                 </button>

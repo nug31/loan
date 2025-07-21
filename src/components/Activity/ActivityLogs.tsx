@@ -115,11 +115,11 @@ export const ActivityLogs: React.FC = () => {
       case 'LOAN_REQUESTED':
       case 'LOAN_APPROVED':
       case 'LOAN_REJECTED':
-        return <FileText size={16} className="text-purple-600" />;
+        return <FileText size={16} className="text-red-600" />;
       case 'USER_CREATED':
       case 'USER_UPDATED':
       case 'USER_DELETED':
-        return <User size={16} className="text-orange-600" />;
+        return <User size={16} className="text-blue-600" />;
       case 'SETTINGS_UPDATED':
         return <Shield size={16} className="text-red-600" />;
       default:

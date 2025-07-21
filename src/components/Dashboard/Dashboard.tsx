@@ -231,7 +231,7 @@ export const Dashboard: React.FC = () => {
                 value={userLoans.length}
                 icon={<Package className="text-white" size={28} />}
                 color="bg-gradient-to-r from-blue-500 to-blue-600"
-                gradient="bg-gradient-to-br from-blue-500 to-purple-600"
+                gradient="bg-gradient-to-br from-blue-500 to-blue-600"
               />
             </>
           )}

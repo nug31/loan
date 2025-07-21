@@ -13,23 +13,23 @@
 @layer components {
   /* Custom gradient backgrounds */
   .gradient-bg-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #DC2626 0%, #EF4444 100%);
   }
 
   .gradient-bg-secondary {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    background: linear-gradient(135deg, #2563EB 0%, #3B82F6 100%);
   }
 
   .gradient-bg-success {
-    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    background: linear-gradient(135deg, #059669 0%, #10B981 100%);
   }
 
   .gradient-bg-warning {
-    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%);
   }
 
   .gradient-bg-danger {
-    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    background: linear-gradient(135deg, #DC2626 0%, #EF4444 100%);
   }
 
   /* Glass morphism effect */
