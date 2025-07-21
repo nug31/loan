@@ -155,7 +155,7 @@ export const ItemCatalog: React.FC = () => {
           </span>
         </div>
         
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div className="flex items-center space-x-2">
             {/* <Tag size={14} className="text-gray-400" />
             <span className="text-sm text-gray-600">${item.value}</span> */}
@@ -165,8 +165,9 @@ export const ItemCatalog: React.FC = () => {
               <Eye size={16} />
             </button>
             <button
-              className="px-3 py-1 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+              className="flex-1 sm:flex-none px-4 py-2 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
               onClick={() => openRequestForm(item)}
+              disabled={item.availableQuantity === 0}
             >
               Request
             </button>
@@ -223,9 +224,9 @@ export const ItemCatalog: React.FC = () => {
         </div>
       )}
       {showRequestForm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-          <form onSubmit={handleRequestSubmit} className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md space-y-4">
-            <h2 className="text-xl font-bold mb-2">Request Item</h2>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 p-4">
+          <form onSubmit={handleRequestSubmit} className="bg-white rounded-lg shadow-lg p-4 sm:p-6 w-full max-w-md max-h-[90vh] overflow-y-auto space-y-4">
+            <h2 className="text-lg sm:text-xl font-bold mb-2">Request Item</h2>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Item</label>
               <input type="text" value={requestItem?.name || ''} readOnly className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100" />
@@ -234,31 +235,29 @@ export const ItemCatalog: React.FC = () => {
               <label className="block text-sm font-medium text-gray-700 mb-1">Reason</label>
               <textarea value={reason} onChange={e => setReason(e.target.value)} required className="w-full px-3 py-2 border border-gray-300 rounded-lg" placeholder="Enter your reason for borrowing..." />
             </div>
-            <div className="flex space-x-2">
-              <div className="flex-1">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
                 <input type="date" value={date} onChange={e => setDate(e.target.value)} required className="w-full px-3 py-2 border border-gray-300 rounded-lg" />
               </div>
-              <div className="flex-1">
+              <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Return Date</label>
                 <input type="date" value={returnDate} onChange={e => setReturnDate(e.target.value)} required className="w-full px-3 py-2 border border-gray-300 rounded-lg" />
               </div>
             </div>
-            <div className="flex space-x-2">
-              <div className="flex-1">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Start Time</label>
-                <input type="time" value={startTime} onChange={e => setStartTime(e.target.value)} required className="w-full px-3 py-2 border border-gray-300 rounded-lg" />
-              </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Start Time</label>
+              <input type="time" value={startTime} onChange={e => setStartTime(e.target.value)} required className="w-full px-3 py-2 border border-gray-300 rounded-lg" />
             </div>
-            <div className="flex justify-end space-x-2 pt-2">
-              <button type="button" onClick={closeRequestForm} className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300">Cancel</button>
-              <button type="submit" className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700">Submit</button>
+            <div className="flex flex-col sm:flex-row sm:justify-end gap-2 sm:gap-2 pt-2">
+              <button type="button" onClick={closeRequestForm} className="w-full sm:w-auto px-4 py-2 rounded bg-gray-200 hover:bg-gray-300">Cancel</button>
+              <button type="submit" className="w-full sm:w-auto px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700">Submit</button>
             </div>
           </form>
         </div>
       )}
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Item Catalog</h1>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Item Catalog</h1>
         <div className="flex items-center space-x-2">
           <button
             onClick={() => setViewMode('grid')}
@@ -279,9 +278,9 @@ export const ItemCatalog: React.FC = () => {
         </div>
       </div>
 
-      {/* Search and Filters */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <div className="flex flex-col md:flex-row gap-4">
+      {/* Mobile-Responsive Search and Filters */}
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
             <input
@@ -295,7 +294,7 @@ export const ItemCatalog: React.FC = () => {
 
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            className="flex items-center justify-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
           >
             <Filter size={20} />
             <span>Filters</span>
@@ -378,8 +377,8 @@ export const ItemCatalog: React.FC = () => {
         </div>
       ) : (
         <div className={
-          viewMode === 'grid' 
-            ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'
+          viewMode === 'grid'
+            ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6'
             : 'space-y-4'
         }>
           {filteredItems.map(item => (
