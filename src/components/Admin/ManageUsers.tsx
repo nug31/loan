@@ -353,7 +353,7 @@ export const ManageUsers: React.FC = () => {
                 setEditingUser(null);
                 setShowAddModal(true);
               }}
-              className="w-full sm:w-auto px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors flex items-center justify-center gap-2"
             >
               <Plus size={18} />
               Add User
@@ -468,8 +468,8 @@ export const ManageUsers: React.FC = () => {
                 <tr key={user.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                        <User size={16} className="text-blue-600" />
+                      <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                        <User size={16} className="text-gray-600" />
                       </div>
                       <div>
                         <div className="font-medium text-gray-900">
@@ -540,8 +540,8 @@ export const ManageUsers: React.FC = () => {
               <div key={user.id} className="bg-white rounded-lg border border-gray-200 p-4">
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                      <User size={18} className="text-blue-600" />
+                    <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
+                      <User size={18} className="text-gray-600" />
                     </div>
                     <div>
                       <div className="font-medium text-gray-900">
@@ -745,7 +745,7 @@ export const ManageUsers: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="w-full sm:w-auto px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  className="w-full sm:w-auto px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors"
                 >
                   {editingUser ? 'Update User' : 'Add User'}
                 </button>

@@ -76,7 +76,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, isOpen
                   <Icon
                     size={22}
                     className={`mr-4 relative z-10 transition-all duration-300 ${
-                      isActive ? 'text-white drop-shadow-sm' : 'text-gray-500 group-hover:text-blue-600'
+                      isActive ? 'text-white drop-shadow-sm' : 'text-gray-500 group-hover:text-gray-700'
                     }`}
                   />
                   <span className="relative z-10">{item.label}</span>

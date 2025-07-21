@@ -78,7 +78,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onToggleForm }) => {
         }}></div>
 
         {/* Floating elements */}
-        <div className="absolute top-20 left-20 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+        <div className="absolute top-20 left-20 w-72 h-72 bg-gray-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
         <div className="absolute top-40 right-20 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-2000"></div>
         <div className="absolute -bottom-8 left-40 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-4000"></div>
       </div>
@@ -98,7 +98,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onToggleForm }) => {
                   </div>
                 </div>
                 {/* Multiple glow effects */}
-                <div className="absolute inset-0 h-24 w-24 bg-blue-400 rounded-3xl blur-2xl opacity-30 -z-10 mx-auto animate-pulse"></div>
+                <div className="absolute inset-0 h-24 w-24 bg-gray-400 rounded-3xl blur-2xl opacity-30 -z-10 mx-auto animate-pulse"></div>
                 <div className="absolute inset-0 h-24 w-24 bg-purple-400 rounded-3xl blur-3xl opacity-20 -z-20 mx-auto pulse-slow"></div>
               </div>
 
@@ -206,7 +206,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onToggleForm }) => {
                   type="checkbox"
                   checked={formData.rememberMe}
                   onChange={handleChange}
-                  className="h-4 w-4 text-blue-500 focus:ring-blue-400 border-white/30 rounded bg-white/10 backdrop-blur-sm"
+                  className="h-4 w-4 text-gray-600 focus:ring-gray-400 border-white/30 rounded bg-white/10 backdrop-blur-sm"
                 />
                 <label htmlFor="remember-me" className="ml-3 block text-sm text-white/80">
                   Remember me
@@ -215,7 +215,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onToggleForm }) => {
 
               <button
                 type="button"
-                className="text-sm text-blue-300 hover:text-blue-200 transition-colors"
+                className="text-sm text-gray-300 hover:text-gray-200 transition-colors"
               >
                 Forgot password?
               </button>
@@ -225,7 +225,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onToggleForm }) => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-semibold rounded-xl text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl"
+                className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-semibold rounded-xl text-white bg-gradient-to-r from-gray-700 to-gray-900 hover:from-gray-800 hover:to-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl"
               >
                 {isLoading ? (
                   <div className="flex items-center space-x-2">

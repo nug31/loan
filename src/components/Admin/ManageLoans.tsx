@@ -28,7 +28,7 @@ export const ManageLoans: React.FC = () => {
       case 'active': return 'bg-green-100 text-green-800';
       case 'pending': return 'bg-yellow-100 text-yellow-800';
       case 'overdue': return 'bg-red-100 text-red-800';
-      case 'returned': return 'bg-blue-100 text-blue-800';
+      case 'returned': return 'bg-slate-100 text-slate-800';
       case 'cancelled': return 'bg-gray-100 text-gray-800';
       default: return 'bg-gray-100 text-gray-800';
     }
@@ -82,7 +82,7 @@ export const ManageLoans: React.FC = () => {
         <div className="relative">
           <button
             onClick={() => setShowExportMenu(!showExportMenu)}
-            className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="flex items-center space-x-2 px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors"
           >
             <Download size={20} />
             <span>Export Report</span>
@@ -159,10 +159,10 @@ export const ManageLoans: React.FC = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600">Total Loans</p>
-              <p className="text-2xl font-bold text-blue-600">{loans.length}</p>
+              <p className="text-2xl font-bold text-gray-800">{loans.length}</p>
             </div>
-            <div className="p-3 rounded-full bg-blue-100">
-              <Eye className="text-blue-600" size={24} />
+            <div className="p-3 rounded-full bg-gray-100">
+              <Eye className="text-gray-600" size={24} />
             </div>
           </div>
         </div>
@@ -253,8 +253,8 @@ export const ManageLoans: React.FC = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
-                        <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
-                          <span className="text-sm font-medium text-blue-600">
+                        <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3">
+                          <span className="text-sm font-medium text-gray-600">
                             {loan.user?.name?.charAt(0) || 'U'}
                           </span>
                         </div>
@@ -318,7 +318,7 @@ export const ManageLoans: React.FC = () => {
                         {(loan.status === 'active' || loan.status === 'overdue') && (
                           <button
                             onClick={() => handleReturn(loan.id)}
-                            className="px-2 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700 transition-colors"
+                            className="px-2 py-1 bg-gray-800 text-white text-xs rounded hover:bg-gray-900 transition-colors"
                           >
                             Mark Returned
                           </button>

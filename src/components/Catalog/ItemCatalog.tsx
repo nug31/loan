@@ -161,11 +161,11 @@ export const ItemCatalog: React.FC = () => {
             <span className="text-sm text-gray-600">${item.value}</span> */}
           </div>
           <div className="flex space-x-2">
-            <button className="p-2 text-gray-400 hover:text-blue-600 transition-colors">
+            <button className="p-2 text-gray-400 hover:text-gray-600 transition-colors">
               <Eye size={16} />
             </button>
             <button
-              className="flex-1 sm:flex-none px-4 py-2 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+              className="flex-1 sm:flex-none px-4 py-2 bg-gray-800 text-white text-sm rounded-md hover:bg-gray-900 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
               onClick={() => openRequestForm(item)}
               disabled={item.availableQuantity === 0}
             >
@@ -202,11 +202,11 @@ export const ItemCatalog: React.FC = () => {
           </div>
         </div>
         <div className="flex space-x-2">
-          <button className="p-2 text-gray-400 hover:text-blue-600 transition-colors">
+          <button className="p-2 text-gray-400 hover:text-gray-600 transition-colors">
             <Eye size={16} />
           </button>
           <button
-            className="px-4 py-2 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+            className="px-4 py-2 bg-gray-800 text-white text-sm rounded-md hover:bg-gray-900 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
             onClick={() => openRequestForm(item)}
           >
             Request
@@ -251,7 +251,7 @@ export const ItemCatalog: React.FC = () => {
             </div>
             <div className="flex flex-col sm:flex-row sm:justify-end gap-2 sm:gap-2 pt-2">
               <button type="button" onClick={closeRequestForm} className="w-full sm:w-auto px-4 py-2 rounded bg-gray-200 hover:bg-gray-300">Cancel</button>
-              <button type="submit" className="w-full sm:w-auto px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700">Submit</button>
+              <button type="submit" className="w-full sm:w-auto px-4 py-2 rounded bg-gray-800 text-white hover:bg-gray-900">Submit</button>
             </div>
           </form>
         </div>
@@ -262,7 +262,7 @@ export const ItemCatalog: React.FC = () => {
           <button
             onClick={() => setViewMode('grid')}
             className={`p-2 rounded-lg transition-colors ${
-              viewMode === 'grid' ? 'bg-blue-100 text-blue-600' : 'text-gray-400 hover:text-gray-600'
+              viewMode === 'grid' ? 'bg-gray-100 text-gray-700' : 'text-gray-400 hover:text-gray-600'
             }`}
           >
             <Grid size={20} />
@@ -270,7 +270,7 @@ export const ItemCatalog: React.FC = () => {
           <button
             onClick={() => setViewMode('list')}
             className={`p-2 rounded-lg transition-colors ${
-              viewMode === 'list' ? 'bg-blue-100 text-blue-600' : 'text-gray-400 hover:text-gray-600'
+              viewMode === 'list' ? 'bg-gray-100 text-gray-700' : 'text-gray-400 hover:text-gray-600'
             }`}
           >
             <List size={20} />
@@ -288,7 +288,7 @@ export const ItemCatalog: React.FC = () => {
               placeholder="Search..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-gray-500"
             />
           </div>
 
@@ -309,7 +309,7 @@ export const ItemCatalog: React.FC = () => {
                 <select
                   value={selectedCategory}
                   onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-gray-500"
                 >
                   <option value="all">All Categories</option>
                   {categories.map(category => (
@@ -325,7 +325,7 @@ export const ItemCatalog: React.FC = () => {
                 <select
                   value={selectedCondition}
                   onChange={(e) => setSelectedCondition(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-gray-500"
                 >
                   <option value="all">All Conditions</option>
                   <option value="excellent">Excellent</option>
@@ -340,7 +340,7 @@ export const ItemCatalog: React.FC = () => {
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-gray-500"
                 >
                   <option value="name">Name</option>
                   <option value="category">Category</option>

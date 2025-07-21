@@ -143,7 +143,7 @@ export const ManageItems: React.FC = () => {
   const getConditionColor = (condition: string) => {
     switch (condition) {
       case 'excellent': return 'bg-green-100 text-green-800';
-      case 'good': return 'bg-blue-100 text-blue-800';
+      case 'good': return 'bg-slate-100 text-slate-800';
       case 'fair': return 'bg-yellow-100 text-yellow-800';
       case 'poor': return 'bg-red-100 text-red-800';
       default: return 'bg-gray-100 text-gray-800';
@@ -197,7 +197,7 @@ export const ManageItems: React.FC = () => {
               setEditingItem(null);
               setShowAddModal(true);
             }}
-            className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="flex items-center space-x-2 px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors"
           >
             <Plus size={20} />
             <span>Add Item</span>
@@ -462,7 +462,7 @@ export const ManageItems: React.FC = () => {
                   className={`px-4 py-2 text-white rounded-lg transition-colors ${
                     isSubmitting
                       ? 'bg-gray-400 cursor-not-allowed'
-                      : 'bg-blue-600 hover:bg-blue-700'
+                      : 'bg-gray-800 hover:bg-gray-900'
                   }`}
                 >
                   {isSubmitting

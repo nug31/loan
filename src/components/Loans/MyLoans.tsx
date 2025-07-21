@@ -22,7 +22,7 @@ export const MyLoans: React.FC = () => {
       case 'active': return 'bg-green-100 text-green-800';
       case 'pending': return 'bg-yellow-100 text-yellow-800';
       case 'overdue': return 'bg-red-100 text-red-800';
-      case 'returned': return 'bg-blue-100 text-blue-800';
+      case 'returned': return 'bg-slate-100 text-slate-800';
       case 'cancelled': return 'bg-gray-100 text-gray-800';
       default: return 'bg-gray-100 text-gray-800';
     }
@@ -158,7 +158,7 @@ export const MyLoans: React.FC = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">My Loans</h1>
-        <button className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+        <button className="flex items-center space-x-2 px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors">
           <Download size={20} />
           <span>Export Report</span>
         </button>
@@ -177,7 +177,7 @@ export const MyLoans: React.FC = () => {
               onClick={() => setActiveTab(tab.key as any)}
               className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${
                 activeTab === tab.key
-                  ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
+                  ? 'text-gray-800 border-b-2 border-gray-800 bg-gray-50'
                   : 'text-gray-500 hover:text-gray-700'
               }`}
             >
