@@ -93,19 +93,19 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onToggleForm }) => {
                 <div className="h-24 w-24 gradient-bg-primary rounded-3xl flex items-center justify-center shadow-2xl transform hover:scale-110 transition-all duration-500 mx-auto float">
                   <div className="relative">
                     <Handshake size={40} className="text-white drop-shadow-lg" />
-                    <div className="absolute -top-2 -right-2 w-4 h-4 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full shadow-lg animate-ping"></div>
-                    <div className="absolute -top-2 -right-2 w-4 h-4 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full shadow-lg"></div>
+                    <div className="absolute -top-2 -right-2 w-4 h-4 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full shadow-lg animate-ping"></div>
+                    <div className="absolute -top-2 -right-2 w-4 h-4 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full shadow-lg"></div>
                   </div>
                 </div>
                 {/* Multiple glow effects */}
-                <div className="absolute inset-0 h-24 w-24 bg-gray-400 rounded-3xl blur-2xl opacity-30 -z-10 mx-auto animate-pulse"></div>
-                <div className="absolute inset-0 h-24 w-24 bg-purple-400 rounded-3xl blur-3xl opacity-20 -z-20 mx-auto pulse-slow"></div>
+                <div className="absolute inset-0 h-24 w-24 bg-red-400 rounded-3xl blur-2xl opacity-30 -z-10 mx-auto animate-pulse"></div>
+                <div className="absolute inset-0 h-24 w-24 bg-blue-400 rounded-3xl blur-3xl opacity-20 -z-20 mx-auto pulse-slow"></div>
               </div>
 
               <div className="space-y-2">
                 <h1 className="text-3xl font-bold gradient-text mb-2">LoanMitra</h1>
                 <p className="text-white/80 font-medium text-sm tracking-wide">Asset Management System</p>
-                <div className="w-16 h-1 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full mx-auto"></div>
+                <div className="w-16 h-1 bg-gradient-to-r from-red-500 to-blue-500 rounded-full mx-auto"></div>
               </div>
 
               <div className="mt-6">

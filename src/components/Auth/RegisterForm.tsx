@@ -93,26 +93,26 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onToggleForm }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-amber-50 via-blue-50 to-red-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
           <div className="mx-auto relative">
             {/* Main logo container with gradient */}
-            <div className="h-20 w-20 bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-700 rounded-2xl flex items-center justify-center shadow-xl transform hover:scale-105 transition-transform duration-300 mx-auto">
+            <div className="h-20 w-20 bg-gradient-to-br from-red-500 via-red-600 to-blue-600 rounded-2xl flex items-center justify-center shadow-xl transform hover:scale-105 transition-transform duration-300 mx-auto">
               {/* Icon overlay */}
               <div className="relative">
                 <Handshake size={32} className="text-white" />
                 {/* Small accent dot */}
-                <div className="absolute -top-1 -right-1 w-3 h-3 bg-yellow-400 rounded-full shadow-sm"></div>
+                <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full shadow-sm"></div>
               </div>
             </div>
             {/* Subtle glow effect */}
-            <div className="absolute inset-0 h-20 w-20 bg-blue-400 rounded-2xl blur-xl opacity-20 -z-10 mx-auto"></div>
+            <div className="absolute inset-0 h-20 w-20 bg-red-400 rounded-2xl blur-xl opacity-20 -z-10 mx-auto"></div>
           </div>
 
           <div className="mt-6">
             <h1 className="text-2xl font-bold text-gray-900 mb-1">Loan Mitra</h1>
-            <p className="text-sm text-blue-600 font-medium mb-4">Asset Management System</p>
+            <p className="text-sm text-red-600 font-medium mb-4">Asset Management System</p>
             <h2 className="text-3xl font-extrabold text-gray-900">
               Create your account
             </h2>
