@@ -128,11 +128,11 @@ export const Dashboard: React.FC = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-gray-100 to-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-blue-50 to-red-50">
       <div className="space-y-8 p-6">
         {/* Enhanced Header */}
         <div className="relative overflow-hidden bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/20 p-8">
-          <div className="absolute inset-0 bg-gradient-to-r from-gray-500/10 to-gray-600/10"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-red-500/10"></div>
           <div className="relative flex items-center justify-between">
             <div className="space-y-2">
               <h1 className="text-4xl font-bold gradient-text">
@@ -159,8 +159,8 @@ export const Dashboard: React.FC = () => {
           </div>
 
           {/* Decorative elements */}
-          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full -translate-y-16 translate-x-16"></div>
-          <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-indigo-400/20 to-pink-400/20 rounded-full translate-y-12 -translate-x-12"></div>
+          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400/20 to-red-400/20 rounded-full -translate-y-16 translate-x-16"></div>
+          <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-red-400/20 to-amber-400/20 rounded-full translate-y-12 -translate-x-12"></div>
         </div>
 
         {/* Enhanced Stats Grid */}
@@ -172,7 +172,7 @@ export const Dashboard: React.FC = () => {
                 value={dashboardStats.totalItems}
                 icon={<Package className="text-white" size={28} />}
                 color="bg-gradient-to-r from-blue-500 to-blue-600"
-                gradient="bg-gradient-to-br from-blue-500 to-purple-600"
+                gradient="bg-gradient-to-br from-blue-500 to-blue-600"
                 change="+12% from last month"
               />
               <StatCard
@@ -187,15 +187,15 @@ export const Dashboard: React.FC = () => {
                 title="Pending Requests"
                 value={dashboardStats.pendingRequests}
                 icon={<Clock className="text-white" size={28} />}
-                color="bg-gradient-to-r from-yellow-500 to-yellow-600"
-                gradient="bg-gradient-to-br from-yellow-500 to-orange-600"
+                color="bg-gradient-to-r from-amber-500 to-amber-600"
+                gradient="bg-gradient-to-br from-amber-500 to-amber-600"
               />
               <StatCard
                 title="Overdue Items"
                 value={dashboardStats.overdueItems}
                 icon={<AlertTriangle className="text-white" size={28} />}
                 color="bg-gradient-to-r from-red-500 to-red-600"
-                gradient="bg-gradient-to-br from-red-500 to-pink-600"
+                gradient="bg-gradient-to-br from-red-500 to-red-600"
               />
             </>
           ) : (
@@ -211,8 +211,8 @@ export const Dashboard: React.FC = () => {
                 title="Pending Requests"
                 value={pendingUserLoans.length}
                 icon={<Clock className="text-white" size={28} />}
-                color="bg-gradient-to-r from-yellow-500 to-yellow-600"
-                gradient="bg-gradient-to-br from-yellow-500 to-orange-600"
+                color="bg-gradient-to-r from-amber-500 to-amber-600"
+                gradient="bg-gradient-to-br from-amber-500 to-amber-600"
               />
               <StatCard
                 title="Items Due Soon"
@@ -223,8 +223,8 @@ export const Dashboard: React.FC = () => {
                   return daysUntilDue <= 3;
                 }).length}
                 icon={<AlertTriangle className="text-white" size={28} />}
-                color="bg-gradient-to-r from-orange-500 to-orange-600"
-                gradient="bg-gradient-to-br from-orange-500 to-red-600"
+                color="bg-gradient-to-r from-red-500 to-red-600"
+                gradient="bg-gradient-to-br from-red-500 to-red-600"
               />
               <StatCard
                 title="Total Loans"

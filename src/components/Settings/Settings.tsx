@@ -49,7 +49,7 @@ export const Settings: React.FC = () => {
               type="text"
               value={profileData.firstName}
               onChange={(e) => setProfileData(prev => ({ ...prev, firstName: e.target.value }))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
           
@@ -377,7 +377,7 @@ export const Settings: React.FC = () => {
               onClick={() => setActiveTab(tab.key as any)}
               className={`flex items-center space-x-2 px-6 py-4 text-sm font-medium transition-colors ${
                 activeTab === tab.key
-                  ? 'text-gray-800 border-b-2 border-gray-800 bg-gray-100'
+                  ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
                   : 'text-gray-500 hover:text-gray-700'
               }`}
             >

@@ -134,7 +134,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onToggleForm }) => {
                 </label>
                 <div className="relative group">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <Mail className="h-5 w-5 text-white/50 group-focus-within:text-gray-300 transition-colors" />
+                    <Mail className="h-5 w-5 text-white/50 group-focus-within:text-blue-400 transition-colors" />
                   </div>
                   <input
                     id="email"
@@ -145,7 +145,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onToggleForm }) => {
                     className={`
                       block w-full pl-12 pr-4 py-3 bg-white/10 border border-white/20 rounded-xl
                       text-white placeholder-white/50 backdrop-blur-sm
-                      focus:outline-none focus:ring-2 focus:ring-gray-500/50 focus:border-gray-500/50
+                      focus:outline-none focus:ring-2 focus:ring-blue-400/50 focus:border-blue-400/50
                       transition-all duration-300
                       ${errors.email ? 'border-red-400/50 focus:ring-red-400/50' : ''}
                     `}
@@ -163,7 +163,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onToggleForm }) => {
                 </label>
                 <div className="relative group">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <Lock className="h-5 w-5 text-white/50 group-focus-within:text-gray-300 transition-colors" />
+                    <Lock className="h-5 w-5 text-white/50 group-focus-within:text-blue-400 transition-colors" />
                   </div>
                   <input
                     id="password"
@@ -174,7 +174,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onToggleForm }) => {
                     className={`
                       block w-full pl-12 pr-12 py-3 bg-white/10 border border-white/20 rounded-xl
                       text-white placeholder-white/50 backdrop-blur-sm
-                      focus:outline-none focus:ring-2 focus:ring-gray-500/50 focus:border-gray-500/50
+                      focus:outline-none focus:ring-2 focus:ring-blue-400/50 focus:border-blue-400/50
                       transition-all duration-300
                       ${errors.password ? 'border-red-400/50 focus:ring-red-400/50' : ''}
                     `}

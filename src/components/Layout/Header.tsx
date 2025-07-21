@@ -30,22 +30,22 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen }) => {
           <div className="flex items-center space-x-4">
             <div className="relative">
               {/* Enhanced logo with multiple layers */}
-              <div className="w-12 h-12 bg-gradient-to-br from-gray-600 via-gray-700 to-gray-800 rounded-2xl flex items-center justify-center shadow-xl transform hover:scale-110 transition-all duration-300 hover:rotate-3">
+              <div className="w-12 h-12 bg-gradient-to-br from-red-500 via-red-600 to-blue-600 rounded-2xl flex items-center justify-center shadow-xl transform hover:scale-110 transition-all duration-300 hover:rotate-3">
                 <div className="relative">
                   <Handshake size={24} className="text-white drop-shadow-lg" />
-                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full shadow-lg animate-pulse"></div>
+                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full shadow-lg animate-pulse"></div>
                 </div>
               </div>
               {/* Multiple glow effects */}
-              <div className="absolute inset-0 w-12 h-12 bg-gray-400 rounded-2xl blur-xl opacity-30 -z-10 animate-pulse"></div>
-              <div className="absolute inset-0 w-12 h-12 bg-gray-500 rounded-2xl blur-2xl opacity-20 -z-20 pulse-slow"></div>
+              <div className="absolute inset-0 w-12 h-12 bg-red-400 rounded-2xl blur-xl opacity-30 -z-10 animate-pulse"></div>
+              <div className="absolute inset-0 w-12 h-12 bg-blue-500 rounded-2xl blur-2xl opacity-20 -z-20 pulse-slow"></div>
             </div>
 
             <div className="flex flex-col">
               <span className="font-bold text-xl gradient-text hidden sm:block leading-tight">
                 LoanMitra
               </span>
-              <span className="text-xs text-gray-600 font-semibold hidden sm:block -mt-1 tracking-wide">
+              <span className="text-xs text-blue-600 font-semibold hidden sm:block -mt-1 tracking-wide">
                 by NUG
               </span>
             </div>
@@ -54,11 +54,11 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen }) => {
 
         <div className="flex items-center space-x-6">
           <div className="relative hidden md:block">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-gray-600 transition-colors" size={20} />
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-blue-600 transition-colors" size={20} />
             <input
               type="text"
               placeholder="Search items, users, or loans..."
-              className="pl-12 pr-4 py-3 bg-gray-50/80 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-gray-500/50 focus:border-gray-500/50 focus:bg-white transition-all duration-300 w-80 backdrop-blur-sm"
+              className="pl-12 pr-4 py-3 bg-gray-50/80 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 focus:bg-white transition-all duration-300 w-80 backdrop-blur-sm"
             />
           </div>
 
@@ -67,9 +67,9 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen }) => {
               onClick={() => setShowNotifications(!showNotifications)}
               className="relative p-3 rounded-2xl hover:bg-gray-100/80 transition-all duration-300 transform hover:scale-105 group"
             >
-              <Bell size={22} className="text-gray-600 group-hover:text-gray-800 transition-colors" />
+              <Bell size={22} className="text-gray-600 group-hover:text-red-600 transition-colors" />
               {unreadNotifications.length > 0 && (
-                <span className="absolute -top-1 -right-1 bg-gradient-to-r from-red-500 to-pink-600 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center shadow-lg animate-bounce">
+                <span className="absolute -top-1 -right-1 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center shadow-lg animate-bounce">
                   {unreadNotifications.length}
                 </span>
               )}
@@ -77,7 +77,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen }) => {
 
             {showNotifications && (
               <div className="absolute right-0 mt-3 w-96 bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 z-50 overflow-hidden">
-                <div className="p-6 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-gray-100">
+                <div className="p-6 border-b border-gray-100 bg-gradient-to-r from-blue-50 to-red-50">
                   <h3 className="font-bold text-gray-900 text-lg">Notifications</h3>
                   <p className="text-sm text-gray-600 mt-1">{unreadNotifications.length} unread</p>
                 </div>
@@ -121,7 +121,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen }) => {
               onClick={() => setShowProfileMenu(!showProfileMenu)}
               className="flex items-center space-x-3 p-2 rounded-2xl hover:bg-gray-100/80 transition-all duration-300 transform hover:scale-105 group"
             >
-              <div className="w-10 h-10 bg-gradient-to-br from-gray-700 to-gray-900 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
                 <User size={18} className="text-white" />
               </div>
               <span className="hidden sm:block font-semibold text-gray-700 group-hover:text-gray-900 transition-colors">
@@ -135,13 +135,13 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen }) => {
                   <div className="px-4 py-3 text-sm text-gray-600 border-b border-gray-100 bg-gray-50/50 rounded-xl mb-2">
                     {user?.email}
                   </div>
-                  <button className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-gray-50 hover:to-gray-100 rounded-xl flex items-center space-x-3 transition-all duration-300 group">
-                    <User size={18} className="text-gray-500 group-hover:text-gray-700 transition-colors" />
+                  <button className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-blue-100 rounded-xl flex items-center space-x-3 transition-all duration-300 group">
+                    <User size={18} className="text-gray-500 group-hover:text-blue-600 transition-colors" />
                     <span className="font-medium">Profile</span>
                   </button>
                   {isAdmin && (
-                    <button className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-gray-50 hover:to-gray-100 rounded-xl flex items-center space-x-3 transition-all duration-300 group">
-                      <Settings size={18} className="text-gray-500 group-hover:text-gray-700 transition-colors" />
+                    <button className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-blue-100 rounded-xl flex items-center space-x-3 transition-all duration-300 group">
+                      <Settings size={18} className="text-gray-500 group-hover:text-blue-600 transition-colors" />
                       <span className="font-medium">Settings</span>
                     </button>
                   )}
