@@ -113,7 +113,7 @@ export const StatsCard: React.FC<{
   icon, 
   change, 
   changeType = 'neutral', 
-  gradient = 'from-blue-500 to-purple-600',
+  gradient = 'from-gray-700 to-gray-900',
   className = '' 
 }) => {
   const changeClasses = {

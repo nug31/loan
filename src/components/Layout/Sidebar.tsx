@@ -49,9 +49,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, isOpen
     `}>
       <div className="flex flex-col h-full relative overflow-hidden">
         {/* Background decoration */}
-        <div className="absolute inset-0 bg-gradient-to-b from-blue-50/50 to-purple-50/50"></div>
-        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-full -translate-y-16 translate-x-16"></div>
-        <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-indigo-400/10 to-pink-400/10 rounded-full translate-y-12 -translate-x-12"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-gray-50/50 to-gray-100/50"></div>
+        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-gray-300/10 to-gray-400/10 rounded-full -translate-y-16 translate-x-16"></div>
+        <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-gray-300/10 to-gray-400/10 rounded-full translate-y-12 -translate-x-12"></div>
 
         <div className="relative flex-1 overflow-y-auto py-8">
           <nav className="px-6 space-y-3">
@@ -65,7 +65,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, isOpen
                   className={`
                     group w-full flex items-center px-4 py-3 text-sm font-semibold rounded-2xl transition-all duration-300 transform hover:scale-105 relative overflow-hidden
                     ${isActive
-                      ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/25'
+                      ? 'bg-gradient-to-r from-gray-700 to-gray-900 text-white shadow-lg shadow-gray-500/25'
                       : 'text-gray-700 hover:bg-white/60 hover:text-gray-900 hover:shadow-md'
                     }
                   `}
@@ -91,7 +91,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, isOpen
 
         <div className="relative p-6 border-t border-white/20 bg-white/30 backdrop-blur-sm">
           <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
+            <div className="w-12 h-12 bg-gradient-to-br from-gray-600 to-gray-800 rounded-2xl flex items-center justify-center shadow-lg">
               <span className="text-white font-bold text-lg drop-shadow-sm">NUG</span>
             </div>
             <div>

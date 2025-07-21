@@ -33,7 +33,7 @@ export const Dashboard: React.FC = () => {
   }> = ({ title, value, icon, color, change, gradient }) => (
     <div className="group relative overflow-hidden">
       {/* Background gradient */}
-      <div className={`absolute inset-0 ${gradient || 'bg-gradient-to-br from-blue-500 to-purple-600'} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+      <div className={`absolute inset-0 ${gradient || 'bg-gradient-to-br from-gray-600 to-gray-800'} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
 
       {/* Card content */}
       <div className="relative bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6 card-hover group-hover:text-white transition-colors duration-300">
@@ -128,11 +128,11 @@ export const Dashboard: React.FC = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-gray-100 to-gray-50">
       <div className="space-y-8 p-6">
         {/* Enhanced Header */}
         <div className="relative overflow-hidden bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/20 p-8">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-gray-500/10 to-gray-600/10"></div>
           <div className="relative flex items-center justify-between">
             <div className="space-y-2">
               <h1 className="text-4xl font-bold gradient-text">

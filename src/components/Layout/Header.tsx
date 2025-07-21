@@ -30,22 +30,22 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen }) => {
           <div className="flex items-center space-x-4">
             <div className="relative">
               {/* Enhanced logo with multiple layers */}
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 via-purple-600 to-indigo-700 rounded-2xl flex items-center justify-center shadow-xl transform hover:scale-110 transition-all duration-300 hover:rotate-3">
+              <div className="w-12 h-12 bg-gradient-to-br from-gray-600 via-gray-700 to-gray-800 rounded-2xl flex items-center justify-center shadow-xl transform hover:scale-110 transition-all duration-300 hover:rotate-3">
                 <div className="relative">
                   <Handshake size={24} className="text-white drop-shadow-lg" />
                   <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full shadow-lg animate-pulse"></div>
                 </div>
               </div>
               {/* Multiple glow effects */}
-              <div className="absolute inset-0 w-12 h-12 bg-blue-400 rounded-2xl blur-xl opacity-30 -z-10 animate-pulse"></div>
-              <div className="absolute inset-0 w-12 h-12 bg-purple-400 rounded-2xl blur-2xl opacity-20 -z-20 pulse-slow"></div>
+              <div className="absolute inset-0 w-12 h-12 bg-gray-400 rounded-2xl blur-xl opacity-30 -z-10 animate-pulse"></div>
+              <div className="absolute inset-0 w-12 h-12 bg-gray-500 rounded-2xl blur-2xl opacity-20 -z-20 pulse-slow"></div>
             </div>
 
             <div className="flex flex-col">
               <span className="font-bold text-xl gradient-text hidden sm:block leading-tight">
                 LoanMitra
               </span>
-              <span className="text-xs text-blue-600 font-semibold hidden sm:block -mt-1 tracking-wide">
+              <span className="text-xs text-gray-600 font-semibold hidden sm:block -mt-1 tracking-wide">
                 by NUG
               </span>
             </div>
@@ -54,11 +54,11 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen }) => {
 
         <div className="flex items-center space-x-6">
           <div className="relative hidden md:block">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors" size={20} />
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-gray-600 transition-colors" size={20} />
             <input
               type="text"
               placeholder="Search items, users, or loans..."
-              className="pl-12 pr-4 py-3 bg-gray-50/80 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 focus:bg-white transition-all duration-300 w-80 backdrop-blur-sm"
+              className="pl-12 pr-4 py-3 bg-gray-50/80 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-gray-500/50 focus:border-gray-500/50 focus:bg-white transition-all duration-300 w-80 backdrop-blur-sm"
             />
           </div>
 
