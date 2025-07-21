@@ -67,7 +67,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen }) => {
               onClick={() => setShowNotifications(!showNotifications)}
               className="relative p-3 rounded-2xl hover:bg-gray-100/80 transition-all duration-300 transform hover:scale-105 group"
             >
-              <Bell size={22} className="text-gray-600 group-hover:text-blue-600 transition-colors" />
+              <Bell size={22} className="text-gray-600 group-hover:text-gray-800 transition-colors" />
               {unreadNotifications.length > 0 && (
                 <span className="absolute -top-1 -right-1 bg-gradient-to-r from-red-500 to-pink-600 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center shadow-lg animate-bounce">
                   {unreadNotifications.length}
@@ -77,7 +77,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen }) => {
 
             {showNotifications && (
               <div className="absolute right-0 mt-3 w-96 bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 z-50 overflow-hidden">
-                <div className="p-6 border-b border-gray-100 bg-gradient-to-r from-blue-50 to-purple-50">
+                <div className="p-6 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-gray-100">
                   <h3 className="font-bold text-gray-900 text-lg">Notifications</h3>
                   <p className="text-sm text-gray-600 mt-1">{unreadNotifications.length} unread</p>
                 </div>
@@ -121,7 +121,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen }) => {
               onClick={() => setShowProfileMenu(!showProfileMenu)}
               className="flex items-center space-x-3 p-2 rounded-2xl hover:bg-gray-100/80 transition-all duration-300 transform hover:scale-105 group"
             >
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
+              <div className="w-10 h-10 bg-gradient-to-br from-gray-700 to-gray-900 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
                 <User size={18} className="text-white" />
               </div>
               <span className="hidden sm:block font-semibold text-gray-700 group-hover:text-gray-900 transition-colors">
@@ -135,13 +135,13 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen }) => {
                   <div className="px-4 py-3 text-sm text-gray-600 border-b border-gray-100 bg-gray-50/50 rounded-xl mb-2">
                     {user?.email}
                   </div>
-                  <button className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 rounded-xl flex items-center space-x-3 transition-all duration-300 group">
-                    <User size={18} className="text-gray-500 group-hover:text-blue-600 transition-colors" />
+                  <button className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-gray-50 hover:to-gray-100 rounded-xl flex items-center space-x-3 transition-all duration-300 group">
+                    <User size={18} className="text-gray-500 group-hover:text-gray-700 transition-colors" />
                     <span className="font-medium">Profile</span>
                   </button>
                   {isAdmin && (
-                    <button className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 rounded-xl flex items-center space-x-3 transition-all duration-300 group">
-                      <Settings size={18} className="text-gray-500 group-hover:text-blue-600 transition-colors" />
+                    <button className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-gray-50 hover:to-gray-100 rounded-xl flex items-center space-x-3 transition-all duration-300 group">
+                      <Settings size={18} className="text-gray-500 group-hover:text-gray-700 transition-colors" />
                       <span className="font-medium">Settings</span>
                     </button>
                   )}
