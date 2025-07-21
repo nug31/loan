@@ -140,16 +140,16 @@ export const ActivityLogs: React.FC = () => {
         return 'bg-red-100 text-red-800';
       case 'LOAN_REQUESTED':
       case 'LOAN_APPROVED':
-        return 'bg-purple-100 text-purple-800';
+        return 'bg-red-100 text-red-800';
       case 'LOAN_REJECTED':
         return 'bg-red-100 text-red-800';
       case 'USER_CREATED':
       case 'USER_UPDATED':
-        return 'bg-orange-100 text-orange-800';
+        return 'bg-blue-100 text-blue-800';
       case 'USER_DELETED':
         return 'bg-red-100 text-red-800';
       case 'SETTINGS_UPDATED':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-amber-100 text-amber-800';
       default:
         return 'bg-gray-100 text-gray-800';
     }

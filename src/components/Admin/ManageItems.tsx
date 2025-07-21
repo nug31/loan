@@ -459,10 +459,10 @@ export const ManageItems: React.FC = () => {
                   type="button"
                   disabled={isSubmitting}
                   onClick={handleSubmit}
-                  className={`px-4 py-2 text-white rounded-lg transition-colors ${
+                  className={`px-4 py-2 text-white rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl ${
                     isSubmitting
                       ? 'bg-gray-400 cursor-not-allowed'
-                      : 'bg-gray-800 hover:bg-gray-900'
+                      : 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700'
                   }`}
                 >
                   {isSubmitting

@@ -165,7 +165,7 @@ export const ItemCatalog: React.FC = () => {
               <Eye size={16} />
             </button>
             <button
-              className="flex-1 sm:flex-none px-4 py-2 bg-gray-800 text-white text-sm rounded-md hover:bg-gray-900 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+              className="flex-1 sm:flex-none px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white text-sm rounded-md disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
               onClick={() => openRequestForm(item)}
               disabled={item.availableQuantity === 0}
             >
@@ -206,7 +206,7 @@ export const ItemCatalog: React.FC = () => {
             <Eye size={16} />
           </button>
           <button
-            className="px-4 py-2 bg-gray-800 text-white text-sm rounded-md hover:bg-gray-900 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+            className="px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white text-sm rounded-md disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
             onClick={() => openRequestForm(item)}
           >
             Request
@@ -250,8 +250,8 @@ export const ItemCatalog: React.FC = () => {
               <input type="time" value={startTime} onChange={e => setStartTime(e.target.value)} required className="w-full px-3 py-2 border border-gray-300 rounded-lg" />
             </div>
             <div className="flex flex-col sm:flex-row sm:justify-end gap-2 sm:gap-2 pt-2">
-              <button type="button" onClick={closeRequestForm} className="w-full sm:w-auto px-4 py-2 rounded bg-gray-200 hover:bg-gray-300">Cancel</button>
-              <button type="submit" className="w-full sm:w-auto px-4 py-2 rounded bg-gray-800 text-white hover:bg-gray-900">Submit</button>
+              <button type="button" onClick={closeRequestForm} className="w-full sm:w-auto px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 transition-colors">Cancel</button>
+              <button type="submit" className="w-full sm:w-auto px-4 py-2 rounded bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">Submit</button>
             </div>
           </form>
         </div>
