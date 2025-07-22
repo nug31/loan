@@ -13,7 +13,7 @@ export const MyLoans: React.FC = () => {
   const [showExtensionModal, setShowExtensionModal] = useState(false);
 
   const userLoans = getUserLoans(user?.id || '');
-  const activeLoans = userLoans.filter(loan => loan.status === 'active');
+  const activeLoans = userLoans.filter(loan => loan.status === 'active' || loan.status === 'approved');
   const pendingLoans = userLoans.filter(loan => loan.status === 'pending');
   const historyLoans = userLoans.filter(loan => ['returned', 'cancelled'].includes(loan.status));
 

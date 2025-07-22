@@ -9,7 +9,7 @@ export const Analytics: React.FC = () => {
   const [showExportMenu, setShowExportMenu] = useState(false);
 
   const loansByStatus = {
-    active: loans.filter(l => l.status === 'active').length,
+    active: loans.filter(l => l.status === 'active' || l.status === 'approved').length,
     pending: loans.filter(l => l.status === 'pending').length,
     overdue: loans.filter(l => l.status === 'overdue').length,
     returned: loans.filter(l => l.status === 'returned').length,

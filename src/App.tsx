@@ -27,7 +27,7 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
 
   const userLoans = getUserLoans(user?.id || '');
   const overdueLoans = getOverdueLoans();
-  const activeUserLoans = userLoans.filter(loan => loan.status === 'active');
+  const activeUserLoans = userLoans.filter(loan => loan.status === 'active' || loan.status === 'approved');
   const pendingUserLoans = userLoans.filter(loan => loan.status === 'pending');
 
   return (
@@ -137,7 +137,7 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
                 const maxLoans = Math.max(...allDayCounts, 3); // Minimum 3 for better visibility
 
                 const requested = dayLoans.filter(l => l.status === 'pending').length;
-                const approved = dayLoans.filter(l => l.status === 'active').length;
+                const approved = dayLoans.filter(l => l.status === 'active' || l.status === 'approved').length;
                 const returned = dayLoans.filter(l => l.status === 'returned').length;
                 const totalDay = requested + approved + returned;
 
