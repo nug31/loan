@@ -248,11 +248,13 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
           </div>
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-gray-900">Recent Activity</h3>
+              <h3 className="text-xl font-bold text-gray-900">
+                {isAdmin ? 'Recent Activity' : 'My Recent Activity'}
+              </h3>
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
             </div>
             <div className="space-y-3">
-              {loans
+              {(isAdmin ? loans : userLoans)
                 .sort((a, b) => {
                   try {
                     // Try both requestedAt and createdAt fields
@@ -315,10 +317,10 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
                     </div>
                   );
                 })}
-              {loans.length === 0 && (
+              {(isAdmin ? loans : userLoans).length === 0 && (
                 <div className="text-center py-8 text-gray-500">
                   <Clock className="mx-auto mb-2 opacity-50" size={32} />
-                  <p>No recent activity</p>
+                  <p>{isAdmin ? 'No recent activity' : 'No loan activity yet'}</p>
                 </div>
               )}
             </div>
