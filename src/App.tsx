@@ -30,6 +30,13 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
   const activeUserLoans = userLoans.filter(loan => loan.status === 'active' || loan.status === 'approved');
   const pendingUserLoans = userLoans.filter(loan => loan.status === 'pending');
 
+  console.log('🔍 Dashboard render - user:', user?.id, user?.role);
+  console.log('🔍 Dashboard render - isAdmin:', isAdmin);
+  console.log('🔍 Dashboard render - dashboardStats:', dashboardStats);
+  console.log('🔍 Dashboard render - userLoans:', userLoans.length);
+  console.log('🔍 Dashboard render - pendingUserLoans:', pendingUserLoans.length);
+  console.log('🔍 Dashboard render - all loans:', loans.length);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-blue-50 to-red-50">
       <div className="space-y-8 p-6">

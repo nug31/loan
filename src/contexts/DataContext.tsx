@@ -100,6 +100,14 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
         const loansResponse = await apiService.getLoans();
         if (loansResponse.data) {
           console.log('✅ Loans loaded:', loansResponse.data.length, 'loans');
+          console.log('🔍 Loans data:', loansResponse.data);
+          console.log('🔍 Loans by status:', {
+            pending: loansResponse.data.filter(l => l.status === 'pending').length,
+            active: loansResponse.data.filter(l => l.status === 'active').length,
+            approved: loansResponse.data.filter(l => l.status === 'approved').length,
+            returned: loansResponse.data.filter(l => l.status === 'returned').length,
+            overdue: loansResponse.data.filter(l => l.status === 'overdue').length,
+          });
           setLoans(loansResponse.data);
         } else {
           console.error('❌ Failed to load loans:', loansResponse.error);
@@ -146,6 +154,8 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
       } else {
         console.error('❌ Failed to load dashboard stats:', response.error);
         // Fallback to calculated stats
+        console.log('🔍 Calculating fallback stats from loans:', loans.length, 'loans');
+        console.log('🔍 Loans for fallback calculation:', loans.map(l => ({ id: l.id, status: l.status, userId: l.userId })));
         const fallbackStats: DashboardStats = {
           totalItems: items.length,
           activeLoans: loans.filter(l => l.status === 'active' || l.status === 'approved').length,
