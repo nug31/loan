@@ -43,7 +43,9 @@ export interface Loan {
   notes?: string;
   approvedBy?: string;
   approvedAt?: Date;
-  requestedAt: Date;
+  requestedAt?: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
   remindersSent?: number;
   extensionRequested?: boolean;
   extensionApproved?: boolean;

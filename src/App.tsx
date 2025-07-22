@@ -110,7 +110,8 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
                 date.setDate(date.getDate() - (6 - i));
                 const dayLoans = loans.filter(loan => {
                   try {
-                    const loanDate = new Date(loan.requestedAt);
+                    // Try both requestedAt and createdAt fields
+                    const loanDate = new Date(loan.requestedAt || loan.createdAt);
                     if (isNaN(loanDate.getTime())) return false;
                     return loanDate.toDateString() === date.toDateString();
                   } catch (error) {
@@ -124,7 +125,8 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
                   d.setDate(d.getDate() - (6 - j));
                   return loans.filter(l => {
                     try {
-                      const loanDate = new Date(l.requestedAt);
+                      // Try both requestedAt and createdAt fields
+                      const loanDate = new Date(l.requestedAt || l.createdAt);
                       if (isNaN(loanDate.getTime())) return false;
                       return loanDate.toDateString() === d.toDateString();
                     } catch (error) {
@@ -233,8 +235,9 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
               {loans
                 .sort((a, b) => {
                   try {
-                    const dateA = new Date(a.requestedAt);
-                    const dateB = new Date(b.requestedAt);
+                    // Try both requestedAt and createdAt fields
+                    const dateA = new Date(a.requestedAt || a.createdAt);
+                    const dateB = new Date(b.requestedAt || b.createdAt);
                     if (isNaN(dateA.getTime()) || isNaN(dateB.getTime())) return 0;
                     return dateB.getTime() - dateA.getTime();
                   } catch (error) {
@@ -264,12 +267,13 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
                       </div>
                       <div className="flex-1">
                         <p className="text-sm font-semibold text-gray-900 group-hover:text-red-900 transition-colors">
-                          Loan {activityType}
+                          {loan.user?.name || 'Someone'} {activityType} {loan.item?.name || 'an item'}
                         </p>
                         <p className="text-xs text-gray-600 group-hover:text-gray-700 transition-colors">
                           {(() => {
                             try {
-                              const date = new Date(loan.requestedAt);
+                              // Try both requestedAt and createdAt fields
+                              const date = new Date(loan.requestedAt || loan.createdAt);
                               if (isNaN(date.getTime())) {
                                 return 'Recently';
                               }
