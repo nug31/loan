@@ -90,7 +90,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onToggleForm }) => {
             <div className="mx-auto relative mb-6">
               {/* Enhanced logo with multiple layers */}
               <div className="relative">
-                <div className="h-24 w-24 gradient-bg-primary rounded-3xl flex items-center justify-center shadow-2xl transform hover:scale-110 transition-all duration-500 mx-auto float">
+                <div className="h-24 w-24 bg-gradient-to-br from-red-500 via-red-600 to-blue-600 rounded-3xl flex items-center justify-center shadow-2xl transform hover:scale-110 transition-all duration-500 mx-auto float">
                   <div className="relative">
                     <Handshake size={40} className="text-white drop-shadow-lg" />
                     <div className="absolute -top-2 -right-2 w-4 h-4 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full shadow-lg animate-ping"></div>
