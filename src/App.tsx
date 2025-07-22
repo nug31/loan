@@ -27,7 +27,7 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
 
   const userLoans = getUserLoans(user?.id || '');
   const overdueLoans = getOverdueLoans();
-  const activeUserLoans = userLoans.filter(loan => loan.status === 'active' || loan.status === 'approved');
+  const activeUserLoans = userLoans.filter(loan => loan.status === 'active');
   const pendingUserLoans = userLoans.filter(loan => loan.status === 'pending');
 
   console.log('🔍 Dashboard render - user:', user?.id, user?.role);

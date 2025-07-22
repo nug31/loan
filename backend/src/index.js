@@ -364,13 +364,9 @@ app.get('/api/dashboard/stats', async (req, res) => {
     // Get total items count
     const totalItems = await Item.count();
 
-    // Get active loans count (include both 'active' and 'approved' status)
+    // Get active loans count (only 'active' status for consistency with Manage Loans)
     const activeLoans = await Loan.count({
-      where: {
-        status: {
-          [sequelize.Op.in]: ['active', 'approved']
-        }
-      }
+      where: { status: 'active' }
     });
 
     // Get pending requests count

@@ -20,7 +20,7 @@ export const Dashboard: React.FC = () => {
 
   const userLoans = getUserLoans(user?.id || '');
   const overdueLoans = getOverdueLoans();
-  const activeUserLoans = userLoans.filter(loan => loan.status === 'active' || loan.status === 'approved');
+  const activeUserLoans = userLoans.filter(loan => loan.status === 'active');
   const pendingUserLoans = userLoans.filter(loan => loan.status === 'pending');
 
   const StatCard: React.FC<{

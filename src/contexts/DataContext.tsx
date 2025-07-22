@@ -160,7 +160,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
         console.log('✅ Dashboard stats loaded from API:', response.data);
         console.log('📊 API vs Expected comparison:');
         console.log('  API activeLoans:', response.data.activeLoans);
-        console.log('  Expected activeLoans:', loans.filter(l => l.status === 'active' || l.status === 'approved').length);
+        console.log('  Expected activeLoans:', loans.filter(l => l.status === 'active').length);
         console.log('  API pendingRequests:', response.data.pendingRequests);
         console.log('  Expected pendingRequests:', loans.filter(l => l.status === 'pending').length);
         console.log('  API overdueItems:', response.data.overdueItems);
@@ -174,7 +174,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
         console.log('🔍 Loans for fallback calculation:', loans.map(l => ({ id: l.id, status: l.status, userId: l.userId })));
         const fallbackStats: DashboardStats = {
           totalItems: items.length,
-          activeLoans: loans.filter(l => l.status === 'active' || l.status === 'approved').length,
+          activeLoans: loans.filter(l => l.status === 'active').length,
           pendingRequests: loans.filter(l => l.status === 'pending').length,
           overdueItems: loans.filter(l => l.status === 'overdue').length,
           totalUsers: 5,
@@ -190,7 +190,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
       // Fallback to calculated stats
       const fallbackStats: DashboardStats = {
         totalItems: items.length,
-        activeLoans: loans.filter(l => l.status === 'active' || l.status === 'approved').length,
+        activeLoans: loans.filter(l => l.status === 'active').length,
         pendingRequests: loans.filter(l => l.status === 'pending').length,
         overdueItems: loans.filter(l => l.status === 'overdue').length,
         totalUsers: 5,
