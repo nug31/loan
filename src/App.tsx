@@ -117,7 +117,9 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
                     return false;
                   }
                 });
-                const maxLoans = Math.max(...Array.from({ length: 7 }, (_, j) => {
+
+                // Calculate max loans across all 7 days for proper scaling
+                const allDayCounts = Array.from({ length: 7 }, (_, j) => {
                   const d = new Date();
                   d.setDate(d.getDate() - (6 - j));
                   return loans.filter(l => {
@@ -129,40 +131,68 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
                       return false;
                     }
                   }).length;
-                }), 1);
+                });
+                const maxLoans = Math.max(...allDayCounts, 3); // Minimum 3 for better visibility
 
                 const requested = dayLoans.filter(l => l.status === 'pending').length;
                 const approved = dayLoans.filter(l => l.status === 'active').length;
                 const returned = dayLoans.filter(l => l.status === 'returned').length;
+                const totalDay = requested + approved + returned;
 
                 return (
-                  <div key={i} className="flex-1 flex flex-col items-center">
-                    <div className="w-full bg-gradient-to-br from-amber-50 to-red-50 rounded-xl border border-red-100 p-2 mb-2">
-                      <div className="space-y-1">
-                        <div
-                          className="bg-gradient-to-r from-amber-500 to-yellow-600 rounded-sm transition-all duration-500 hover:scale-105"
-                          style={{
-                            height: `${Math.max((requested / maxLoans) * 80, requested > 0 ? 8 : 0)}px`,
-                            minHeight: requested > 0 ? '8px' : '0px'
-                          }}
-                          title={`${requested} requested`}
-                        ></div>
-                        <div
-                          className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-sm transition-all duration-500 hover:scale-105"
-                          style={{
-                            height: `${Math.max((approved / maxLoans) * 80, approved > 0 ? 8 : 0)}px`,
-                            minHeight: approved > 0 ? '8px' : '0px'
-                          }}
-                          title={`${approved} approved`}
-                        ></div>
-                        <div
-                          className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-sm transition-all duration-500 hover:scale-105"
-                          style={{
-                            height: `${Math.max((returned / maxLoans) * 80, returned > 0 ? 8 : 0)}px`,
-                            minHeight: returned > 0 ? '8px' : '0px'
-                          }}
-                          title={`${returned} returned`}
-                        ></div>
+                  <div key={i} className="flex-1 flex flex-col items-center group">
+                    <div className="w-full bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg border border-gray-200 p-1 mb-2 min-h-[120px] flex flex-col justify-end relative overflow-hidden">
+                      {/* Background grid lines for better visualization */}
+                      <div className="absolute inset-0 opacity-20">
+                        {[...Array(4)].map((_, idx) => (
+                          <div key={idx} className="absolute w-full border-t border-gray-300" style={{ bottom: `${(idx + 1) * 25}%` }}></div>
+                        ))}
+                      </div>
+
+                      <div className="relative z-10 space-y-0.5">
+                        {/* Returned (bottom) */}
+                        {returned > 0 && (
+                          <div
+                            className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-sm transition-all duration-500 hover:scale-105 shadow-sm"
+                            style={{
+                              height: `${Math.max((returned / maxLoans) * 100, 12)}px`
+                            }}
+                            title={`${returned} returned on ${date.toLocaleDateString()}`}
+                          ></div>
+                        )}
+                        {/* Approved (middle) */}
+                        {approved > 0 && (
+                          <div
+                            className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-sm transition-all duration-500 hover:scale-105 shadow-sm"
+                            style={{
+                              height: `${Math.max((approved / maxLoans) * 100, 12)}px`
+                            }}
+                            title={`${approved} approved on ${date.toLocaleDateString()}`}
+                          ></div>
+                        )}
+                        {/* Requested (top) */}
+                        {requested > 0 && (
+                          <div
+                            className="bg-gradient-to-r from-amber-500 to-yellow-600 rounded-sm transition-all duration-500 hover:scale-105 shadow-sm"
+                            style={{
+                              height: `${Math.max((requested / maxLoans) * 100, 12)}px`
+                            }}
+                            title={`${requested} requested on ${date.toLocaleDateString()}`}
+                          ></div>
+                        )}
+
+                        {/* Show placeholder when no data */}
+                        {totalDay === 0 && (
+                          <div className="h-3 bg-gray-200 rounded-sm opacity-50"></div>
+                        )}
+                      </div>
+
+                      {/* Hover overlay with count */}
+                      <div className="absolute inset-0 bg-black bg-opacity-75 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <div className="text-white text-xs font-bold text-center">
+                          <div>{totalDay}</div>
+                          <div className="text-xs opacity-75">loans</div>
+                        </div>
                       </div>
                     </div>
                     <span className="text-xs text-gray-600 font-medium">
