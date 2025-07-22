@@ -256,20 +256,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onToggleForm }) => {
               </span>
             </div>
 
-            {/* Demo credentials */}
-            <div className="mt-6 p-4 bg-white/5 rounded-xl border border-white/10">
-              <p className="text-xs text-white/60 text-center mb-2">Demo Credentials:</p>
-              <div className="text-xs text-white/80 space-y-1">
-                <div className="flex justify-between">
-                  <span>Admin:</span>
-                  <span>admin@example.com / admin123</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>User:</span>
-                  <span>john.doe@example.com / user123</span>
-                </div>
-              </div>
-            </div>
+
           </form>
         </div>
       </div>
