@@ -108,13 +108,27 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
               {Array.from({ length: 7 }, (_, i) => {
                 const date = new Date();
                 date.setDate(date.getDate() - (6 - i));
-                const dayLoans = loans.filter(loan =>
-                  new Date(loan.requestedAt).toDateString() === date.toDateString()
-                );
+                const dayLoans = loans.filter(loan => {
+                  try {
+                    const loanDate = new Date(loan.requestedAt);
+                    if (isNaN(loanDate.getTime())) return false;
+                    return loanDate.toDateString() === date.toDateString();
+                  } catch (error) {
+                    return false;
+                  }
+                });
                 const maxLoans = Math.max(...Array.from({ length: 7 }, (_, j) => {
                   const d = new Date();
                   d.setDate(d.getDate() - (6 - j));
-                  return loans.filter(l => new Date(l.requestedAt).toDateString() === d.toDateString()).length;
+                  return loans.filter(l => {
+                    try {
+                      const loanDate = new Date(l.requestedAt);
+                      if (isNaN(loanDate.getTime())) return false;
+                      return loanDate.toDateString() === d.toDateString();
+                    } catch (error) {
+                      return false;
+                    }
+                  }).length;
                 }), 1);
 
                 const requested = dayLoans.filter(l => l.status === 'pending').length;
@@ -187,7 +201,16 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
             </div>
             <div className="space-y-3">
               {loans
-                .sort((a, b) => new Date(b.requestedAt).getTime() - new Date(a.requestedAt).getTime())
+                .sort((a, b) => {
+                  try {
+                    const dateA = new Date(a.requestedAt);
+                    const dateB = new Date(b.requestedAt);
+                    if (isNaN(dateA.getTime()) || isNaN(dateB.getTime())) return 0;
+                    return dateB.getTime() - dateA.getTime();
+                  } catch (error) {
+                    return 0;
+                  }
+                })
                 .slice(0, 5)
                 .map((loan) => {
                   const activityType = loan.status === 'pending' ? 'requested' :
@@ -214,12 +237,22 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
                           Loan {activityType}
                         </p>
                         <p className="text-xs text-gray-600 group-hover:text-gray-700 transition-colors">
-                          {new Date(loan.requestedAt).toLocaleDateString('en-US', {
-                            month: 'short',
-                            day: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit'
-                          })}
+                          {(() => {
+                            try {
+                              const date = new Date(loan.requestedAt);
+                              if (isNaN(date.getTime())) {
+                                return 'Recently';
+                              }
+                              return date.toLocaleDateString('en-US', {
+                                month: 'short',
+                                day: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit'
+                              });
+                            } catch (error) {
+                              return 'Recently';
+                            }
+                          })()}
                         </p>
                       </div>
                       <div className="opacity-0 group-hover:opacity-100 transition-opacity">
