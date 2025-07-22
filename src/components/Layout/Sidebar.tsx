@@ -4,7 +4,6 @@ import {
   Package,
   Users,
   FileText,
-  Calendar,
   Settings,
   BarChart3,
   Shield,
@@ -26,7 +25,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, isOpen
     { id: 'dashboard', label: 'Dashboard', icon: Home, adminOnly: false },
     { id: 'catalog', label: 'Item Catalog', icon: Package, adminOnly: false },
     { id: 'my-loans', label: 'My Loans', icon: FileText, adminOnly: false },
-    { id: 'calendar', label: 'Calendar', icon: Calendar, adminOnly: false },
     ...(isAdmin ? [
       { id: 'admin-items', label: 'Manage Items', icon: Package, adminOnly: true },
       { id: 'admin-categories', label: 'Manage Categories', icon: Tag, adminOnly: true },

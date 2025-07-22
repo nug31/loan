@@ -9,7 +9,6 @@ import { Layout } from './components/Layout/Layout';
 // import { Dashboard } from './components/Dashboard/Dashboard';
 import { ItemCatalog } from './components/Catalog/ItemCatalog';
 import { MyLoans } from './components/Loans/MyLoans';
-import { LoanCalendar } from './components/Calendar/LoanCalendar';
 import { ManageItems } from './components/Admin/ManageItems';
 import { ManageLoans } from './components/Admin/ManageLoans';
 import { ManageUsers } from './components/Admin/ManageUsers';
@@ -400,8 +399,6 @@ const AppContent: React.FC = () => {
         return <ItemCatalog />;
       case 'my-loans':
         return <MyLoans />;
-      case 'calendar':
-        return <LoanCalendar />;
       case 'admin-items':
         return <ManageItems />;
       case 'admin-loans':
