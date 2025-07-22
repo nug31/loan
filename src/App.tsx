@@ -40,7 +40,7 @@ const AppContent: React.FC = () => {
   const renderContent = () => {
     switch (activeTab) {
       case 'dashboard':
-        return <Dashboard />;
+        return <Dashboard onTabChange={setActiveTab} />;
       case 'catalog':
         return <ItemCatalog />;
       case 'my-loans':
