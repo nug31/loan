@@ -48,7 +48,10 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
                 Welcome back, {user?.firstName || user?.name || user?.email?.split('@')[0] || 'User'}! 👋
               </h1>
               <p className="text-gray-600 text-lg">
-                Here's what's happening with your loans and items today.
+                {isAdmin
+                  ? "Here's what's happening with your loans and items today."
+                  : "Here's an overview of your personal loan activity."
+                }
               </p>
             </div>
           </div>
@@ -58,8 +61,12 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6">
             <div className="flex items-center justify-between">
               <div className="space-y-2">
-                <p className="text-sm font-medium text-gray-600">Total Items</p>
-                <p className="text-3xl font-bold text-gray-900">{dashboardStats?.totalItems || 0}</p>
+                <p className="text-sm font-medium text-gray-600">
+                  {isAdmin ? 'Total Items' : 'My Total Loans'}
+                </p>
+                <p className="text-3xl font-bold text-gray-900">
+                  {isAdmin ? dashboardStats?.totalItems || 0 : userLoans.length}
+                </p>
               </div>
               <div className="p-4 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 shadow-lg">
                 <Package size={28} className="text-white" />
@@ -69,7 +76,9 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6">
             <div className="flex items-center justify-between">
               <div className="space-y-2">
-                <p className="text-sm font-medium text-gray-600">Active Loans</p>
+                <p className="text-sm font-medium text-gray-600">
+                  {isAdmin ? 'Active Loans' : 'My Active Loans'}
+                </p>
                 <p className="text-3xl font-bold text-gray-900">{isAdmin ? dashboardStats?.activeLoans || 0 : activeUserLoans.length}</p>
               </div>
               <div className="p-4 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600 shadow-lg">
@@ -80,7 +89,9 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6">
             <div className="flex items-center justify-between">
               <div className="space-y-2">
-                <p className="text-sm font-medium text-gray-600">Pending Requests</p>
+                <p className="text-sm font-medium text-gray-600">
+                  {isAdmin ? 'Pending Requests' : 'My Pending Requests'}
+                </p>
                 <p className="text-3xl font-bold text-gray-900">{isAdmin ? dashboardStats?.pendingRequests || 0 : pendingUserLoans.length}</p>
               </div>
               <div className="p-4 rounded-2xl bg-gradient-to-br from-amber-500 to-yellow-600 shadow-lg">
@@ -91,7 +102,9 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6">
             <div className="flex items-center justify-between">
               <div className="space-y-2">
-                <p className="text-sm font-medium text-gray-600">Overdue Items</p>
+                <p className="text-sm font-medium text-gray-600">
+                  {isAdmin ? 'Overdue Items' : 'My Overdue Items'}
+                </p>
                 <p className="text-3xl font-bold text-gray-900">{isAdmin ? overdueLoans.length : userLoans.filter(l => l.status === 'overdue').length}</p>
               </div>
               <div className="p-4 rounded-2xl bg-gradient-to-br from-red-500 to-red-600 shadow-lg">
