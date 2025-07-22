@@ -364,9 +364,13 @@ app.get('/api/dashboard/stats', async (req, res) => {
     // Get total items count
     const totalItems = await Item.count();
 
-    // Get active loans count
+    // Get active loans count (include both 'active' and 'approved' status)
     const activeLoans = await Loan.count({
-      where: { status: 'active' }
+      where: {
+        status: {
+          [sequelize.Op.in]: ['active', 'approved']
+        }
+      }
     });
 
     // Get pending requests count
@@ -448,94 +452,7 @@ app.get('/api/dashboard/stats', async (req, res) => {
   }
 });
 
-// Dashboard Stats endpoint
-app.get('/api/dashboard/stats', async (req, res) => {
-  try {
-    console.log('📊 Getting dashboard stats...');
 
-    // Get total items count
-    const totalItems = await Item.count();
-
-    // Get active loans count
-    const activeLoans = await Loan.count({
-      where: { status: 'active' }
-    });
-
-    // Get pending requests count
-    const pendingRequests = await Loan.count({
-      where: { status: 'pending' }
-    });
-
-    // Get overdue items count
-    const overdueItems = await Loan.count({
-      where: { status: 'overdue' }
-    });
-
-    // Get total users count
-    const totalUsers = await User.count();
-
-    // Get category breakdown
-    const categories = await Category.findAll({
-      include: [{
-        model: Item,
-        as: 'items',
-        attributes: []
-      }],
-      attributes: [
-        'name',
-        [sequelize.fn('COUNT', sequelize.col('items.id')), 'count']
-      ],
-      group: ['Category.id', 'Category.name'],
-      raw: true
-    });
-
-    const categoryBreakdown = categories.map(cat => ({
-      category: cat.name,
-      count: parseInt(cat.count) || 0
-    }));
-
-    // Get loan trends for the past 7 days
-    const loanTrends = await Loan.findAll({
-      attributes: [
-        [sequelize.fn('DATE', sequelize.col('createdAt')), 'date'],
-        [sequelize.fn('COUNT', sequelize.col('id')), 'count']
-      ],
-      where: {
-        createdAt: {
-          [sequelize.Op.gte]: sequelize.literal("CURRENT_DATE - INTERVAL '7 days'")
-        }
-      },
-      group: [sequelize.fn('DATE', sequelize.col('createdAt'))],
-      order: [[sequelize.fn('DATE', sequelize.col('createdAt')), 'ASC']],
-      raw: true
-    });
-
-    const formattedLoanTrends = loanTrends.map(trend => ({
-      date: trend.date,
-      count: parseInt(trend.count)
-    }));
-
-    const dashboardStats = {
-      totalItems,
-      activeLoans,
-      pendingRequests,
-      overdueItems,
-      totalUsers,
-      categoryBreakdown,
-      loanTrends: formattedLoanTrends
-    };
-
-    console.log('✅ Dashboard stats retrieved:', dashboardStats);
-    res.json(dashboardStats);
-
-  } catch (error) {
-    console.error('❌ Error getting dashboard stats:', error);
-    res.status(500).json({
-      error: 'Failed to get dashboard stats',
-      details: error.message
-    });
-  }
-});
 
 // Database connection and server start
 async function startServer() {

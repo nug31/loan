@@ -74,7 +74,7 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
             <div className="flex items-center justify-between">
               <div className="space-y-2">
                 <p className="text-sm font-medium text-gray-600">Pending Requests</p>
-                <p className="text-3xl font-bold text-gray-900">{isAdmin ? dashboardStats?.pendingLoans || 0 : pendingUserLoans.length}</p>
+                <p className="text-3xl font-bold text-gray-900">{isAdmin ? dashboardStats?.pendingRequests || 0 : pendingUserLoans.length}</p>
               </div>
               <div className="p-4 rounded-2xl bg-gradient-to-br from-amber-500 to-yellow-600 shadow-lg">
                 <Clock size={28} className="text-white" />
