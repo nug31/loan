@@ -147,12 +147,28 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
   const loadDashboardStats = async () => {
     try {
       console.log('📊 Loading dashboard stats from API...');
+      console.log('📊 Current loans data for stats calculation:', loans.length, 'loans');
+      console.log('📊 Loans breakdown:', loans.map(l => ({
+        id: l.id.substring(0, 8),
+        status: l.status,
+        userId: l.userId?.substring(0, 8),
+        itemId: l.itemId?.substring(0, 8)
+      })));
+
       const response = await apiService.getDashboardStats();
       if (response.data) {
         console.log('✅ Dashboard stats loaded from API:', response.data);
+        console.log('📊 API vs Expected comparison:');
+        console.log('  API activeLoans:', response.data.activeLoans);
+        console.log('  Expected activeLoans:', loans.filter(l => l.status === 'active' || l.status === 'approved').length);
+        console.log('  API pendingRequests:', response.data.pendingRequests);
+        console.log('  Expected pendingRequests:', loans.filter(l => l.status === 'pending').length);
+        console.log('  API overdueItems:', response.data.overdueItems);
+        console.log('  Expected overdueItems:', loans.filter(l => l.status === 'overdue').length);
         setDashboardStats(response.data);
       } else {
         console.error('❌ Failed to load dashboard stats:', response.error);
+        console.log('🔄 Using fallback calculation...');
         // Fallback to calculated stats
         console.log('🔍 Calculating fallback stats from loans:', loans.length, 'loans');
         console.log('🔍 Loans for fallback calculation:', loans.map(l => ({ id: l.id, status: l.status, userId: l.userId })));
@@ -170,6 +186,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
       }
     } catch (error) {
       console.error('❌ Error loading dashboard stats:', error);
+      console.log('🔄 Using fallback calculation after error...');
       // Fallback to calculated stats
       const fallbackStats: DashboardStats = {
         totalItems: items.length,
