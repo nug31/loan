@@ -38,7 +38,7 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
           <div className="relative flex items-center justify-between">
             <div className="space-y-2">
               <h1 className="text-4xl font-bold gradient-text">
-                Welcome back, {user?.firstName || user?.email}! 👋
+                Welcome back, {user?.firstName || user?.name || user?.email?.split('@')[0] || 'User'}! 👋
               </h1>
               <p className="text-gray-600 text-lg">
                 Here's what's happening with your loans and items today.
