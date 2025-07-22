@@ -321,7 +321,10 @@ class ApiService {
 
   // Dashboard Stats
   async getDashboardStats(): Promise<ApiResponse<any>> {
-    return this.request('/dashboard/stats');
+    console.log('📊 Calling getDashboardStats API...');
+    const result = await this.request('/dashboard/stats');
+    console.log('📊 getDashboardStats API response:', result);
+    return result;
   }
 
   // Recent Activity
