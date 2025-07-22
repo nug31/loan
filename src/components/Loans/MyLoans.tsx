@@ -5,7 +5,7 @@ import { useData } from '../../contexts/DataContext';
 import { Loan } from '../../types';
 
 export const MyLoans: React.FC = () => {
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
   const { getUserLoans, getItemById, returnItem, requestExtension } = useData();
   const [activeTab, setActiveTab] = useState<'active' | 'pending' | 'history'>('active');
   const [selectedLoan, setSelectedLoan] = useState<Loan | null>(null);
@@ -47,6 +47,7 @@ export const MyLoans: React.FC = () => {
   };
 
   const handleReturn = (loan: Loan) => {
+    if (!isAdmin) return; // Only admin can return items
     setSelectedLoan(loan);
     setShowReturnModal(true);
   };
@@ -136,12 +137,14 @@ export const MyLoans: React.FC = () => {
                     <RotateCcw size={14} />
                     <span>Extend</span>
                   </button>
-                  <button
-                    onClick={() => handleReturn(loan)}
-                    className="px-3 py-1 bg-green-600 text-white text-sm rounded-md hover:bg-green-700 transition-colors"
-                  >
-                    Return
-                  </button>
+                  {isAdmin && (
+                    <button
+                      onClick={() => handleReturn(loan)}
+                      className="px-3 py-1 bg-green-600 text-white text-sm rounded-md hover:bg-green-700 transition-colors"
+                    >
+                      Return
+                    </button>
+                  )}
                 </>
               )}
             </div>
@@ -208,8 +211,8 @@ export const MyLoans: React.FC = () => {
         </div>
       )}
 
-      {/* Return Modal */}
-      {showReturnModal && selectedLoan && (
+      {/* Return Modal - Only for Admin */}
+      {showReturnModal && selectedLoan && isAdmin && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-full max-w-md">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Confirm Return</h3>
