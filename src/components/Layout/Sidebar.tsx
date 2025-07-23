@@ -81,7 +81,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, isOpen
 
         <div className="relative p-6 border-t border-white/20 bg-white/30 backdrop-blur-sm">
           <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg">
+            <div className="w-12 h-12 bg-gradient-to-br from-red-500 via-red-600 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg">
               <span className="text-white font-bold text-lg drop-shadow-sm">NUG</span>
             </div>
             <div>
