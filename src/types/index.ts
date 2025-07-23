@@ -20,7 +20,6 @@ export interface Item {
   condition: 'excellent' | 'good' | 'fair' | 'poor';
   quantity: number;
   availableQuantity: number;
-  images: string[];
   qrCode: string;
   location: string;
   value: number;
@@ -62,7 +61,6 @@ export interface Loan {
     name: string;
     category: string;
     location?: string;
-    images?: string[];
   };
   approver?: {
     id: string;

@@ -32,8 +32,7 @@ export const ManageItems: React.FC = () => {
     tags: '',
     condition: 'excellent' as 'excellent' | 'good' | 'fair' | 'poor',
     quantity: 1,
-    value: 0,
-    images: [] as string[]
+    value: 0
   });
 
   const filteredItems = items.filter(item => {
@@ -51,8 +50,7 @@ export const ManageItems: React.FC = () => {
       tags: '',
       condition: 'excellent' as 'excellent' | 'good' | 'fair' | 'poor',
       quantity: 1,
-      value: 0,
-      images: []
+      value: 0
     });
   };
 
@@ -82,7 +80,6 @@ export const ManageItems: React.FC = () => {
       availableQuantity: formData.quantity,
       location: 'Gudang', // Set default location to 'Gudang'
       value: formData.value,
-      images: formData.images,
       qrCode: editingItem ? editingItem.qrCode : `QR${Date.now()}`, // Jangan ubah QR code saat edit
       isActive: true
     };
@@ -121,8 +118,7 @@ export const ManageItems: React.FC = () => {
       tags: item.tags.join(', '),
       condition: item.condition,
       quantity: item.quantity,
-      value: item.value,
-      images: item.images
+      value: item.value
     });
     setShowAddModal(true);
   };
@@ -262,11 +258,9 @@ export const ManageItems: React.FC = () => {
                 <tr key={item.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
-                      <img
-                        src={item.images[0] || '/placeholder-image.jpg'}
-                        alt={item.name}
-                        className="w-10 h-10 object-cover rounded-lg mr-3"
-                      />
+                      <div className="w-10 h-10 bg-gray-200 rounded-lg mr-3 flex items-center justify-center">
+                        <Package size={20} className="text-gray-500" />
+                      </div>
                       <div>
                         <div className="text-sm font-medium text-gray-900">{item.name}</div>
                         <div className="text-sm text-gray-500">{item.qrCode}</div>
@@ -402,45 +396,17 @@ export const ManageItems: React.FC = () => {
 
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Tags (comma separated)
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.tags}
-                    onChange={(e) => setFormData(prev => ({ ...prev, tags: e.target.value }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="tag1, tag2, tag3"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Images</label>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    onChange={async (e) => {
-                      const files = Array.from(e.target.files || []);
-                      const images = await Promise.all(files.map(file => {
-                        return new Promise<string>((resolve, reject) => {
-                          const reader = new FileReader();
-                          reader.onload = () => resolve(reader.result as string);
-                          reader.onerror = reject;
-                          reader.readAsDataURL(file);
-                        });
-                      }));
-                      setFormData(prev => ({ ...prev, images }));
-                    }}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    {formData.images.map((img, idx) => (
-                      <img key={idx} src={img} alt={`preview-${idx}`} className="w-16 h-16 object-cover rounded" />
-                    ))}
-                  </div>
-                </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Tags (comma separated)
+                </label>
+                <input
+                  type="text"
+                  value={formData.tags}
+                  onChange={(e) => setFormData(prev => ({ ...prev, tags: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="tag1, tag2, tag3"
+                />
               </div>
 
               <div className="flex justify-end space-x-4 pt-4">

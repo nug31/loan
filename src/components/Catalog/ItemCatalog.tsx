@@ -131,12 +131,8 @@ export const ItemCatalog: React.FC = () => {
 
   const ItemCard: React.FC<{ item: Item }> = ({ item }) => (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
-      <div className="aspect-w-16 aspect-h-9">
-        <img
-          src={item.images?.[0] || '/placeholder-image.jpg'}
-          alt={item.name}
-          className="w-full h-48 object-cover"
-        />
+      <div className="aspect-w-16 aspect-h-9 bg-gray-100 flex items-center justify-center h-48">
+        <Package size={48} className="text-gray-400" />
       </div>
       <div className="p-4">
         <div className="flex items-start justify-between mb-2">
@@ -180,11 +176,9 @@ export const ItemCatalog: React.FC = () => {
   const ItemRow: React.FC<{ item: Item }> = ({ item }) => (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow">
       <div className="flex items-center space-x-4">
-        <img
-          src={item.images[0] || '/placeholder-image.jpg'}
-          alt={item.name}
-          className="w-16 h-16 object-cover rounded-lg"
-        />
+        <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center">
+          <Package size={24} className="text-gray-400" />
+        </div>
         <div className="flex-1">
           <div className="flex items-center justify-between mb-1">
             <h3 className="text-lg font-semibold text-gray-900">{item.name}</h3>
