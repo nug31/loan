@@ -81,11 +81,9 @@ export const MyLoans: React.FC = () => {
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center space-x-3">
-            <img
-              src={item?.images?.[0] || '/placeholder-image.jpg'}
-              alt={item?.name}
-              className="w-16 h-16 object-cover rounded-lg"
-            />
+            <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center">
+              <Package size={32} className="text-gray-400" />
+            </div>
             <div>
               <h3 className="text-lg font-semibold text-gray-900">{item?.name}</h3>
               <p className="text-sm text-gray-600">{item?.category}</p>

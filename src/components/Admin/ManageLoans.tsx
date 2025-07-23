@@ -233,11 +233,9 @@ export const ManageLoans: React.FC = () => {
                   <tr key={loan.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
-                        <img
-                          src={loan.item?.images?.[0] || item?.images?.[0] || '/placeholder-image.jpg'}
-                          alt={loan.item?.name || item?.name}
-                          className="w-10 h-10 object-cover rounded-lg mr-3"
-                        />
+                        <div className="w-10 h-10 bg-gray-200 rounded-lg mr-3 flex items-center justify-center">
+                          <CheckCircle size={20} className="text-gray-500" />
+                        </div>
                         <div>
                           <div className="text-sm font-medium text-gray-900">
                             {loan.item?.name || item?.name}
