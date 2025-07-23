@@ -5,9 +5,6 @@ import {
   Users,
   FileText,
   Settings,
-  BarChart3,
-  Shield,
-  Activity,
   Tag
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
@@ -30,11 +27,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, isOpen
       { id: 'admin-categories', label: 'Manage Categories', icon: Tag, adminOnly: true },
       { id: 'admin-loans', label: 'Manage Loans', icon: FileText, adminOnly: true },
       { id: 'admin-users', label: 'Manage Users', icon: Users, adminOnly: true },
-      { id: 'analytics', label: 'Analytics', icon: BarChart3, adminOnly: true },
-      { id: 'activity', label: 'Activity Logs', icon: Activity, adminOnly: true },
-      { id: 'security', label: 'Security', icon: Shield, adminOnly: true },
-    ] : []),
-    ...(isAdmin ? [
       { id: 'settings', label: 'Settings', icon: Settings, adminOnly: true },
     ] : []),
   ];

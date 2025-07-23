@@ -13,9 +13,6 @@ import { ManageItems } from './components/Admin/ManageItems';
 import { ManageLoans } from './components/Admin/ManageLoans';
 import { ManageUsers } from './components/Admin/ManageUsers';
 import ManageCategories from './components/Admin/ManageCategories';
-import { Analytics } from './components/Analytics/Analytics';
-import { ActivityLogs } from './components/Activity/ActivityLogs';
-import { Security } from './components/Security/Security';
 import { Settings } from './components/Settings/Settings';
 import { Package, FileText, Clock, AlertTriangle, TrendingUp, Calendar, Users, CheckCircle } from 'lucide-react';
 
@@ -407,12 +404,6 @@ const AppContent: React.FC = () => {
         return <ManageUsers />;
       case 'admin-categories':
         return <ManageCategories />;
-      case 'analytics':
-        return <Analytics />;
-      case 'activity':
-        return <ActivityLogs />;
-      case 'security':
-        return <Security />;
       case 'settings':
         return isAdmin ? <Settings /> : <Dashboard />;
       default:
