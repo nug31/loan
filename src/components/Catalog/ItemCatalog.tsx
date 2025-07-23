@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Filter, Grid, List, Package, Eye, Calendar, Tag } from 'lucide-react';
+import { Search, Filter, Package, Eye, Calendar, Tag } from 'lucide-react';
 import { useData } from '../../contexts/DataContext';
 import { Item } from '../../types';
 import { useAuth } from '../../contexts/AuthContext';
@@ -11,7 +11,7 @@ export const ItemCatalog: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedCondition, setSelectedCondition] = useState('all');
   const [sortBy, setSortBy] = useState('name');
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+
   const [showFilters, setShowFilters] = useState(false);
   const [notification, setNotification] = useState<string | null>(null);
   const [showRequestForm, setShowRequestForm] = useState(false);
@@ -129,49 +129,7 @@ export const ItemCatalog: React.FC = () => {
     return 'bg-green-100 text-green-800';
   };
 
-  const ItemCard: React.FC<{ item: Item }> = ({ item }) => (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
-      <div className="aspect-w-16 aspect-h-9 bg-gray-100 flex items-center justify-center h-48">
-        <Package size={48} className="text-gray-400" />
-      </div>
-      <div className="p-4">
-        <div className="flex items-start justify-between mb-2">
-          <h3 className="text-lg font-semibold text-gray-900 truncate">{item.name}</h3>
-          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getConditionColor(item.condition)}`}>
-            {item.condition}
-          </span>
-        </div>
-        
-        <p className="text-sm text-gray-600 mb-3 line-clamp-2">{item.description}</p>
-        
-        <div className="flex items-center justify-between mb-3">
-          <span className="text-sm text-gray-500">{item.category}</span>
-          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getAvailabilityColor(item)}`}>
-            {item.availableQuantity > 0 ? `${item.availableQuantity} available` : 'Out of stock'}
-          </span>
-        </div>
-        
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-          <div className="flex items-center space-x-2">
-            {/* <Tag size={14} className="text-gray-400" />
-            <span className="text-sm text-gray-600">${item.value}</span> */}
-          </div>
-          <div className="flex space-x-2">
-            <button className="p-2 text-gray-400 hover:text-gray-600 transition-colors">
-              <Eye size={16} />
-            </button>
-            <button
-              className="flex-1 sm:flex-none px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white text-sm rounded-md disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-              onClick={() => openRequestForm(item)}
-              disabled={item.availableQuantity === 0}
-            >
-              Request
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+
 
   const ItemRow: React.FC<{ item: Item }> = ({ item }) => (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow">
@@ -252,24 +210,6 @@ export const ItemCatalog: React.FC = () => {
       )}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Item Catalog</h1>
-        <div className="flex items-center space-x-2">
-          <button
-            onClick={() => setViewMode('grid')}
-            className={`p-2 rounded-lg transition-colors ${
-              viewMode === 'grid' ? 'bg-gray-100 text-gray-700' : 'text-gray-400 hover:text-gray-600'
-            }`}
-          >
-            <Grid size={20} />
-          </button>
-          <button
-            onClick={() => setViewMode('list')}
-            className={`p-2 rounded-lg transition-colors ${
-              viewMode === 'list' ? 'bg-gray-100 text-gray-700' : 'text-gray-400 hover:text-gray-600'
-            }`}
-          >
-            <List size={20} />
-          </button>
-        </div>
       </div>
 
       {/* Mobile-Responsive Search and Filters */}
@@ -370,17 +310,9 @@ export const ItemCatalog: React.FC = () => {
           <p className="text-gray-600">Try adjusting your search criteria or filters</p>
         </div>
       ) : (
-        <div className={
-          viewMode === 'grid'
-            ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6'
-            : 'space-y-4'
-        }>
+        <div className="space-y-4">
           {filteredItems.map(item => (
-            viewMode === 'grid' ? (
-              <ItemCard key={item.id} item={item} />
-            ) : (
-              <ItemRow key={item.id} item={item} />
-            )
+            <ItemRow key={item.id} item={item} />
           ))}
         </div>
       )}
