@@ -58,11 +58,11 @@ class ApiService {
         } else if (endpoint === '/auth/register') {
           resolve({ data: { user: MOCK_USER, message: 'Registration successful' } as T });
         } else if (endpoint === '/dashboard/stats') {
-          // Mock dashboard stats that match the actual loan data
+          // Mock dashboard stats that match the REAL database data from Manage Loans
           const mockStats = {
             totalItems: 5,
-            activeLoans: 0, // Match Manage Loans: 0 active
-            pendingRequests: 1, // Match Manage Loans: 1 pending
+            activeLoans: 1, // Match Manage Loans: 1 active (ROG Gaming Laptop - John Doe)
+            pendingRequests: 0, // Match Manage Loans: 0 pending
             overdueItems: 0, // Match Manage Loans: 0 overdue
             totalUsers: 5,
             categoryBreakdown: [
@@ -80,12 +80,12 @@ class ApiService {
               { date: '2025-01-23', count: 0 }
             ]
           };
-          console.log('🎭 Mock dashboard stats:', mockStats);
+          console.log('🎭 Mock dashboard stats (synced with real DB):', mockStats);
           resolve({ data: mockStats as T });
         } else if (endpoint.startsWith('/items')) {
           resolve({ data: [] as T });
         } else if (endpoint === '/loans') {
-          // Mock loans data that matches the dashboard stats
+          // Mock loans data that matches the REAL database (as shown in Manage Loans)
           const mockLoans = [
             {
               id: '1',
@@ -97,32 +97,16 @@ class ApiService {
               itemName: 'ROG Gaming Laptop',
               category: 'Electronics',
               quantity: 1,
-              startDate: '2025-01-15T00:00:00.000Z',
-              endDate: '2025-01-22T00:00:00.000Z',
-              requestedAt: '2025-01-15T11:31:00.000Z',
-              status: 'pending',
-              notes: 'Need for project development'
+              startDate: '2025-07-15T00:00:00.000Z',
+              endDate: '2025-07-22T00:00:00.000Z',
+              requestedAt: '2025-07-15T11:31:00.000Z',
+              status: 'active', // ACTIVE loan (currently borrowed)
+              approvedAt: '2025-07-15T14:00:00.000Z',
+              approvedBy: 'admin@example.com',
+              notes: 'Currently in use for development project'
             },
             {
               id: '2',
-              itemId: '2',
-              userId: 'user1',
-              userName: 'John Doe',
-              userEmail: 'john.doe@example.com',
-              userDepartment: 'Engineering',
-              itemName: 'Laptop Dell XPS 13',
-              category: 'Electronics',
-              quantity: 1,
-              startDate: '2025-01-10T00:00:00.000Z',
-              endDate: '2025-01-17T00:00:00.000Z',
-              requestedAt: '2025-01-10T11:31:00.000Z',
-              status: 'approved',
-              approvedAt: '2025-01-10T14:00:00.000Z',
-              approvedBy: 'admin@example.com',
-              notes: 'Approved for development work'
-            },
-            {
-              id: '3',
               itemId: '3',
               userId: 'user2',
               userName: 'Jane Smith',
@@ -131,15 +115,15 @@ class ApiService {
               itemName: 'Proyektor Epson',
               category: 'Electronics',
               quantity: 1,
-              startDate: '2025-01-05T00:00:00.000Z',
-              endDate: '2025-01-12T00:00:00.000Z',
-              requestedAt: '2025-01-05T11:31:00.000Z',
-              status: 'returned',
-              returnedAt: '2025-01-12T16:00:00.000Z',
-              notes: 'Used for presentation'
+              startDate: '2025-07-05T00:00:00.000Z',
+              endDate: '2025-07-12T00:00:00.000Z',
+              requestedAt: '2025-07-05T11:31:00.000Z',
+              status: 'returned', // RETURNED loan
+              returnedAt: '2025-07-12T16:00:00.000Z',
+              notes: 'Successfully returned after presentation'
             }
           ];
-          console.log('🎭 Mock loans data:', mockLoans);
+          console.log('🎭 Mock loans data (synced with real DB):', mockLoans);
           resolve({ data: mockLoans as T });
         } else if (endpoint.startsWith('/loans/')) {
           resolve({ data: {} as T });
@@ -177,6 +161,28 @@ class ApiService {
           };
           console.log('🎭 Mock category create:', newCategory);
           resolve({ data: newCategory as T });
+        } else if (endpoint === '/dashboard/recent-activity') {
+          // Mock recent activity that matches the REAL database data
+          const mockActivity = [
+            {
+              id: '1',
+              type: 'loan_approved',
+              message: 'John Doe approved ROG Gaming Laptop',
+              timestamp: '2025-07-24T11:07:00.000Z',
+              user: 'John Doe',
+              item: 'ROG Gaming Laptop'
+            },
+            {
+              id: '2',
+              type: 'loan_returned',
+              message: 'Jane Smith returned Proyektor Epson',
+              timestamp: '2025-07-24T11:07:00.000Z',
+              user: 'Jane Smith',
+              item: 'Proyektor Epson'
+            }
+          ];
+          console.log('🎭 Mock recent activity (synced with real DB):', mockActivity);
+          resolve({ data: mockActivity as T });
         } else {
           resolve({ data: {} as T });
         }
