@@ -61,8 +61,8 @@ class ApiService {
           // Mock dashboard stats that match the REAL database data from Manage Loans
           const mockStats = {
             totalItems: 5,
-            activeLoans: 1, // Match Manage Loans: 1 active (ROG Gaming Laptop - John Doe)
-            pendingRequests: 0, // Match Manage Loans: 0 pending
+            activeLoans: 0, // Match Manage Loans: 0 active
+            pendingRequests: 1, // Match Manage Loans: 1 pending (ROG Gaming Laptop)
             overdueItems: 0, // Match Manage Loans: 0 overdue
             totalUsers: 5,
             categoryBreakdown: [
@@ -100,13 +100,29 @@ class ApiService {
               startDate: '2025-07-15T00:00:00.000Z',
               endDate: '2025-07-22T00:00:00.000Z',
               requestedAt: '2025-07-15T11:31:00.000Z',
-              status: 'active', // ACTIVE loan (currently borrowed)
-              approvedAt: '2025-07-15T14:00:00.000Z',
-              approvedBy: 'admin@example.com',
-              notes: 'Currently in use for development project'
+              status: 'pending', // PENDING loan (waiting for approval)
+              notes: 'Waiting for approval'
             },
             {
               id: '2',
+              itemId: '2',
+              userId: 'user1',
+              userName: 'John Doe',
+              userEmail: 'john.doe@example.com',
+              userDepartment: 'Engineering',
+              itemName: 'Laptop Dell XPS 13',
+              category: 'Electronics',
+              quantity: 1,
+              startDate: '2025-07-10T00:00:00.000Z',
+              endDate: '2025-07-17T00:00:00.000Z',
+              requestedAt: '2025-07-10T11:31:00.000Z',
+              status: 'approved', // APPROVED loan
+              approvedAt: '2025-07-10T14:00:00.000Z',
+              approvedBy: 'admin@example.com',
+              notes: 'Approved for development work'
+            },
+            {
+              id: '3',
               itemId: '3',
               userId: 'user2',
               userName: 'Jane Smith',
