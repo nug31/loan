@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-// Use PostgreSQL with DATABASE_URL (Railway) or individual config
+// Use PostgreSQL with DATABASE_URL (Railway) or SQLite for local development
 const sequelize = process.env.DATABASE_URL
   ? new Sequelize(process.env.DATABASE_URL, {
       dialect: 'postgres',
@@ -16,19 +16,9 @@ const sequelize = process.env.DATABASE_URL
       }
     })
   : new Sequelize({
-      dialect: 'postgres',
-      host: process.env.DB_HOST || 'localhost',
-      port: process.env.DB_PORT || 5432,
-      database: process.env.DB_NAME || 'loan_management',
-      username: process.env.DB_USER || 'postgres',
-      password: process.env.DB_PASSWORD || 'password',
+      dialect: 'sqlite',
+      storage: './database.sqlite',
       logging: process.env.NODE_ENV === 'development' ? console.log : false,
-      dialectOptions: {
-        ssl: process.env.NODE_ENV === 'production' ? {
-          require: true,
-          rejectUnauthorized: false
-        } : false
-      }
     });
 
 module.exports = sequelize;

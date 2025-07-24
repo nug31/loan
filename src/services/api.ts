@@ -48,7 +48,7 @@ const MOCK_STATS = {
 
 class ApiService {
   private handleDemoMode<T>(endpoint: string, options: RequestInit = {}): Promise<ApiResponse<T>> {
-    console.log('🎭 Demo Mode - Simulating API call:', endpoint);
+    console.log('🎭 Demo Mode - Simulating API call:', endpoint, 'with options:', options);
 
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -58,13 +58,125 @@ class ApiService {
         } else if (endpoint === '/auth/register') {
           resolve({ data: { user: MOCK_USER, message: 'Registration successful' } as T });
         } else if (endpoint === '/dashboard/stats') {
-          resolve({ data: MOCK_STATS as T });
+          // Mock dashboard stats that match the actual loan data
+          const mockStats = {
+            totalItems: 5,
+            activeLoans: 0, // Match Manage Loans: 0 active
+            pendingRequests: 1, // Match Manage Loans: 1 pending
+            overdueItems: 0, // Match Manage Loans: 0 overdue
+            totalUsers: 5,
+            categoryBreakdown: [
+              { category: 'Electronics', count: 3 },
+              { category: 'Tools', count: 1 },
+              { category: 'Books', count: 1 }
+            ],
+            loanTrends: [
+              { date: '2025-01-17', count: 1 },
+              { date: '2025-01-18', count: 0 },
+              { date: '2025-01-19', count: 1 },
+              { date: '2025-01-20', count: 0 },
+              { date: '2025-01-21', count: 1 },
+              { date: '2025-01-22', count: 0 },
+              { date: '2025-01-23', count: 0 }
+            ]
+          };
+          console.log('🎭 Mock dashboard stats:', mockStats);
+          resolve({ data: mockStats as T });
         } else if (endpoint.startsWith('/items')) {
           resolve({ data: [] as T });
-        } else if (endpoint.startsWith('/loans')) {
-          resolve({ data: [] as T });
+        } else if (endpoint === '/loans') {
+          // Mock loans data that matches the dashboard stats
+          const mockLoans = [
+            {
+              id: '1',
+              itemId: '1',
+              userId: 'user1',
+              userName: 'John Doe',
+              userEmail: 'john.doe@example.com',
+              userDepartment: 'Engineering',
+              itemName: 'ROG Gaming Laptop',
+              category: 'Electronics',
+              quantity: 1,
+              startDate: '2025-01-15T00:00:00.000Z',
+              endDate: '2025-01-22T00:00:00.000Z',
+              requestedAt: '2025-01-15T11:31:00.000Z',
+              status: 'pending',
+              notes: 'Need for project development'
+            },
+            {
+              id: '2',
+              itemId: '2',
+              userId: 'user1',
+              userName: 'John Doe',
+              userEmail: 'john.doe@example.com',
+              userDepartment: 'Engineering',
+              itemName: 'Laptop Dell XPS 13',
+              category: 'Electronics',
+              quantity: 1,
+              startDate: '2025-01-10T00:00:00.000Z',
+              endDate: '2025-01-17T00:00:00.000Z',
+              requestedAt: '2025-01-10T11:31:00.000Z',
+              status: 'approved',
+              approvedAt: '2025-01-10T14:00:00.000Z',
+              approvedBy: 'admin@example.com',
+              notes: 'Approved for development work'
+            },
+            {
+              id: '3',
+              itemId: '3',
+              userId: 'user2',
+              userName: 'Jane Smith',
+              userEmail: 'jane.smith@example.com',
+              userDepartment: 'Marketing',
+              itemName: 'Proyektor Epson',
+              category: 'Electronics',
+              quantity: 1,
+              startDate: '2025-01-05T00:00:00.000Z',
+              endDate: '2025-01-12T00:00:00.000Z',
+              requestedAt: '2025-01-05T11:31:00.000Z',
+              status: 'returned',
+              returnedAt: '2025-01-12T16:00:00.000Z',
+              notes: 'Used for presentation'
+            }
+          ];
+          console.log('🎭 Mock loans data:', mockLoans);
+          resolve({ data: mockLoans as T });
+        } else if (endpoint.startsWith('/loans/')) {
+          resolve({ data: {} as T });
         } else if (endpoint.startsWith('/users')) {
           resolve({ data: [MOCK_USER] as T });
+        } else if (endpoint === '/categories') {
+          // Mock categories data
+          const mockCategories = [
+            { id: '1', name: 'Electronics', description: 'Electronic devices and gadgets', icon: 'Laptop', color: '#3b82f6', itemCount: 25, isActive: true },
+            { id: '2', name: 'Tools', description: 'Hand tools and equipment', icon: 'Wrench', color: '#10b981', itemCount: 18, isActive: true },
+            { id: '3', name: 'Books', description: 'Books and educational materials', icon: 'Book', color: '#f59e0b', itemCount: 12, isActive: true },
+            { id: '4', name: 'Furniture', description: 'Office and home furniture', icon: 'Home', color: '#8b5cf6', itemCount: 8, isActive: true },
+            { id: '5', name: 'Sports', description: 'Sports and fitness equipment', icon: 'Trophy', color: '#ef4444', itemCount: 15, isActive: true }
+          ];
+          resolve({ data: mockCategories as T });
+        } else if (endpoint.startsWith('/categories/') && options.method === 'PUT') {
+          // Mock category update
+          const categoryId = endpoint.split('/')[2];
+          const updateData = options.body ? JSON.parse(options.body as string) : {};
+          const updatedCategory = {
+            id: categoryId,
+            ...updateData,
+            updatedAt: new Date().toISOString()
+          };
+          console.log('🎭 Mock category update:', updatedCategory);
+          resolve({ data: updatedCategory as T });
+        } else if (endpoint.startsWith('/categories/') && options.method === 'POST') {
+          // Mock category creation
+          const createData = options.body ? JSON.parse(options.body as string) : {};
+          const newCategory = {
+            id: Date.now().toString(),
+            ...createData,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+          };
+          console.log('🎭 Mock category create:', newCategory);
+          resolve({ data: newCategory as T });
         } else {
           resolve({ data: {} as T });
         }
