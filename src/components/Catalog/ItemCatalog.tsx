@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Filter, Package, Eye, Calendar, Tag } from 'lucide-react';
+import { Search, Filter, Package } from 'lucide-react';
 import { useData } from '../../contexts/DataContext';
 import { Item } from '../../types';
 import { useAuth } from '../../contexts/AuthContext';
@@ -138,41 +138,51 @@ export const ItemCatalog: React.FC<ItemCatalogProps> = ({ onTabChange }) => {
 
 
 
-  const ItemRow: React.FC<{ item: Item }> = ({ item }) => (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow">
-      <div className="flex items-center space-x-4">
-        <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center">
-          <Package size={24} className="text-gray-400" />
+  const ItemCard: React.FC<{ item: Item }> = ({ item }) => (
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+      <div className="space-y-4">
+        {/* Item Name */}
+        <div>
+          <h3 className="text-lg font-semibold text-gray-900 mb-1">{item.name}</h3>
+          <p className="text-sm text-gray-600">{item.description}</p>
         </div>
-        <div className="flex-1">
-          <div className="flex items-center justify-between mb-1">
-            <h3 className="text-lg font-semibold text-gray-900">{item.name}</h3>
-            <span className={`px-2 py-1 rounded-full text-xs font-medium ${getConditionColor(item.condition)}`}>
-              {item.condition}
-            </span>
-          </div>
-          <p className="text-sm text-gray-600 mb-2">{item.description}</p>
-          <div className="flex items-center space-x-4 text-sm text-gray-500">
-            <span>{item.category}</span>
-            {/* <span>${item.value}</span> */}
-            <span className={`px-2 py-1 rounded-full text-xs font-medium ${getAvailabilityColor(item)}`}>
-              {item.availableQuantity > 0 ? `${item.availableQuantity} available` : 'Out of stock'}
-            </span>
+
+        {/* Category */}
+        <div>
+          <span className="text-sm text-gray-500">Category:</span>
+          <div className="mt-1">
+            <span className="text-sm font-medium text-gray-900">{item.category}</span>
           </div>
         </div>
-        <div className="flex space-x-2">
-          <button className="p-2 text-gray-400 hover:text-gray-600 transition-colors">
-            <Eye size={16} />
+
+        {/* Available Quantity */}
+        <div>
+          <span className="text-sm text-gray-500">Available Quantity:</span>
+          <div className="mt-1">
+            <span className="text-lg font-bold text-gray-900">{item.availableQuantity}</span>
+          </div>
+        </div>
+
+        {/* Status */}
+        <div>
+          <span className="text-sm text-gray-500">Status:</span>
+          <div className="mt-1">
+            <span className={`px-2 py-1 rounded text-xs font-medium ${getAvailabilityColor(item)}`}>
+              {item.availableQuantity > 0 ? 'In Stock' : 'Out Of Stock'}
+            </span>
+          </div>
+        </div>
+
+        {/* Request Button */}
+        {item.availableQuantity > 0 && (
+          <button
+            className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-md transition-all duration-300 flex items-center justify-center space-x-2"
+            onClick={() => openRequestForm(item)}
+          >
+            <Package size={16} />
+            <span>Request</span>
           </button>
-          {item.availableQuantity > 0 && (
-            <button
-              className="px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white text-sm rounded-md disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-              onClick={() => openRequestForm(item)}
-            >
-              Request
-            </button>
-          )}
-        </div>
+        )}
       </div>
     </div>
   );
@@ -311,7 +321,7 @@ export const ItemCatalog: React.FC<ItemCatalogProps> = ({ onTabChange }) => {
         </div>
       </div>
 
-      {/* Items Grid/List */}
+      {/* Items Grid */}
       {filteredItems.length === 0 ? (
         <div className="text-center py-12">
           <Package className="mx-auto text-gray-400 mb-4" size={48} />
@@ -319,9 +329,9 @@ export const ItemCatalog: React.FC<ItemCatalogProps> = ({ onTabChange }) => {
           <p className="text-gray-600">Try adjusting your search criteria or filters</p>
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredItems.map(item => (
-            <ItemRow key={item.id} item={item} />
+            <ItemCard key={item.id} item={item} />
           ))}
         </div>
       )}
