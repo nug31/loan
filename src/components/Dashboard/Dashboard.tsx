@@ -1,11 +1,10 @@
 import React from 'react';
-import { 
-  Package, 
-  Users, 
-  FileText, 
+import {
+  Package,
+  Users,
+  FileText,
   AlertTriangle,
   TrendingUp,
-  Calendar,
   Clock,
   CheckCircle
 } from 'lucide-react';
@@ -236,18 +235,15 @@ export const Dashboard: React.FC = () => {
         <button className="group relative overflow-hidden flex flex-col items-center justify-center space-y-2 p-4 bg-gradient-to-br from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
           <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           <FileText size={24} className="relative z-10" />
-          <span className="text-sm font-semibold relative z-10">Request Loan</span>
+          <span className="text-sm font-semibold relative z-10">My Loans</span>
         </button>
-        <button className="group relative overflow-hidden flex flex-col items-center justify-center space-y-2 p-4 bg-gradient-to-br from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-          <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          <Calendar size={24} className="relative z-10" />
-          <span className="text-sm font-semibold relative z-10">View Calendar</span>
-        </button>
-        <button className="group relative overflow-hidden flex flex-col items-center justify-center space-y-2 p-4 bg-gradient-to-br from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-          <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          <Users size={24} className="relative z-10" />
-          <span className="text-sm font-semibold relative z-10">My Profile</span>
-        </button>
+        {isAdmin && (
+          <button className="group relative overflow-hidden flex flex-col items-center justify-center space-y-2 p-4 bg-gradient-to-br from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+            <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <Users size={24} className="relative z-10" />
+            <span className="text-sm font-semibold relative z-10">Manage Users</span>
+          </button>
+        )}
       </div>
     </div>
   );
@@ -366,7 +362,6 @@ export const Dashboard: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <LoanTrends />
           <RecentActivity />
-        </div>
         </div>
 
         {/* Enhanced Quick Actions and Notifications */}

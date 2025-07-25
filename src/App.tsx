@@ -338,28 +338,13 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
                 <FileText size={24} />
                 <span className="text-sm font-semibold">My Loans</span>
               </button>
-              <button
-                onClick={() => onTabChange('calendar')}
-                className="flex flex-col items-center justify-center space-y-2 p-4 bg-gradient-to-br from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
-              >
-                <Calendar size={24} />
-                <span className="text-sm font-semibold">Calendar</span>
-              </button>
-              {isAdmin ? (
+              {isAdmin && (
                 <button
                   onClick={() => onTabChange('admin-users')}
                   className="flex flex-col items-center justify-center space-y-2 p-4 bg-gradient-to-br from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
                 >
                   <Users size={24} />
                   <span className="text-sm font-semibold">Manage Users</span>
-                </button>
-              ) : (
-                <button
-                  onClick={() => onTabChange('settings')}
-                  className="flex flex-col items-center justify-center space-y-2 p-4 bg-gradient-to-br from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
-                >
-                  <Users size={24} />
-                  <span className="text-sm font-semibold">Profile</span>
                 </button>
               )}
             </div>
