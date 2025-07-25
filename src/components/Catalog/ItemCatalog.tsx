@@ -176,7 +176,7 @@ export const ItemCatalog: React.FC<ItemCatalogProps> = ({ onTabChange }) => {
         {/* Request Button */}
         {item.availableQuantity > 0 && (
           <button
-            className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-md transition-all duration-300 flex items-center justify-center space-x-2"
+            className="w-full px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white text-sm rounded-md transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
             onClick={() => openRequestForm(item)}
           >
             <Package size={16} />
