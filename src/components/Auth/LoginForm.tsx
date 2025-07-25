@@ -110,7 +110,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onToggleForm }) => {
 
               <div className="mt-6">
                 <h2 className="text-2xl font-bold text-white mb-2">
-                  Welcome Back
+                  Welcome
                 </h2>
                 <p className="text-white/70 text-sm">
                   Sign in to continue your journey

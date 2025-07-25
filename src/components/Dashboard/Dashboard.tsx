@@ -257,7 +257,7 @@ export const Dashboard: React.FC = () => {
           <div className="relative flex items-center justify-between">
             <div className="space-y-2">
               <h1 className="text-4xl font-bold gradient-text">
-                Welcome back, {user?.firstName || user?.email}! 👋
+                Welcome, {user?.firstName || user?.email}! 👋
               </h1>
               <p className="text-gray-600 text-lg">
                 Here's what's happening with your loans and items today.
