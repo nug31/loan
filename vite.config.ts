@@ -5,11 +5,19 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 3000,
+    port: 5175,
     host: true,
     open: true
   },
-  optimizeDeps: {
-    exclude: ['lucide-react'],
+  build: {
+    sourcemap: false
   },
+  esbuild: {
+    sourcemap: false
+  },
+  optimizeDeps: {
+    esbuildOptions: {
+      sourcemap: false
+    }
+  }
 });

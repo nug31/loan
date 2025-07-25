@@ -271,13 +271,9 @@ app.get('/api/dashboard/stats', async (req, res) => {
     // Get total items count
     const totalItems = await Item.count();
 
-    // Get active loans count (include both 'active' and 'approved' status)
+    // Get active loans count (only 'active' status, not 'approved')
     const activeLoans = await Loan.count({
-      where: {
-        status: {
-          [Op.in]: ['active', 'approved']
-        }
-      }
+      where: { status: 'active' }
     });
 
     // Get pending requests count
