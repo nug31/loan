@@ -378,7 +378,7 @@ const AppContent: React.FC = () => {
       case 'dashboard':
         return <Dashboard onTabChange={setActiveTab} />;
       case 'catalog':
-        return <ItemCatalog />;
+        return <ItemCatalog onTabChange={setActiveTab} />;
       case 'my-loans':
         return <MyLoans />;
       case 'admin-items':

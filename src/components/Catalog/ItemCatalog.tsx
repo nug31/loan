@@ -4,7 +4,11 @@ import { useData } from '../../contexts/DataContext';
 import { Item } from '../../types';
 import { useAuth } from '../../contexts/AuthContext';
 
-export const ItemCatalog: React.FC = () => {
+interface ItemCatalogProps {
+  onTabChange?: (tab: string) => void;
+}
+
+export const ItemCatalog: React.FC<ItemCatalogProps> = ({ onTabChange }) => {
   const { items, categories, searchItems, requestLoan } = useData();
   const { user } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
@@ -67,11 +71,14 @@ export const ItemCatalog: React.FC = () => {
       await requestLoan(loanData);
 
       setShowRequestForm(false);
-      setNotification(`✅ SUCCESS: Request for '${requestItem.name}' has been sent! Check "My Loans" to see your request.`);
-      setTimeout(() => setNotification(null), 5000);
       setRequestItem(null);
 
       console.log('✅ Loan request completed successfully');
+
+      // Auto redirect to My Loans page to see pending request
+      if (onTabChange) {
+        onTabChange('my-loans');
+      }
     } catch (error) {
       console.error('❌ Error submitting loan request:', error);
       setNotification(`❌ ERROR: Failed to submit request for '${requestItem?.name}'. Please try again.`);
