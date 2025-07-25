@@ -157,12 +157,14 @@ export const ItemCatalog: React.FC = () => {
           <button className="p-2 text-gray-400 hover:text-gray-600 transition-colors">
             <Eye size={16} />
           </button>
-          <button
-            className="px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white text-sm rounded-md disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-            onClick={() => openRequestForm(item)}
-          >
-            Request
-          </button>
+          {item.availableQuantity > 0 && (
+            <button
+              className="px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white text-sm rounded-md disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+              onClick={() => openRequestForm(item)}
+            >
+              Request
+            </button>
+          )}
         </div>
       </div>
     </div>
