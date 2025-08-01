@@ -145,12 +145,12 @@ export const ManageLoans: React.FC = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600">Overdue Items</p>
-              <p className="text-2xl font-bold text-red-600">
+              <p className="text-2xl font-bold text-orange">
                 {loans.filter(l => l.status === 'overdue').length}
               </p>
             </div>
-            <div className="p-3 rounded-full bg-red-100">
-              <AlertTriangle className="text-red-600" size={24} />
+            <div className="p-3 rounded-full bg-orange-light">
+              <AlertTriangle className="text-orange" size={24} />
             </div>
           </div>
         </div>
@@ -275,7 +275,7 @@ export const ManageLoans: React.FC = () => {
                         <span className="capitalize">{loan.status}</span>
                       </span>
                       {isOverdue && (
-                        <div className="text-xs text-red-600 mt-1">
+                        <div className="text-xs text-orange mt-1">
                           {daysOverdue} days overdue
                         </div>
                       )}

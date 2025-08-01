@@ -30,7 +30,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen }) => {
           <div className="flex items-center space-x-4">
             <div className="relative">
               {/* Enhanced logo with multiple layers */}
-              <div className="w-12 h-12 bg-gradient-to-br from-red-500 via-red-600 to-blue-600 rounded-2xl flex items-center justify-center shadow-xl transform hover:scale-110 transition-all duration-300 hover:rotate-3">
+              <div className="w-12 h-12 bg-gradient-to-br from-orange via-dark-slate to-flash-white rounded-2xl flex items-center justify-center shadow-xl transform hover:scale-110 transition-all duration-300 hover:rotate-3">
                 <div className="relative">
                   <Handshake size={24} className="text-white drop-shadow-lg" />
                   <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full shadow-lg animate-pulse"></div>
