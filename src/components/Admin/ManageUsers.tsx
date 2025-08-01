@@ -353,7 +353,7 @@ export const ManageUsers: React.FC = () => {
                 setEditingUser(null);
                 setShowAddModal(true);
               }}
-              className="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white rounded-lg transition-colors flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-4 py-2 bg-orange hover:bg-orange-dark text-white rounded-lg transition-colors flex items-center justify-center gap-2"
             >
               <Plus size={18} />
               Add User
@@ -372,11 +372,11 @@ export const ManageUsers: React.FC = () => {
 
       {/* Error State */}
       {error && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-          <p className="text-red-800">Error: {error}</p>
+        <div className="bg-orange-light border border-orange rounded-lg p-4 mb-6">
+          <p className="text-orange-dark">Error: {error}</p>
           <button
             onClick={loadUsers}
-            className="mt-2 text-sm text-red-600 hover:text-red-700 underline"
+            className="mt-2 text-sm text-orange hover:text-orange-dark underline"
           >
             Try again
           </button>
@@ -470,8 +470,8 @@ export const ManageUsers: React.FC = () => {
                     <div className="flex items-center gap-3">
                       <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
                         user.role === 'admin'
-                          ? 'bg-gradient-to-br from-red-500 to-red-600'
-                          : 'bg-gradient-to-br from-blue-500 to-blue-600'
+                          ? 'bg-orange'
+                          : 'bg-dark-slate'
                       }`}>
                         <User size={16} className="text-white" />
                       </div>
@@ -495,8 +495,8 @@ export const ManageUsers: React.FC = () => {
                   <td className="px-6 py-4">
                     <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                       user.role === 'admin'
-                        ? 'bg-red-100 text-red-800'
-                        : 'bg-blue-100 text-blue-800'
+                        ? 'bg-orange-light text-orange-dark'
+                        : 'bg-dark-slate-light text-dark-slate-dark'
                     }`}>
                       {user.role === 'admin' ? 'Admin' : 'User'}
                     </span>
@@ -505,7 +505,7 @@ export const ManageUsers: React.FC = () => {
                     <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                       user.isActive
                         ? 'bg-green-100 text-green-800'
-                        : 'bg-red-100 text-red-800'
+                        : 'bg-orange-light text-orange-dark'
                     }`}>
                       {user.isActive ? 'Active' : 'Inactive'}
                     </span>
@@ -525,7 +525,7 @@ export const ManageUsers: React.FC = () => {
                       <button
                         onClick={() => handleDelete(user)}
                         disabled={!canDeleteUser(user)}
-                        className="p-2 text-gray-400 hover:text-red-600 disabled:text-gray-300 disabled:cursor-not-allowed"
+                        className="p-2 text-gray-400 hover:text-orange disabled:text-gray-300 disabled:cursor-not-allowed"
                       >
                         <Trash2 size={16} />
                       </button>
@@ -546,8 +546,8 @@ export const ManageUsers: React.FC = () => {
                   <div className="flex items-center gap-3">
                     <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
                       user.role === 'admin'
-                        ? 'bg-gradient-to-br from-red-500 to-red-600'
-                        : 'bg-gradient-to-br from-blue-500 to-blue-600'
+                        ? 'bg-orange'
+                        : 'bg-dark-slate'
                     }`}>
                       <User size={18} className="text-white" />
                     </div>
@@ -569,7 +569,7 @@ export const ManageUsers: React.FC = () => {
                     <button
                       onClick={() => handleDelete(user)}
                       disabled={!canDeleteUser(user)}
-                      className="p-2 text-gray-400 hover:text-red-600 disabled:text-gray-300 disabled:cursor-not-allowed"
+                      className="p-2 text-gray-400 hover:text-orange disabled:text-gray-300 disabled:cursor-not-allowed"
                     >
                       <Trash2 size={16} />
                     </button>
@@ -590,8 +590,8 @@ export const ManageUsers: React.FC = () => {
                     <div>
                       <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                         user.role === 'admin'
-                          ? 'bg-red-100 text-red-800'
-                          : 'bg-blue-100 text-blue-800'
+                          ? 'bg-orange-light text-orange-dark'
+                          : 'bg-dark-slate-light text-dark-slate-dark'
                       }`}>
                         {user.role === 'admin' ? 'Admin' : 'User'}
                       </span>
@@ -603,7 +603,7 @@ export const ManageUsers: React.FC = () => {
                       <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                         user.isActive
                           ? 'bg-green-100 text-green-800'
-                          : 'bg-red-100 text-red-800'
+                          : 'bg-orange-light text-orange-dark'
                       }`}>
                         {user.isActive ? 'Active' : 'Inactive'}
                       </span>
@@ -753,7 +753,7 @@ export const ManageUsers: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white rounded-lg transition-colors"
+                  className="w-full sm:w-auto px-4 py-2 bg-orange hover:bg-orange-dark text-white rounded-lg transition-colors"
                 >
                   {editingUser ? 'Update User' : 'Add User'}
                 </button>
@@ -780,7 +780,7 @@ export const ManageUsers: React.FC = () => {
               </button>
               <button
                 onClick={confirmDelete}
-                className="w-full sm:flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                className="w-full sm:flex-1 px-4 py-2 bg-orange text-white rounded-lg hover:bg-orange-dark transition-colors"
               >
                 Delete
               </button>
