@@ -11,25 +11,25 @@
 }
 
 @layer components {
-  /* Custom gradient backgrounds */
+  /* Custom solid color backgrounds using the three-color palette */
   .gradient-bg-primary {
-    background: linear-gradient(135deg, #DC2626 0%, #EF4444 100%);
+    background: #E9631A; /* Orange */
   }
 
   .gradient-bg-secondary {
-    background: linear-gradient(135deg, #2563EB 0%, #3B82F6 100%);
+    background: #315762; /* Dark Slate */
   }
 
   .gradient-bg-success {
-    background: linear-gradient(135deg, #059669 0%, #10B981 100%);
+    background: #315762; /* Dark Slate */
   }
 
   .gradient-bg-warning {
-    background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%);
+    background: #E9631A; /* Orange */
   }
 
   .gradient-bg-danger {
-    background: linear-gradient(135deg, #DC2626 0%, #EF4444 100%);
+    background: #315762; /* Dark Slate */
   }
 
   /* Glass morphism effect */
@@ -45,9 +45,9 @@
     border: 1px solid rgba(255, 255, 255, 0.18);
   }
 
-  /* Animated gradient text */
+  /* Animated gradient text using three-color palette */
   .gradient-text {
-    background: linear-gradient(-45deg, #DC2626, #2563EB, #F59E0B, #EF4444);
+    background: linear-gradient(-45deg, #E9631A, #315762, #EFEFEF, #E9631A);
     background-size: 400% 400%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -65,21 +65,21 @@
     animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
 
-  /* Custom shadows */
+  /* Custom shadows using three-color palette */
   .shadow-glow {
-    box-shadow: 0 0 20px rgba(220, 38, 38, 0.4);
+    box-shadow: 0 0 20px rgba(233, 99, 26, 0.4); /* Orange */
   }
 
   .shadow-glow-green {
-    box-shadow: 0 0 20px rgba(34, 197, 94, 0.4);
+    box-shadow: 0 0 20px rgba(49, 87, 98, 0.4); /* Dark Slate */
   }
 
   .shadow-glow-red {
-    box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+    box-shadow: 0 0 20px rgba(233, 99, 26, 0.4); /* Orange */
   }
 
   .shadow-glow-yellow {
-    box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
+    box-shadow: 0 0 20px rgba(233, 99, 26, 0.4); /* Orange */
   }
 
   /* Card hover effects */
@@ -92,27 +92,27 @@
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   }
 
-  /* Button animations */
+  /* Button animations using three-color palette */
   .btn-primary {
-    @apply bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl;
+    @apply bg-orange hover:bg-orange-dark text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl;
   }
 
   .btn-secondary {
-    @apply bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg;
+    @apply bg-dark-slate hover:bg-dark-slate-dark text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg;
   }
 
   .btn-success {
-    @apply bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl;
+    @apply bg-dark-slate hover:bg-dark-slate-dark text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl;
   }
 
   .btn-danger {
-    @apply bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl;
+    @apply bg-orange hover:bg-orange-dark text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl;
   }
 
-  /* Loading spinner */
+  /* Loading spinner using three-color palette */
   .spinner {
     border: 2px solid #f3f3f3;
-    border-top: 2px solid #DC2626;
+    border-top: 2px solid #E9631A; /* Orange */
     border-radius: 50%;
     width: 20px;
     height: 20px;
@@ -169,10 +169,10 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #315762; /* Dark Slate */
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+  background: #1F3A42; /* Dark Slate dark */
 }

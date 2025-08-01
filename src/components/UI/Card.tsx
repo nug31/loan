@@ -113,12 +113,12 @@ export const StatsCard: React.FC<{
   icon, 
   change, 
   changeType = 'neutral', 
-  gradient = 'from-red-500 to-red-600',
+  gradient = 'from-orange to-orange-dark',
   className = '' 
 }) => {
   const changeClasses = {
-    positive: 'text-green-600',
-    negative: 'text-red-600',
+    positive: 'text-dark-slate',
+    negative: 'text-orange',
     neutral: 'text-gray-600'
   };
 

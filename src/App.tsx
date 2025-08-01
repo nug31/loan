@@ -34,10 +34,10 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
   console.log('🔍 Dashboard render - all loans:', loans.length);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-blue-50 to-red-50">
+    <div className="min-h-screen bg-gradient-to-br from-flash-white via-flash-white-light to-flash-white-dark">
       <div className="space-y-8 p-6">
         <div className="relative overflow-hidden bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/20 p-8">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-red-500/10"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-orange/10 to-dark-slate/10"></div>
           <div className="relative flex items-center justify-between">
             <div className="space-y-2">
               <h1 className="text-4xl font-bold gradient-text">
@@ -64,7 +64,7 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
                   {isAdmin ? dashboardStats?.totalItems || 0 : userLoans.length}
                 </p>
               </div>
-              <div className="p-4 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 shadow-lg">
+              <div className="p-4 rounded-2xl bg-dark-slate shadow-lg">
                 <Package size={28} className="text-white" />
               </div>
             </div>
@@ -77,7 +77,7 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
                 </p>
                 <p className="text-3xl font-bold text-gray-900">{isAdmin ? dashboardStats?.activeLoans || 0 : activeUserLoans.length}</p>
               </div>
-              <div className="p-4 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600 shadow-lg">
+              <div className="p-4 rounded-2xl bg-dark-slate shadow-lg">
                 <FileText size={28} className="text-white" />
               </div>
             </div>
@@ -90,7 +90,7 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
                 </p>
                 <p className="text-3xl font-bold text-gray-900">{isAdmin ? dashboardStats?.pendingRequests || 0 : pendingUserLoans.length}</p>
               </div>
-              <div className="p-4 rounded-2xl bg-gradient-to-br from-amber-500 to-yellow-600 shadow-lg">
+              <div className="p-4 rounded-2xl bg-orange shadow-lg">
                 <Clock size={28} className="text-white" />
               </div>
             </div>
@@ -103,7 +103,7 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
                 </p>
                 <p className="text-3xl font-bold text-gray-900">{isAdmin ? overdueLoans.length : userLoans.filter(l => l.status === 'overdue').length}</p>
               </div>
-              <div className="p-4 rounded-2xl bg-gradient-to-br from-red-500 to-red-600 shadow-lg">
+              <div className="p-4 rounded-2xl bg-orange shadow-lg">
                 <AlertTriangle size={28} className="text-white" />
               </div>
             </div>
@@ -115,8 +115,8 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-xl font-bold text-gray-900">Loan Trends</h3>
               <div className="flex items-center space-x-2">
-                <TrendingUp className="text-red-500" size={20} />
-                <span className="text-sm font-semibold text-red-600">7 days</span>
+                <TrendingUp className="text-orange" size={20} />
+                <span className="text-sm font-semibold text-orange">7 days</span>
               </div>
             </div>
 
@@ -171,7 +171,7 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
                         {/* Returned (bottom) */}
                         {returned > 0 && (
                           <div
-                            className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-sm transition-all duration-500 hover:scale-105 shadow-sm"
+                            className="bg-dark-slate rounded-sm transition-all duration-500 hover:scale-105 shadow-sm"
                             style={{
                               height: `${Math.max((returned / maxLoans) * 100, 12)}px`
                             }}
@@ -181,7 +181,7 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
                         {/* Approved (middle) */}
                         {approved > 0 && (
                           <div
-                            className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-sm transition-all duration-500 hover:scale-105 shadow-sm"
+                            className="bg-dark-slate rounded-sm transition-all duration-500 hover:scale-105 shadow-sm"
                             style={{
                               height: `${Math.max((approved / maxLoans) * 100, 12)}px`
                             }}
@@ -191,7 +191,7 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
                         {/* Requested (top) */}
                         {requested > 0 && (
                           <div
-                            className="bg-gradient-to-r from-amber-500 to-yellow-600 rounded-sm transition-all duration-500 hover:scale-105 shadow-sm"
+                            className="bg-orange rounded-sm transition-all duration-500 hover:scale-105 shadow-sm"
                             style={{
                               height: `${Math.max((requested / maxLoans) * 100, 12)}px`
                             }}
@@ -223,22 +223,22 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
 
             <div className="flex items-center justify-center space-x-4 text-xs">
               <div className="flex items-center space-x-1">
-                <div className="w-3 h-3 bg-gradient-to-r from-amber-500 to-yellow-600 rounded-sm"></div>
+                <div className="w-3 h-3 bg-orange rounded-sm"></div>
                 <span className="text-gray-600">Requested</span>
               </div>
               <div className="flex items-center space-x-1">
-                <div className="w-3 h-3 bg-gradient-to-r from-green-500 to-emerald-600 rounded-sm"></div>
+                <div className="w-3 h-3 bg-dark-slate rounded-sm"></div>
                 <span className="text-gray-600">Approved</span>
               </div>
               <div className="flex items-center space-x-1">
-                <div className="w-3 h-3 bg-gradient-to-r from-blue-500 to-blue-600 rounded-sm"></div>
+                <div className="w-3 h-3 bg-dark-slate rounded-sm"></div>
                 <span className="text-gray-600">Returned</span>
               </div>
             </div>
 
-            <div className="mt-4 p-3 bg-gradient-to-r from-red-50 to-blue-50 rounded-xl border border-red-100">
+            <div className="mt-4 p-3 bg-gradient-to-r from-flash-white to-flash-white-light rounded-xl border border-orange">
               <p className="text-sm text-gray-700">
-                <span className="font-semibold text-red-600">{loans.length}</span> total loans recorded
+                <span className="font-semibold text-orange">{loans.length}</span> total loans recorded
               </p>
             </div>
           </div>
@@ -268,10 +268,10 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
                                      loan.status === 'active' ? 'approved' :
                                      loan.status === 'returned' ? 'returned' : 'overdue';
 
-                  const iconColor = activityType === 'approved' ? 'bg-gradient-to-r from-green-500 to-emerald-600' :
-                                   activityType === 'requested' ? 'bg-gradient-to-r from-amber-500 to-yellow-600' :
-                                   activityType === 'returned' ? 'bg-gradient-to-r from-gray-500 to-gray-600' :
-                                   'bg-gradient-to-r from-red-500 to-red-600';
+                  const iconColor = activityType === 'approved' ? 'bg-dark-slate' :
+                                   activityType === 'requested' ? 'bg-orange' :
+                                   activityType === 'returned' ? 'bg-dark-slate' :
+                                   'bg-orange';
 
                   const IconComponent = activityType === 'approved' ? FileText :
                                        activityType === 'requested' ? Clock :
@@ -279,12 +279,12 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
                                        AlertTriangle;
 
                   return (
-                    <div key={loan.id} className="group flex items-center space-x-4 p-4 bg-gradient-to-r from-gray-50 to-gray-100 hover:from-blue-50 hover:to-red-50 rounded-xl transition-all duration-300 hover:shadow-md">
+                    <div key={loan.id} className="group flex items-center space-x-4 p-4 bg-gradient-to-r from-gray-50 to-gray-100 hover:from-flash-white hover:to-flash-white-light rounded-xl transition-all duration-300 hover:shadow-md">
                       <div className={`p-3 rounded-xl shadow-sm group-hover:scale-110 transition-transform duration-300 ${iconColor} text-white`}>
                         <IconComponent size={18} />
                       </div>
                       <div className="flex-1">
-                        <p className="text-sm font-semibold text-gray-900 group-hover:text-red-900 transition-colors">
+                        <p className="text-sm font-semibold text-gray-900 group-hover:text-orange transition-colors">
                           {loan.user?.name || 'Someone'} {activityType} {loan.item?.name || 'an item'}
                         </p>
                         <p className="text-xs text-gray-600 group-hover:text-gray-700 transition-colors">
@@ -308,7 +308,7 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
                         </p>
                       </div>
                       <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-                        <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                        <div className="w-2 h-2 bg-orange rounded-full"></div>
                       </div>
                     </div>
                   );
@@ -326,14 +326,14 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
             <div className="grid grid-cols-2 gap-4">
               <button
                 onClick={() => onTabChange('catalog')}
-                className="flex flex-col items-center justify-center space-y-2 p-4 bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
+                className="flex flex-col items-center justify-center space-y-2 p-4 bg-dark-slate hover:bg-dark-slate-dark text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
               >
                 <Package size={24} />
                 <span className="text-sm font-semibold">Browse Items</span>
               </button>
               <button
                 onClick={() => onTabChange('my-loans')}
-                className="flex flex-col items-center justify-center space-y-2 p-4 bg-gradient-to-br from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
+                className="flex flex-col items-center justify-center space-y-2 p-4 bg-orange hover:bg-orange-dark text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
               >
                 <FileText size={24} />
                 <span className="text-sm font-semibold">My Loans</span>
@@ -341,7 +341,7 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
               {isAdmin && (
                 <button
                   onClick={() => onTabChange('admin-users')}
-                  className="flex flex-col items-center justify-center space-y-2 p-4 bg-gradient-to-br from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
+                  className="flex flex-col items-center justify-center space-y-2 p-4 bg-orange hover:bg-orange-dark text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
                 >
                   <Users size={24} />
                   <span className="text-sm font-semibold">Manage Users</span>

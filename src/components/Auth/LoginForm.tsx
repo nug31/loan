@@ -71,7 +71,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onToggleForm }) => {
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
       {/* Animated background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-gray-900 to-zinc-900">
+      <div className="absolute inset-0 bg-gradient-to-br from-dark-slate-dark via-dark-slate to-dark-slate-light">
         <div className="absolute inset-0 opacity-20" style={{
           backgroundImage: `radial-gradient(circle at 25% 25%, rgba(156, 163, 175, 0.1) 2px, transparent 2px)`,
           backgroundSize: '60px 60px'
