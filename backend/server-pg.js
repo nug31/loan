@@ -17,6 +17,10 @@ const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:5174',
   'http://localhost:5175',
+  'http://localhost:5176',
+  'http://localhost:5177',
+  'http://localhost:5178',
+  'http://localhost:5179',
   'https://loan-management-nug.netlify.app',
   'https://main--loan-management-nug.netlify.app',
   /\.netlify\.app$/,
@@ -790,11 +794,14 @@ app.post('/api/auth/register', async (req, res) => {
       return res.status(409).json({ error: 'User already exists' });
     }
 
+    // Hash password before saving
+    const hashedPassword = await bcrypt.hash(password, 10);
+    
     // Create new user
     const user = await User.create({
       name,
       email,
-      password, // In production, hash this with bcrypt
+      password: hashedPassword,
       department,
       phone,
       role,
@@ -1325,7 +1332,10 @@ async function startServer() {
     ]);
     console.log('✅ Sample categories created');
 
-    // Add sample users
+    // Add sample users with hashed passwords
+    const hashedAdminPassword = await bcrypt.hash('admin123', 10);
+    const hashedUserPassword = await bcrypt.hash('user123', 10);
+    
     await User.bulkCreate([
       {
         name: 'Admin User',
@@ -1333,7 +1343,7 @@ async function startServer() {
         phone: '+1234567890',
         department: 'IT',
         role: 'admin',
-        password: 'admin123',
+        password: hashedAdminPassword,
         isActive: true
       },
       {
@@ -1342,7 +1352,7 @@ async function startServer() {
         phone: '+1234567891',
         department: 'Engineering',
         role: 'user',
-        password: 'user123',
+        password: hashedUserPassword,
         isActive: true
       },
       {
@@ -1351,7 +1361,7 @@ async function startServer() {
         phone: '+1234567892',
         department: 'Marketing',
         role: 'user',
-        password: 'user123',
+        password: hashedUserPassword,
         isActive: false // This matches the "Inactive" status in frontend
       }
     ]);
