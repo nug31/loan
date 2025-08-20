@@ -11,6 +11,7 @@ export const MyLoans: React.FC = () => {
   const [selectedLoan, setSelectedLoan] = useState<Loan | null>(null);
   const [showReturnModal, setShowReturnModal] = useState(false);
   const [showExtensionModal, setShowExtensionModal] = useState(false);
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
 
   const userLoans = getUserLoans(user?.id || '');
   const activeLoans = userLoans.filter(loan => loan.status === 'active');
@@ -55,6 +56,11 @@ export const MyLoans: React.FC = () => {
   const handleExtension = (loan: Loan) => {
     setSelectedLoan(loan);
     setShowExtensionModal(true);
+  };
+
+  const showDetails = (loan: Loan) => {
+    setSelectedLoan(loan);
+    setShowDetailsModal(true);
   };
 
   const confirmReturn = () => {
@@ -122,7 +128,10 @@ export const MyLoans: React.FC = () => {
             </div>
             
             <div className="flex space-x-2">
-              <button className="p-2 text-gray-400 hover:text-blue-600 transition-colors">
+              <button 
+                onClick={() => showDetails(loan)}
+                className="p-2 text-gray-400 hover:text-blue-600 transition-colors"
+              >
                 <Eye size={16} />
               </button>
               
@@ -256,6 +265,147 @@ export const MyLoans: React.FC = () => {
               >
                 Request Extension
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Loan Details Modal */}
+      {showDetailsModal && selectedLoan && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-semibold text-gray-900">Loan Details</h3>
+              <button
+                onClick={() => setShowDetailsModal(false)}
+                className="p-2 text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                <X size={20} />
+              </button>
+            </div>
+            
+            <div className="space-y-6">
+              {/* Item Information */}
+              <div className="bg-gray-50 rounded-lg p-4">
+                <h4 className="text-lg font-medium text-gray-900 mb-3">Item Information</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-sm text-gray-600">Item Name</p>
+                    <p className="font-medium text-gray-900">{getItemById(selectedLoan.itemId)?.name}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600">Category</p>
+                    <p className="font-medium text-gray-900">{getItemById(selectedLoan.itemId)?.category}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600">Location</p>
+                    <p className="font-medium text-gray-900">{getItemById(selectedLoan.itemId)?.location || 'Not specified'}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600">Quantity Borrowed</p>
+                    <p className="font-medium text-gray-900">{selectedLoan.quantity}</p>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Loan Information */}
+              <div className="bg-gray-50 rounded-lg p-4">
+                <h4 className="text-lg font-medium text-gray-900 mb-3">Loan Information</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-sm text-gray-600">Loan ID</p>
+                    <p className="font-medium text-gray-900 font-mono text-sm">{selectedLoan.id}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600">Status</p>
+                    <span className={`inline-flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(selectedLoan.status)}`}>
+                      {getStatusIcon(selectedLoan.status)}
+                      <span className="capitalize">{selectedLoan.status}</span>
+                    </span>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600">Start Date</p>
+                    <p className="font-medium text-gray-900">{new Date(selectedLoan.startDate).toLocaleDateString()}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600">Due Date</p>
+                    <p className="font-medium text-gray-900">{new Date(selectedLoan.endDate).toLocaleDateString()}</p>
+                  </div>
+                  {selectedLoan.status === 'active' && (
+                    <div>
+                      <p className="text-sm text-gray-600">Days Until Due</p>
+                      <p className={`font-medium ${
+                        getDaysUntilDue(selectedLoan.endDate) <= 0 ? 'text-red-600' : 'text-gray-900'
+                      }`}>
+                        {getDaysUntilDue(selectedLoan.endDate) <= 0 
+                          ? `Overdue by ${Math.abs(getDaysUntilDue(selectedLoan.endDate))} days`
+                          : `${getDaysUntilDue(selectedLoan.endDate)} days remaining`
+                        }
+                      </p>
+                    </div>
+                  )}
+                  <div>
+                    <p className="text-sm text-gray-600">Created Date</p>
+                    <p className="font-medium text-gray-900">{new Date(selectedLoan.createdAt).toLocaleDateString()}</p>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Purpose and Notes */}
+              {(selectedLoan.purpose || selectedLoan.notes) && (
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <h4 className="text-lg font-medium text-gray-900 mb-3">Additional Information</h4>
+                  <div className="space-y-3">
+                    {selectedLoan.purpose && (
+                      <div>
+                        <p className="text-sm text-gray-600">Purpose</p>
+                        <p className="font-medium text-gray-900">{selectedLoan.purpose}</p>
+                      </div>
+                    )}
+                    {selectedLoan.notes && (
+                      <div>
+                        <p className="text-sm text-gray-600">Notes</p>
+                        <p className="font-medium text-gray-900">{selectedLoan.notes}</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+              
+              {/* Action Buttons */}
+              <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200">
+                <button
+                  onClick={() => setShowDetailsModal(false)}
+                  className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  Close
+                </button>
+                {selectedLoan.status === 'active' && (
+                  <>
+                    <button
+                      onClick={() => {
+                        setShowDetailsModal(false);
+                        handleExtension(selectedLoan);
+                      }}
+                      className="px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors flex items-center space-x-2"
+                    >
+                      <RotateCcw size={16} />
+                      <span>Request Extension</span>
+                    </button>
+                    {isAdmin && (
+                      <button
+                        onClick={() => {
+                          setShowDetailsModal(false);
+                          handleReturn(selectedLoan);
+                        }}
+                        className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                      >
+                        Mark as Returned
+                      </button>
+                    )}
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </div>
