@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Plus, Search, Filter, Edit, Trash2, QrCode, Package, Eye, MoreVertical, Download, FileSpreadsheet, FileText } from 'lucide-react';
+import { Plus, Search, Filter, Edit, Trash2, QrCode, Package, Eye, MoreVertical, Download, FileSpreadsheet, FileText, Upload } from 'lucide-react';
 import { useData } from '../../contexts/DataContext';
 import { Item } from '../../types';
 import { exportItemsData } from '../../utils/exportUtils';
+import { ImportItemsModal } from './ImportItemsModal';
 
 export const ManageItems: React.FC = () => {
   const { items, categories, addItem, updateItem, deleteItem } = useData();
@@ -15,6 +16,7 @@ export const ManageItems: React.FC = () => {
   const submitTimeoutRef = useRef<number | null>(null);
   const [itemToDelete, setItemToDelete] = useState<Item | null>(null);
   const [showExportMenu, setShowExportMenu] = useState(false);
+  const [showImportModal, setShowImportModal] = useState(false);
 
   // Cleanup timeout on unmount
   useEffect(() => {
@@ -156,6 +158,14 @@ export const ManageItems: React.FC = () => {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">Manage Items</h1>
         <div className="flex items-center space-x-3">
+          <button
+            onClick={() => setShowImportModal(true)}
+            className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            <Upload size={20} />
+            <span>Import</span>
+          </button>
+
           <div className="relative">
             <button
               onClick={() => setShowExportMenu(!showExportMenu)}
@@ -463,9 +473,15 @@ export const ManageItems: React.FC = () => {
               >
                 Delete
               </button>
-            </div>
           </div>
         </div>
+      </div>
+
+      {/* Import Modal */}
+      <ImportItemsModal 
+        isOpen={showImportModal} 
+        onClose={() => setShowImportModal(false)} 
+      />
       )}
     </div>
   );
