@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Filter, Package } from 'lucide-react';
+import { Search, Filter, Package, MapPin, Clock, Star, Eye, ShoppingCart, Grid, List } from 'lucide-react';
 import { useData } from '../../contexts/DataContext';
 import { Item } from '../../types';
 import { useAuth } from '../../contexts/AuthContext';
@@ -139,50 +139,94 @@ export const ItemCatalog: React.FC<ItemCatalogProps> = ({ onTabChange }) => {
 
 
   const ItemCard: React.FC<{ item: Item }> = ({ item }) => (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow">
-      <div className="space-y-3">
-        {/* Item Name */}
-        <div>
-          <h3 className="text-base font-semibold text-gray-900 mb-1">{item.name}</h3>
-          <p className="text-xs text-gray-600">{item.description}</p>
+    <div className="group bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg hover:border-orange-300 transition-all duration-300 transform hover:-translate-y-1">
+      {/* Image Placeholder with Gradient */}
+      <div className="relative h-48 bg-gradient-to-br from-orange-100 via-orange-50 to-gray-100 flex items-center justify-center">
+        <Package size={48} className="text-orange-400 group-hover:text-orange-500 transition-colors" />
+        
+        {/* Availability Badge */}
+        <div className="absolute top-3 right-3">
+          <span className={`px-2 py-1 rounded-full text-xs font-semibold shadow-sm ${getAvailabilityColor(item)}`}>
+            {item.availableQuantity > 0 ? 'In Stock' : 'Out of Stock'}
+          </span>
         </div>
-
-        {/* Category */}
+        
+        {/* Condition Badge */}
+        <div className="absolute top-3 left-3">
+          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getConditionColor(item.condition)}`}>
+            {item.condition.charAt(0).toUpperCase() + item.condition.slice(1)}
+          </span>
+        </div>
+      </div>
+      
+      {/* Content */}
+      <div className="p-4 space-y-3">
+        {/* Item Name & Description */}
         <div>
-          <span className="text-xs text-gray-500">Category:</span>
-          <div className="mt-0.5">
-            <span className="text-sm font-medium text-gray-900">{item.category}</span>
+          <h3 className="text-lg font-bold text-gray-900 mb-1 line-clamp-2 group-hover:text-orange-600 transition-colors">
+            {item.name}
+          </h3>
+          <p className="text-sm text-gray-600 line-clamp-2">{item.description}</p>
+        </div>
+        
+        {/* Item Details */}
+        <div className="space-y-2">
+          {/* Category with Icon */}
+          <div className="flex items-center space-x-2">
+            <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
+              <Package size={12} className="text-blue-600" />
+            </div>
+            <span className="text-sm font-medium text-gray-700">{item.category}</span>
           </div>
-        </div>
-
-        {/* Available Quantity */}
-        <div>
-          <span className="text-xs text-gray-500">Available Quantity:</span>
-          <div className="mt-0.5">
-            <span className="text-xl font-bold text-gray-900">{item.availableQuantity}</span>
-          </div>
-        </div>
-
-        {/* Status */}
-        <div>
-          <span className="text-xs text-gray-500">Status:</span>
-          <div className="mt-0.5">
-            <span className={`px-2 py-1 rounded text-xs font-medium ${getAvailabilityColor(item)}`}>
-              {item.availableQuantity > 0 ? 'In Stock' : 'Out Of Stock'}
+          
+          {/* Location if available */}
+          {item.location && (
+            <div className="flex items-center space-x-2">
+              <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                <MapPin size={12} className="text-green-600" />
+              </div>
+              <span className="text-sm text-gray-600">{item.location}</span>
+            </div>
+          )}
+          
+          {/* Availability */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <div className="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center">
+                <Star size={12} className="text-purple-600" />
+              </div>
+              <span className="text-sm text-gray-600">Available</span>
+            </div>
+            <span className="text-lg font-bold text-gray-900">
+              {item.availableQuantity}
             </span>
           </div>
         </div>
-
-        {/* Request Button */}
-        {item.availableQuantity > 0 && (
-          <button
-            className="w-full px-3 py-2 bg-orange hover:bg-orange-dark text-white text-xs rounded-md transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center space-x-1"
-            onClick={() => openRequestForm(item)}
-          >
-            <Package size={14} />
-            <span>Request</span>
+        
+        {/* Action Buttons */}
+        <div className="flex space-x-2 pt-2">
+          {/* Quick View Button */}
+          <button className="flex-1 px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors flex items-center justify-center space-x-1">
+            <Eye size={14} />
+            <span className="text-sm font-medium">View</span>
           </button>
-        )}
+          
+          {/* Request Button */}
+          {item.availableQuantity > 0 ? (
+            <button
+              className="flex-1 px-3 py-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg flex items-center justify-center space-x-1"
+              onClick={() => openRequestForm(item)}
+            >
+              <ShoppingCart size={14} />
+              <span className="text-sm font-medium">Request</span>
+            </button>
+          ) : (
+            <button className="flex-1 px-3 py-2 bg-gray-300 text-gray-500 rounded-lg cursor-not-allowed flex items-center justify-center space-x-1">
+              <Clock size={14} />
+              <span className="text-sm font-medium">Unavailable</span>
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -227,12 +271,34 @@ export const ItemCatalog: React.FC<ItemCatalogProps> = ({ onTabChange }) => {
           </form>
         </div>
       )}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Item Catalog</h1>
+      {/* Enhanced Header */}
+      <div className="bg-gradient-to-r from-orange-50 to-orange-100 rounded-xl p-6 border border-orange-200">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Item Catalog</h1>
+            <p className="text-gray-600 text-sm sm:text-base">Discover and request items from our comprehensive inventory</p>
+          </div>
+          <div className="flex items-center space-x-4">
+            <div className="bg-white rounded-lg px-4 py-2 shadow-sm border">
+              <div className="text-center">
+                <div className="text-2xl font-bold text-orange-600">{items.length}</div>
+                <div className="text-xs text-gray-600">Total Items</div>
+              </div>
+            </div>
+            <div className="bg-white rounded-lg px-4 py-2 shadow-sm border">
+              <div className="text-center">
+                <div className="text-2xl font-bold text-green-600">
+                  {items.reduce((sum, item) => sum + item.availableQuantity, 0)}
+                </div>
+                <div className="text-xs text-gray-600">Available</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Mobile-Responsive Search and Filters */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
+      {/* Enhanced Search and Filters */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6">
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
