@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Bell, Search, Menu, X, User, Settings, LogOut, Package, Handshake } from 'lucide-react';
+import { Bell, Menu, X, User, Settings, LogOut, Package, Handshake } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useData } from '../../contexts/DataContext';
 
@@ -17,92 +17,77 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen }) => {
   const unreadNotifications = notifications.filter(n => !n.isRead);
 
   return (
-    <header className="bg-white/80 backdrop-blur-xl shadow-lg border-b border-white/20 sticky top-0 z-50">
+    <header className="bg-gradient-to-r from-orange-500 to-orange-600 shadow-lg border-b border-orange-400 sticky top-0 z-50">
       <div className="flex items-center justify-between px-6 py-4">
         <div className="flex items-center space-x-4">
           <button
             onClick={onMenuToggle}
-            className="lg:hidden p-2 rounded-xl hover:bg-gray-100/80 transition-all duration-300 transform hover:scale-105"
+            className="lg:hidden p-2 rounded-lg hover:bg-orange-400 transition-all duration-200"
           >
-            {isMenuOpen ? <X size={24} className="text-gray-700" /> : <Menu size={24} className="text-gray-700" />}
+            {isMenuOpen ? <X size={24} className="text-orange-100" /> : <Menu size={24} className="text-orange-100" />}
           </button>
 
           <div className="flex items-center space-x-4">
             <div className="relative">
-              {/* Enhanced logo with multiple layers */}
-              <div className="w-12 h-12 bg-gradient-to-br from-orange via-dark-slate to-flash-white rounded-2xl flex items-center justify-center shadow-xl transform hover:scale-110 transition-all duration-300 hover:rotate-3">
-                <div className="relative">
-                  <Handshake size={24} className="text-white drop-shadow-lg" />
-                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full shadow-lg animate-pulse"></div>
-                </div>
+              {/* Logo */}
+              <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-lg border border-white/30">
+                <Handshake size={24} className="text-orange-100" />
               </div>
-              {/* Multiple glow effects */}
-              <div className="absolute inset-0 w-12 h-12 bg-red-400 rounded-2xl blur-xl opacity-30 -z-10 animate-pulse"></div>
-              <div className="absolute inset-0 w-12 h-12 bg-blue-500 rounded-2xl blur-2xl opacity-20 -z-20 pulse-slow"></div>
             </div>
 
             <div className="flex flex-col">
-              <span className="font-bold text-xl gradient-text hidden sm:block leading-tight">
+              <span className="font-bold text-xl text-orange-100 hidden sm:block leading-tight">
                 LoanMitra
               </span>
-              <span className="text-xs text-blue-600 font-semibold hidden sm:block -mt-1 tracking-wide">
+              <span className="text-xs text-orange-200 font-semibold hidden sm:block -mt-1 tracking-wide">
                 by NUG
               </span>
             </div>
           </div>
         </div>
 
-        <div className="flex items-center space-x-6">
-          <div className="relative hidden md:block">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-blue-600 transition-colors" size={20} />
-            <input
-              type="text"
-              placeholder="Search items, users, or loans..."
-              className="pl-12 pr-4 py-3 bg-gray-50/80 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 focus:bg-white transition-all duration-300 w-80 backdrop-blur-sm"
-            />
-          </div>
-
+        <div className="flex items-center space-x-4">
           <div className="relative">
             <button
               onClick={() => setShowNotifications(!showNotifications)}
-              className="relative p-3 rounded-2xl hover:bg-gray-100/80 transition-all duration-300 transform hover:scale-105 group"
+              className="relative p-2 rounded-lg hover:bg-orange-400 transition-all duration-200"
             >
-              <Bell size={22} className="text-gray-600 group-hover:text-red-600 transition-colors" />
+              <Bell size={20} className="text-orange-100" />
               {unreadNotifications.length > 0 && (
-                <span className="absolute -top-1 -right-1 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center shadow-lg animate-bounce">
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                   {unreadNotifications.length}
                 </span>
               )}
             </button>
 
             {showNotifications && (
-              <div className="absolute right-0 mt-3 w-96 bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 z-50 overflow-hidden">
-                <div className="p-6 border-b border-gray-100 bg-gradient-to-r from-blue-50 to-red-50">
-                  <h3 className="font-bold text-gray-900 text-lg">Notifications</h3>
-                  <p className="text-sm text-gray-600 mt-1">{unreadNotifications.length} unread</p>
+              <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-xl border border-gray-200 z-50 overflow-hidden">
+                <div className="p-4 border-b border-gray-100 bg-gray-50">
+                  <h3 className="font-semibold text-gray-900">Notifications</h3>
+                  <p className="text-sm text-gray-600">{unreadNotifications.length} unread</p>
                 </div>
-                <div className="max-h-96 overflow-y-auto">
+                <div className="max-h-80 overflow-y-auto">
                   {notifications.length === 0 ? (
-                    <div className="p-8 text-center">
-                      <Bell className="mx-auto text-gray-300 mb-3" size={48} />
-                      <p className="text-gray-500 font-medium">No notifications</p>
+                    <div className="p-6 text-center">
+                      <Bell className="mx-auto text-gray-300 mb-2" size={32} />
+                      <p className="text-gray-500">No notifications</p>
                     </div>
                   ) : (
                     notifications.map((notification) => (
                       <div
                         key={notification.id}
                         onClick={() => markNotificationRead(notification.id)}
-                        className={`group p-4 border-b border-gray-50 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 cursor-pointer transition-all duration-300 ${
-                          !notification.isRead ? 'bg-blue-50/50' : ''
+                        className={`p-3 border-b border-gray-100 hover:bg-gray-50 cursor-pointer ${
+                          !notification.isRead ? 'bg-blue-50' : ''
                         }`}
                       >
-                        <div className="flex items-start space-x-4">
-                          <div className={`w-3 h-3 rounded-full mt-2 transition-all duration-300 ${
-                            !notification.isRead ? 'bg-blue-500 shadow-lg shadow-blue-500/50' : 'bg-gray-300'
+                        <div className="flex items-start space-x-3">
+                          <div className={`w-2 h-2 rounded-full mt-2 ${
+                            !notification.isRead ? 'bg-blue-500' : 'bg-gray-300'
                           }`} />
                           <div className="flex-1">
-                            <p className="font-semibold text-gray-900 group-hover:text-blue-900 transition-colors">{notification.title}</p>
-                            <p className="text-sm text-gray-600 group-hover:text-gray-700 transition-colors mt-1">{notification.message}</p>
+                            <p className="font-medium text-gray-900 text-sm">{notification.title}</p>
+                            <p className="text-sm text-gray-600 mt-1">{notification.message}</p>
                             <p className="text-xs text-gray-400 mt-2">
                               {notification.createdAt.toLocaleDateString()}
                             </p>
@@ -119,42 +104,40 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen }) => {
           <div className="relative">
             <button
               onClick={() => setShowProfileMenu(!showProfileMenu)}
-              className="flex items-center space-x-3 p-2 rounded-2xl hover:bg-gray-100/80 transition-all duration-300 transform hover:scale-105 group"
+              className="flex items-center space-x-2 p-2 rounded-lg hover:bg-orange-400 transition-all duration-200"
             >
-              <div className={`w-10 h-10 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 ${
-                isAdmin
-                  ? 'bg-gradient-to-br from-red-500 to-red-600'
-                  : 'bg-gradient-to-br from-blue-500 to-blue-600'
+              <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+                isAdmin ? 'bg-red-600' : 'bg-blue-600'
               }`}>
-                <User size={18} className="text-white" />
+                <User size={16} className="text-white" />
               </div>
-              <span className="hidden sm:block font-semibold text-gray-700 group-hover:text-gray-900 transition-colors">
+              <span className="hidden sm:block font-medium text-orange-100">
                 {user?.firstName || user?.email} {user?.lastName}
               </span>
             </button>
 
             {showProfileMenu && (
-              <div className="absolute right-0 mt-3 w-56 bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 z-50 overflow-hidden">
-                <div className="p-4">
-                  <div className="px-4 py-3 text-sm text-gray-600 border-b border-gray-100 bg-gray-50/50 rounded-xl mb-2">
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 z-50">
+                <div className="p-3">
+                  <div className="px-3 py-2 text-sm text-gray-600 border-b border-gray-100 bg-gray-50 rounded mb-2">
                     {user?.email}
                   </div>
-                  <button className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-blue-100 rounded-xl flex items-center space-x-3 transition-all duration-300 group">
-                    <User size={18} className="text-gray-500 group-hover:text-blue-600 transition-colors" />
-                    <span className="font-medium">Profile</span>
+                  <button className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded flex items-center space-x-2">
+                    <User size={16} className="text-gray-500" />
+                    <span>Profile</span>
                   </button>
                   {isAdmin && (
-                    <button className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-blue-100 rounded-xl flex items-center space-x-3 transition-all duration-300 group">
-                      <Settings size={18} className="text-gray-500 group-hover:text-blue-600 transition-colors" />
-                      <span className="font-medium">Settings</span>
+                    <button className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded flex items-center space-x-2">
+                      <Settings size={16} className="text-gray-500" />
+                      <span>Settings</span>
                     </button>
                   )}
                   <button
                     onClick={logout}
-                    className="w-full text-left px-4 py-3 text-sm text-red-600 hover:bg-gradient-to-r hover:from-red-50 hover:to-pink-50 rounded-xl flex items-center space-x-3 transition-all duration-300 group mt-2"
+                    className="w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded flex items-center space-x-2 mt-2"
                   >
-                    <LogOut size={18} className="text-red-500 group-hover:text-red-600 transition-colors" />
-                    <span className="font-medium">Logout</span>
+                    <LogOut size={16} className="text-red-500" />
+                    <span>Logout</span>
                   </button>
                 </div>
               </div>
