@@ -52,16 +52,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const response = await apiService.login(email, password);
       console.log('🔍 Login response:', response);
 
-      // Backend returns { user: ... } directly in response.data
-      if (response.data && response.data.user) {
-        console.log('✅ Login successful:', response.data.user);
-        setUser(response.data.user);
-        localStorage.setItem('user', JSON.stringify(response.data.user));
+      // Backend returns user data directly in response.data (without wrapper)
+      if (response.data && response.data.id && response.data.email) {
+        console.log('✅ Login successful (direct user data):', response.data);
+        setUser(response.data);
+        localStorage.setItem('user', JSON.stringify(response.data));
         return true;
       }
-      // Handle case where backend returns { user: ... } directly (not wrapped in data)
-      else if (response.data && typeof response.data === 'object' && 'user' in response.data) {
-        console.log('✅ Login successful (direct):', response.data.user);
+      // Fallback: Handle case where backend returns { user: ... } wrapped
+      else if (response.data && response.data.user) {
+        console.log('✅ Login successful (wrapped):', response.data.user);
         setUser(response.data.user);
         localStorage.setItem('user', JSON.stringify(response.data.user));
         return true;
