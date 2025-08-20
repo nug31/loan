@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { Save, Bell, Mail, Shield, Palette, Globe, Database, Download } from 'lucide-react';
+import { Save, Bell, Mail, Shield, Palette, Globe, Database, Download, AlertTriangle } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import { NotificationTest } from '../Test/NotificationTest';
+import { ClearStorage } from '../Debug/ClearStorage';
 
 export const Settings: React.FC = () => {
   const { user, updateUser } = useAuth();
-  const [activeTab, setActiveTab] = useState<'profile' | 'notifications' | 'system' | 'backup'>('profile');
+  const [activeTab, setActiveTab] = useState<'profile' | 'notifications' | 'system' | 'backup' | 'test' | 'debug'>('profile');
   const [profileData, setProfileData] = useState({
     firstName: user?.firstName || '',
     lastName: user?.lastName || '',
@@ -366,7 +368,9 @@ export const Settings: React.FC = () => {
             { key: 'profile', label: 'Profile', icon: <Shield size={16} /> },
             { key: 'notifications', label: 'Notifications', icon: <Bell size={16} /> },
             { key: 'system', label: 'System', icon: <Palette size={16} /> },
-            { key: 'backup', label: 'Backup', icon: <Database size={16} /> }
+            { key: 'backup', label: 'Backup', icon: <Database size={16} /> },
+            { key: 'test', label: 'Test Notifications', icon: <Bell size={16} /> },
+            { key: 'debug', label: 'Debug Storage', icon: <AlertTriangle size={16} /> }
           ].map((tab) => (
             <button
               key={tab.key}
@@ -389,6 +393,8 @@ export const Settings: React.FC = () => {
       {activeTab === 'notifications' && <NotificationSettings />}
       {activeTab === 'system' && <SystemSettings />}
       {activeTab === 'backup' && <BackupSettings />}
+      {activeTab === 'test' && <NotificationTest />}
+      {activeTab === 'debug' && <ClearStorage />}
     </div>
   );
 };

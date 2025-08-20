@@ -1,6 +1,7 @@
-import User from './User.js';
-import Item from './Item.js';
-import Loan from './Loan.js';
+const User = require('./User.js');
+const Item = require('./Item.js');
+const Loan = require('./Loan.js');
+const Category = require('./Category.js');
 
 // Define associations
 User.hasMany(Loan, { foreignKey: 'userId', as: 'loans' });
@@ -12,4 +13,4 @@ Loan.belongsTo(Item, { foreignKey: 'itemId', as: 'item' });
 User.hasMany(Loan, { foreignKey: 'approvedBy', as: 'approvedLoans' });
 Loan.belongsTo(User, { foreignKey: 'approvedBy', as: 'approver' });
 
-export { User, Item, Loan }; 
+module.exports = { User, Item, Loan, Category };

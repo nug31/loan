@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Bell, Search, Menu, X, User, Settings, LogOut } from 'lucide-react';
+import { Bell, Menu, X, User, Settings, LogOut, Package, Handshake } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useData } from '../../contexts/DataContext';
 
@@ -9,50 +9,50 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen }) => {
-  const { user, logout } = useAuth();
-  const { notifications } = useData();
+  const { user, logout, isAdmin } = useAuth();
+  const { notifications, markNotificationRead } = useData();
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   const unreadNotifications = notifications.filter(n => !n.isRead);
 
   return (
-    <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
-      <div className="flex items-center justify-between px-4 py-3">
+    <header className="bg-gradient-to-r from-orange-500 to-orange-600 shadow-lg border-b border-orange-400 sticky top-0 z-50">
+      <div className="flex items-center justify-between px-6 py-4">
         <div className="flex items-center space-x-4">
           <button
             onClick={onMenuToggle}
-            className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            className="lg:hidden p-2 rounded-lg hover:bg-orange-400 transition-all duration-200"
           >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {isMenuOpen ? <X size={24} className="text-orange-100" /> : <Menu size={24} className="text-orange-100" />}
           </button>
-          
-          <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">LMS</span>
+
+          <div className="flex items-center space-x-4">
+            <div className="relative">
+              {/* Logo */}
+              <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-lg border border-white/30">
+                <Handshake size={24} className="text-orange-100" />
+              </div>
             </div>
-            <span className="font-semibold text-xl text-gray-900 hidden sm:block">
-              Lending Management
-            </span>
+
+            <div className="flex flex-col">
+              <span className="font-bold text-xl text-orange-100 hidden sm:block leading-tight">
+                LoanMitra
+              </span>
+              <span className="text-xs text-orange-200 font-semibold hidden sm:block -mt-1 tracking-wide">
+                by NUG
+              </span>
+            </div>
           </div>
         </div>
 
         <div className="flex items-center space-x-4">
-          <div className="relative hidden md:block">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-            <input
-              type="text"
-              placeholder="Search items, users, or loans..."
-              className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent w-64"
-            />
-          </div>
-
           <div className="relative">
             <button
               onClick={() => setShowNotifications(!showNotifications)}
-              className="p-2 rounded-lg hover:bg-gray-100 transition-colors relative"
+              className="relative p-2 rounded-lg hover:bg-orange-400 transition-all duration-200"
             >
-              <Bell size={20} />
+              <Bell size={20} className="text-orange-100" />
               {unreadNotifications.length > 0 && (
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                   {unreadNotifications.length}
@@ -61,20 +61,23 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen }) => {
             </button>
 
             {showNotifications && (
-              <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
-                <div className="p-4 border-b border-gray-200">
+              <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-xl border border-gray-200 z-50 overflow-hidden">
+                <div className="p-4 border-b border-gray-100 bg-gray-50">
                   <h3 className="font-semibold text-gray-900">Notifications</h3>
+                  <p className="text-sm text-gray-600">{unreadNotifications.length} unread</p>
                 </div>
-                <div className="max-h-96 overflow-y-auto">
+                <div className="max-h-80 overflow-y-auto">
                   {notifications.length === 0 ? (
-                    <div className="p-4 text-center text-gray-500">
-                      No notifications
+                    <div className="p-6 text-center">
+                      <Bell className="mx-auto text-gray-300 mb-2" size={32} />
+                      <p className="text-gray-500">No notifications</p>
                     </div>
                   ) : (
                     notifications.map((notification) => (
                       <div
                         key={notification.id}
-                        className={`p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer ${
+                        onClick={() => markNotificationRead(notification.id)}
+                        className={`p-3 border-b border-gray-100 hover:bg-gray-50 cursor-pointer ${
                           !notification.isRead ? 'bg-blue-50' : ''
                         }`}
                       >
@@ -83,9 +86,9 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen }) => {
                             !notification.isRead ? 'bg-blue-500' : 'bg-gray-300'
                           }`} />
                           <div className="flex-1">
-                            <p className="font-medium text-gray-900">{notification.title}</p>
-                            <p className="text-sm text-gray-600">{notification.message}</p>
-                            <p className="text-xs text-gray-400 mt-1">
+                            <p className="font-medium text-gray-900 text-sm">{notification.title}</p>
+                            <p className="text-sm text-gray-600 mt-1">{notification.message}</p>
+                            <p className="text-xs text-gray-400 mt-2">
                               {notification.createdAt.toLocaleDateString()}
                             </p>
                           </div>
@@ -101,35 +104,39 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen }) => {
           <div className="relative">
             <button
               onClick={() => setShowProfileMenu(!showProfileMenu)}
-              className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              className="flex items-center space-x-2 p-2 rounded-lg hover:bg-orange-400 transition-all duration-200"
             >
-              <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
-                <User size={16} />
+              <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+                isAdmin ? 'bg-red-600' : 'bg-blue-600'
+              }`}>
+                <User size={16} className="text-white" />
               </div>
-              <span className="hidden sm:block font-medium text-gray-700">
-                {user?.firstName} {user?.lastName}
+              <span className="hidden sm:block font-medium text-orange-100">
+                {user?.firstName || user?.email} {user?.lastName}
               </span>
             </button>
 
             {showProfileMenu && (
-              <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
-                <div className="p-2">
-                  <div className="px-3 py-2 text-sm text-gray-500 border-b border-gray-100">
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 z-50">
+                <div className="p-3">
+                  <div className="px-3 py-2 text-sm text-gray-600 border-b border-gray-100 bg-gray-50 rounded mb-2">
                     {user?.email}
                   </div>
-                  <button className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg flex items-center space-x-2">
-                    <User size={16} />
+                  <button className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded flex items-center space-x-2">
+                    <User size={16} className="text-gray-500" />
                     <span>Profile</span>
                   </button>
-                  <button className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg flex items-center space-x-2">
-                    <Settings size={16} />
-                    <span>Settings</span>
-                  </button>
+                  {isAdmin && (
+                    <button className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded flex items-center space-x-2">
+                      <Settings size={16} className="text-gray-500" />
+                      <span>Settings</span>
+                    </button>
+                  )}
                   <button
                     onClick={logout}
-                    className="w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg flex items-center space-x-2"
+                    className="w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded flex items-center space-x-2 mt-2"
                   >
-                    <LogOut size={16} />
+                    <LogOut size={16} className="text-red-500" />
                     <span>Logout</span>
                   </button>
                 </div>

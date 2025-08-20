@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { Plus, Search, Filter, Edit, Trash2, QrCode, Package, Eye, MoreVertical } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Plus, Search, Filter, Edit, Trash2, QrCode, Package, Eye, MoreVertical, Download, FileSpreadsheet, FileText } from 'lucide-react';
 import { useData } from '../../contexts/DataContext';
 import { Item } from '../../types';
+import { exportItemsData } from '../../utils/exportUtils';
 
 export const ManageItems: React.FC = () => {
   const { items, categories, addItem, updateItem, deleteItem } = useData();
@@ -10,18 +11,28 @@ export const ManageItems: React.FC = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingItem, setEditingItem] = useState<Item | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const submitTimeoutRef = useRef<number | null>(null);
   const [itemToDelete, setItemToDelete] = useState<Item | null>(null);
+  const [showExportMenu, setShowExportMenu] = useState(false);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (submitTimeoutRef.current) {
+        clearTimeout(submitTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const [formData, setFormData] = useState({
     name: '',
     description: '',
     category: '',
     tags: '',
-    condition: 'excellent' as const,
+    condition: 'excellent' as 'excellent' | 'good' | 'fair' | 'poor',
     quantity: 1,
-    location: '',
-    value: 0,
-    images: [] as string[]
+    value: 0
   });
 
   const filteredItems = items.filter(item => {
@@ -37,34 +48,65 @@ export const ManageItems: React.FC = () => {
       description: '',
       category: '',
       tags: '',
-      condition: 'excellent',
+      condition: 'excellent' as 'excellent' | 'good' | 'fair' | 'poor',
       quantity: 1,
-      location: '',
-      value: 0,
-      images: []
+      value: 0
     });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+    e.stopPropagation();
+
+    if (isSubmitting) {
+      console.log('⏳ Already submitting, ignoring...');
+      return false;
+    }
+
+    // Clear any existing timeout
+    if (submitTimeoutRef.current) {
+      clearTimeout(submitTimeoutRef.current);
+    }
+
+    setIsSubmitting(true);
+
     const itemData = {
-      ...formData,
+      name: formData.name,
+      description: formData.description,
+      category: formData.category,
       tags: formData.tags.split(',').map(tag => tag.trim()).filter(Boolean),
+      condition: formData.condition,
+      quantity: formData.quantity,
       availableQuantity: formData.quantity,
-      qrCode: `QR${Date.now()}`,
+      location: 'Gudang', // Set default location to 'Gudang'
+      value: formData.value,
+      qrCode: editingItem ? editingItem.qrCode : `QR${Date.now()}`, // Jangan ubah QR code saat edit
       isActive: true
     };
 
-    if (editingItem) {
-      updateItem(editingItem.id, itemData);
-      setEditingItem(null);
-    } else {
-      addItem(itemData);
-    }
+    // Use timeout to prevent rapid multiple submissions
+    submitTimeoutRef.current = window.setTimeout(async () => {
+      try {
+        if (editingItem) {
+          console.log('🔄 Updating item:', editingItem.id, itemData);
+          await updateItem(editingItem.id, itemData);
+          console.log('✅ Item update completed');
+          setEditingItem(null);
+        } else {
+          console.log('🔄 Adding new item:', itemData);
+          await addItem(itemData);
+          console.log('✅ Item add completed');
+        }
 
-    resetForm();
-    setShowAddModal(false);
+        resetForm();
+        setShowAddModal(false);
+      } catch (error) {
+        console.error('❌ Error in handleSubmit:', error);
+      } finally {
+        setIsSubmitting(false);
+        submitTimeoutRef.current = null;
+      }
+    }, 300); // 300ms debounce
   };
 
   const handleEdit = (item: Item) => {
@@ -76,9 +118,7 @@ export const ManageItems: React.FC = () => {
       tags: item.tags.join(', '),
       condition: item.condition,
       quantity: item.quantity,
-      location: item.location,
-      value: item.value,
-      images: item.images
+      value: item.value
     });
     setShowAddModal(true);
   };
@@ -99,28 +139,66 @@ export const ManageItems: React.FC = () => {
   const getConditionColor = (condition: string) => {
     switch (condition) {
       case 'excellent': return 'bg-green-100 text-green-800';
-      case 'good': return 'bg-blue-100 text-blue-800';
+      case 'good': return 'bg-slate-100 text-slate-800';
       case 'fair': return 'bg-yellow-100 text-yellow-800';
       case 'poor': return 'bg-red-100 text-red-800';
       default: return 'bg-gray-100 text-gray-800';
     }
   };
 
+  const handleExport = (format: 'excel' | 'pdf') => {
+    exportItemsData(filteredItems, format);
+    setShowExportMenu(false);
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">Manage Items</h1>
-        <button
-          onClick={() => {
-            resetForm();
-            setEditingItem(null);
-            setShowAddModal(true);
-          }}
-          className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-        >
-          <Plus size={20} />
-          <span>Add Item</span>
-        </button>
+        <div className="flex items-center space-x-3">
+          <div className="relative">
+            <button
+              onClick={() => setShowExportMenu(!showExportMenu)}
+              className="flex items-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+            >
+              <Download size={20} />
+              <span>Export</span>
+            </button>
+
+            {showExportMenu && (
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+                <div className="p-2">
+                  <button
+                    onClick={() => handleExport('excel')}
+                    className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg flex items-center space-x-2"
+                  >
+                    <FileSpreadsheet size={16} />
+                    <span>Export to Excel</span>
+                  </button>
+                  <button
+                    onClick={() => handleExport('pdf')}
+                    className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg flex items-center space-x-2"
+                  >
+                    <FileText size={16} />
+                    <span>Export to PDF</span>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <button
+            onClick={() => {
+              resetForm();
+              setEditingItem(null);
+              setShowAddModal(true);
+            }}
+            className="flex items-center space-x-2 px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors"
+          >
+            <Plus size={20} />
+            <span>Add Item</span>
+          </button>
+        </div>
       </div>
 
       {/* Search and Filters */}
@@ -170,9 +248,6 @@ export const ManageItems: React.FC = () => {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Quantity
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Location
-                </th>
                 <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Actions
                 </th>
@@ -183,11 +258,9 @@ export const ManageItems: React.FC = () => {
                 <tr key={item.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
-                      <img
-                        src={item.images[0] || '/placeholder-image.jpg'}
-                        alt={item.name}
-                        className="w-10 h-10 object-cover rounded-lg mr-3"
-                      />
+                      <div className="w-10 h-10 bg-gray-200 rounded-lg mr-3 flex items-center justify-center">
+                        <Package size={20} className="text-gray-500" />
+                      </div>
                       <div>
                         <div className="text-sm font-medium text-gray-900">{item.name}</div>
                         <div className="text-sm text-gray-500">{item.qrCode}</div>
@@ -204,9 +277,6 @@ export const ManageItems: React.FC = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {item.availableQuantity}/{item.quantity}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {item.location}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <div className="flex items-center justify-end space-x-2">
@@ -245,7 +315,7 @@ export const ManageItems: React.FC = () => {
               {editingItem ? 'Edit Item' : 'Add New Item'}
             </h3>
             
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -323,60 +393,20 @@ export const ManageItems: React.FC = () => {
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Location
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.location}
-                    onChange={(e) => setFormData(prev => ({ ...prev, location: e.target.value }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                </div>
+
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Tags (comma separated)
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.tags}
-                    onChange={(e) => setFormData(prev => ({ ...prev, tags: e.target.value }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="tag1, tag2, tag3"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Images</label>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    onChange={async (e) => {
-                      const files = Array.from(e.target.files || []);
-                      const images = await Promise.all(files.map(file => {
-                        return new Promise<string>((resolve, reject) => {
-                          const reader = new FileReader();
-                          reader.onload = () => resolve(reader.result as string);
-                          reader.onerror = reject;
-                          reader.readAsDataURL(file);
-                        });
-                      }));
-                      setFormData(prev => ({ ...prev, images }));
-                    }}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    {formData.images.map((img, idx) => (
-                      <img key={idx} src={img} alt={`preview-${idx}`} className="w-16 h-16 object-cover rounded" />
-                    ))}
-                  </div>
-                </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Tags (comma separated)
+                </label>
+                <input
+                  type="text"
+                  value={formData.tags}
+                  onChange={(e) => setFormData(prev => ({ ...prev, tags: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="tag1, tag2, tag3"
+                />
               </div>
 
               <div className="flex justify-end space-x-4 pt-4">
@@ -392,10 +422,19 @@ export const ManageItems: React.FC = () => {
                   Cancel
                 </button>
                 <button
-                  type="submit"
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  type="button"
+                  disabled={isSubmitting}
+                  onClick={handleSubmit}
+                  className={`px-4 py-2 text-white rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl ${
+                    isSubmitting
+                      ? 'bg-gray-400 cursor-not-allowed'
+                      : 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700'
+                  }`}
                 >
-                  {editingItem ? 'Update Item' : 'Add Item'}
+                  {isSubmitting
+                    ? (editingItem ? 'Updating...' : 'Adding...')
+                    : (editingItem ? 'Update Item' : 'Add Item')
+                  }
                 </button>
               </div>
             </form>

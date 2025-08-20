@@ -20,7 +20,6 @@ export interface Item {
   condition: 'excellent' | 'good' | 'fair' | 'poor';
   quantity: number;
   availableQuantity: number;
-  images: string[];
   qrCode: string;
   location: string;
   value: number;
@@ -38,15 +37,36 @@ export interface Loan {
   startDate: Date;
   endDate: Date;
   actualReturnDate?: Date;
-  status: 'pending' | 'approved' | 'active' | 'overdue' | 'returned' | 'cancelled';
+  status: 'pending' | 'approved' | 'rejected' | 'active' | 'overdue' | 'returned' | 'cancelled';
+  purpose?: string;
   notes?: string;
   approvedBy?: string;
   approvedAt?: Date;
-  requestedAt: Date;
-  remindersSent: number;
+  requestedAt?: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
+  remindersSent?: number;
   extensionRequested?: boolean;
   extensionApproved?: boolean;
   extensionEndDate?: Date;
+  // Associated data from backend
+  user?: {
+    id: string;
+    name: string;
+    email: string;
+    department?: string;
+  };
+  item?: {
+    id: string;
+    name: string;
+    category: string;
+    location?: string;
+  };
+  approver?: {
+    id: string;
+    name: string;
+    email: string;
+  };
 }
 
 export interface Category {
@@ -58,10 +78,10 @@ export interface Category {
   itemCount: number;
 }
 
-export interface Notification {
+export interface AppNotification {
   id: string;
   userId: string;
-  type: 'loan_due' | 'loan_approved' | 'loan_rejected' | 'item_returned' | 'maintenance_due';
+  type: 'loan_due' | 'loan_approved' | 'loan_rejected' | 'item_returned' | 'maintenance_due' | 'new_loan_request' | 'test';
   title: string;
   message: string;
   isRead: boolean;

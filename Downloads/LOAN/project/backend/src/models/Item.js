@@ -1,5 +1,5 @@
-import { DataTypes } from 'sequelize';
-import sequelize from '../config/database.js';
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/database.js');
 
 const Item = sequelize.define('Item', {
   id: {
@@ -20,8 +20,15 @@ const Item = sequelize.define('Item', {
     allowNull: false
   },
   tags: {
-    type: DataTypes.ARRAY(DataTypes.STRING),
-    defaultValue: []
+    type: DataTypes.TEXT,
+    defaultValue: '[]',
+    get() {
+      const value = this.getDataValue('tags');
+      return value ? JSON.parse(value) : [];
+    },
+    set(value) {
+      this.setDataValue('tags', JSON.stringify(value || []));
+    }
   },
   condition: {
     type: DataTypes.ENUM('excellent', 'good', 'fair', 'poor'),
@@ -38,8 +45,15 @@ const Item = sequelize.define('Item', {
     defaultValue: 1
   },
   images: {
-    type: DataTypes.ARRAY(DataTypes.STRING),
-    defaultValue: []
+    type: DataTypes.TEXT,
+    defaultValue: '[]',
+    get() {
+      const value = this.getDataValue('images');
+      return value ? JSON.parse(value) : [];
+    },
+    set(value) {
+      this.setDataValue('images', JSON.stringify(value || []));
+    }
   },
   qrCode: {
     type: DataTypes.STRING,
@@ -67,4 +81,4 @@ const Item = sequelize.define('Item', {
   timestamps: true
 });
 
-export default Item; 
+module.exports = Item;

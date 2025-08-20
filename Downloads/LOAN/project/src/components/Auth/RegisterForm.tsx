@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Eye, EyeOff, Lock, Mail, User, Phone, Building, AlertCircle } from 'lucide-react';
+import { Eye, EyeOff, Lock, Mail, User, Phone, Building, AlertCircle, Handshake } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
 interface RegisterFormProps {
@@ -93,18 +93,33 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onToggleForm }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-flash-white via-flash-white-light to-flash-white-dark py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <div className="mx-auto h-16 w-16 bg-blue-600 rounded-xl flex items-center justify-center">
-            <span className="text-white font-bold text-2xl">LMS</span>
+          <div className="mx-auto relative">
+            {/* Main logo container with gradient */}
+            <div className="h-20 w-20 bg-gradient-to-br from-orange via-dark-slate to-flash-white rounded-2xl flex items-center justify-center shadow-xl transform hover:scale-105 transition-transform duration-300 mx-auto">
+              {/* Icon overlay */}
+              <div className="relative">
+                <Handshake size={32} className="text-white" />
+                {/* Small accent dot */}
+                <div className="absolute -top-1 -right-1 w-3 h-3 bg-orange rounded-full shadow-sm"></div>
+              </div>
+            </div>
+            {/* Subtle glow effect */}
+            <div className="absolute inset-0 h-20 w-20 bg-orange rounded-2xl blur-xl opacity-20 -z-10 mx-auto"></div>
           </div>
-          <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
-            Create your account
-          </h2>
-          <p className="mt-2 text-sm text-gray-600">
-            Join the lending management system
-          </p>
+
+          <div className="mt-6">
+            <h1 className="text-2xl font-bold text-gray-900 mb-1">Loan Mitra</h1>
+            <p className="text-sm text-red-600 font-medium mb-4">Asset Management System</p>
+            <h2 className="text-3xl font-extrabold text-gray-900">
+              Create your account
+            </h2>
+            <p className="mt-2 text-sm text-gray-600">
+              Join the lending management system
+            </p>
+          </div>
         </div>
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>

@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { User } from '../types';
+import { apiService } from '../services/api';
 
 interface AuthContextType {
   user: User | null;
@@ -46,53 +47,64 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Mock authentication logic
-      const mockUser: User = {
-        id: '1',
-        email,
-        firstName: email === 'admin@example.com' ? 'Admin' : 'John',
-        lastName: email === 'admin@example.com' ? 'User' : 'Doe',
-        role: email === 'admin@example.com' ? 'admin' : 'user',
-        createdAt: new Date(),
-        isActive: true,
-        department: email === 'admin@example.com' ? 'IT' : 'Engineering',
-        phoneNumber: '+1234567890'
-      };
+      console.log('🔐 Attempting login with:', email);
 
-      setUser(mockUser);
-      localStorage.setItem('user', JSON.stringify(mockUser));
-      return true;
+      const response = await apiService.login(email, password);
+      console.log('🔍 Login response:', response);
+
+      // Backend returns user data directly in response.data (without wrapper)
+      if (response.data && response.data.id && response.data.email) {
+        console.log('✅ Login successful (direct user data):', response.data);
+        setUser(response.data);
+        localStorage.setItem('user', JSON.stringify(response.data));
+        return true;
+      }
+      // Fallback: Handle case where backend returns { user: ... } wrapped
+      else if (response.data && response.data.user) {
+        console.log('✅ Login successful (wrapped):', response.data.user);
+        setUser(response.data.user);
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        return true;
+      } else {
+        console.error('❌ Login failed:', response.error || 'Unknown error');
+        console.error('❌ Response structure:', response);
+        return false;
+      }
     } catch (error) {
-      console.error('Login error:', error);
+      console.error('❌ Login error:', error);
       return false;
     }
   };
 
   const register = async (userData: Partial<User> & { password: string }): Promise<boolean> => {
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      const newUser: User = {
-        id: Date.now().toString(),
-        email: userData.email!,
-        firstName: userData.firstName!,
-        lastName: userData.lastName!,
-        role: 'user',
-        createdAt: new Date(),
-        isActive: true,
+      console.log('🔐 Attempting registration with:', userData.email);
+
+      // Prepare data for backend
+      const registerData = {
+        name: `${userData.firstName} ${userData.lastName}`,
+        email: userData.email,
+        password: userData.password,
         department: userData.department,
-        phoneNumber: userData.phoneNumber
+        phone: userData.phoneNumber
       };
 
-      setUser(newUser);
-      localStorage.setItem('user', JSON.stringify(newUser));
-      return true;
+      const response = await apiService.register(registerData);
+      console.log('🔍 Registration response:', response);
+
+      // Backend returns { user: ... } directly in response.data
+      if (response.data && response.data.user) {
+        console.log('✅ Registration successful:', response.data.user);
+        setUser(response.data.user);
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        return true;
+      } else {
+        console.error('❌ Registration failed:', response.error || 'Unknown error');
+        console.error('❌ Response structure:', response);
+        return false;
+      }
     } catch (error) {
-      console.error('Registration error:', error);
+      console.error('❌ Registration error:', error);
       return false;
     }
   };
