@@ -258,6 +258,124 @@ Loan.belongsTo(User, { foreignKey: 'approvedBy', as: 'approver' });
 // Store SSE connections
 const sseConnections = new Map();
 
+// Function to check for overdue loans and send notifications
+const checkOverdueLoans = async () => {
+  try {
+    console.log('🔍 Checking for overdue and due soon loans...');
+    
+    const now = new Date();
+    const tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000); // 24 hours from now
+    
+    // Check for overdue loans
+    const overdueLoans = await Loan.findAll({
+      where: {
+        status: 'active',
+        endDate: {
+          [Op.lt]: now // endDate is less than current date
+        }
+      },
+      include: [
+        {
+          model: User,
+          as: 'user',
+          attributes: ['id', 'name', 'email']
+        },
+        {
+          model: Item,
+          as: 'item',
+          attributes: ['id', 'name', 'category']
+        }
+      ]
+    });
+
+    // Check for loans due soon (within 24 hours)
+    const dueSoonLoans = await Loan.findAll({
+      where: {
+        status: 'active',
+        endDate: {
+          [Op.between]: [now, tomorrow] // endDate is between now and tomorrow
+        }
+      },
+      include: [
+        {
+          model: User,
+          as: 'user',
+          attributes: ['id', 'name', 'email']
+        },
+        {
+          model: Item,
+          as: 'item',
+          attributes: ['id', 'name', 'category']
+        }
+      ]
+    });
+
+    console.log(`📅 Found ${overdueLoans.length} overdue loans and ${dueSoonLoans.length} due soon loans`);
+
+    // Handle overdue loans
+    overdueLoans.forEach(async (loan) => {
+      // Update loan status to overdue
+      await loan.update({ status: 'overdue' });
+
+      // Send notification to user about overdue item
+      const overdueNotification = {
+        id: `notif_${Date.now()}_overdue_${loan.id}`,
+        userId: loan.userId,
+        type: 'loan_due',
+        title: 'Item Overdue ⚠️',
+        message: `"${loan.item.name}" is overdue. Please return it as soon as possible.`,
+        isRead: false,
+        createdAt: new Date(),
+        relatedId: loan.id
+      };
+
+      sendNotificationToUser(loan.userId, overdueNotification);
+
+      // Send notification to all admins about overdue item
+      const adminUsers = await User.findAll({ where: { role: 'admin' } });
+      const adminOverdueNotification = {
+        id: `notif_${Date.now()}_admin_overdue_${loan.id}`,
+        type: 'loan_due',
+        title: 'Item Overdue ⚠️',
+        message: `${loan.user.name} has an overdue item: "${loan.item.name}"`,
+        isRead: false,
+        createdAt: new Date(),
+        relatedId: loan.id
+      };
+
+      adminUsers.forEach(admin => {
+        sendNotificationToUser(admin.id, { ...adminOverdueNotification, userId: admin.id });
+      });
+    });
+
+    // Handle due soon loans
+    dueSoonLoans.forEach(async (loan) => {
+      // Send notification to user about item due soon
+      const dueSoonNotification = {
+        id: `notif_${Date.now()}_duesoon_${loan.id}`,
+        userId: loan.userId,
+        type: 'loan_due',
+        title: 'Item Due Soon 📅',
+        message: `"${loan.item.name}" is due tomorrow. Please prepare to return it.`,
+        isRead: false,
+        createdAt: new Date(),
+        relatedId: loan.id
+      };
+
+      sendNotificationToUser(loan.userId, dueSoonNotification);
+    });
+
+  } catch (error) {
+    console.error('❌ Error checking overdue loans:', error);
+  }
+};
+
+// Schedule overdue loan check every hour
+setInterval(checkOverdueLoans, 60 * 60 * 1000); // Check every hour
+
+// Initial check on server start
+setTimeout(checkOverdueLoans, 5000); // Check after 5 seconds
+
 // Routes
 app.get('/health', (req, res) => {
   res.json({ status: 'OK', database: 'PostgreSQL' });
@@ -602,43 +720,58 @@ app.use((req, res, next) => {
 // Authentication endpoints
 app.post('/api/auth/login', async (req, res) => {
   try {
-    console.log('🔐 Login request received:', { email: req.body.email, hasPassword: !!req.body.password });
     const { email, password } = req.body;
-
-    if (!email || !password) {
-      console.log('❌ Missing email or password');
-      return res.status(400).json({ error: 'Email and password are required' });
-    }
 
     // Find user by email
     const user = await User.findOne({ where: { email } });
     if (!user) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+
+    // Check password
+    const isValidPassword = await bcrypt.compare(password, user.password);
+    if (!isValidPassword) {
+      return res.status(401).json({ error: 'Invalid email or password' });
     }
 
     // Check if user is active
     if (!user.isActive) {
-      return res.status(401).json({ error: 'Account is inactive' });
+      return res.status(401).json({ error: 'Account is deactivated' });
     }
 
-    // Compare password (for now, simple comparison - in production use bcrypt)
-    if (user.password !== password) {
-      return res.status(401).json({ error: 'Invalid credentials' });
-    }
+    console.log(`✅ Login successful for user: ${user.name} (${user.email})`);
 
-    // Remove password from response
-    const { password: _, ...userWithoutPassword } = user.toJSON();
-
-    console.log(`✅ Login successful for: ${user.email}`);
-    const response = {
-      user: userWithoutPassword,
-      message: 'Login successful'
+    // Send welcome notification
+    const welcomeNotification = {
+      id: `notif_${Date.now()}_welcome`,
+      userId: user.id,
+      type: 'test',
+      title: 'Welcome Back! 👋',
+      message: `Hello ${user.name}, welcome back to LoanMitra!`,
+      isRead: false,
+      createdAt: new Date(),
+      relatedId: null
     };
-    console.log('🔄 Sending login response:', JSON.stringify(response, null, 2));
-    res.json(response);
+
+    sendNotificationToUser(user.id, welcomeNotification);
+
+    // Return user data (without password)
+    const userResponse = {
+      id: user.id,
+      email: user.email,
+      firstName: user.name.split(' ')[0] || user.name,
+      lastName: user.name.split(' ').slice(1).join(' ') || '',
+      role: user.role,
+      department: user.department,
+      phoneNumber: user.phone,
+      isActive: user.isActive,
+      createdAt: user.createdAt
+    };
+
+    res.json(userResponse);
   } catch (error) {
-    console.error('❌ Error during login:', error.message);
-    res.status(500).json({ error: error.message });
+    console.error('❌ Login error:', error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
@@ -828,6 +961,20 @@ app.post('/api/loans', async (req, res) => {
 
     console.log(`✅ POST /api/loans - created loan for ${loanWithAssociations.user.name} requesting ${loanWithAssociations.item.name}`);
 
+    // Send notification to user confirming their loan request
+    const userConfirmationNotification = {
+      id: `notif_${Date.now()}_user`,
+      userId: loanWithAssociations.userId,
+      type: 'new_loan_request',
+      title: 'Loan Request Submitted 📋',
+      message: `Your request for "${loanWithAssociations.item.name}" has been submitted and is pending approval.`,
+      isRead: false,
+      createdAt: new Date(),
+      relatedId: loanWithAssociations.id
+    };
+
+    sendNotificationToUser(loanWithAssociations.userId, userConfirmationNotification);
+
     // Send notification to all admins about new loan request
     const adminUsers = await User.findAll({ where: { role: 'admin' } });
     const newLoanNotification = {
@@ -959,6 +1106,21 @@ app.put('/api/loans/:id/reject', async (req, res) => {
     });
 
     console.log(`✅ PUT /api/loans/${req.params.id}/reject - rejected loan`);
+
+    // Send notification to user about loan rejection
+    const rejectionNotification = {
+      id: `notif_${Date.now()}`,
+      userId: updatedLoan.userId,
+      type: 'loan_rejected',
+      title: 'Loan Request Rejected ❌',
+      message: `Your request for "${updatedLoan.item.name}" has been rejected.${req.body.notes ? ` Reason: ${req.body.notes}` : ''}`,
+      isRead: false,
+      createdAt: new Date(),
+      relatedId: updatedLoan.id
+    };
+
+    sendNotificationToUser(updatedLoan.userId, rejectionNotification);
+
     res.json(updatedLoan);
   } catch (error) {
     console.error('❌ Error rejecting loan:', error.message);
@@ -1013,6 +1175,38 @@ app.put('/api/loans/:id/return', async (req, res) => {
     });
 
     console.log(`✅ PUT /api/loans/${req.params.id}/return - returned loan`);
+
+    // Send notification to user about successful return
+    const returnNotification = {
+      id: `notif_${Date.now()}`,
+      userId: updatedLoan.userId,
+      type: 'item_returned',
+      title: 'Item Returned Successfully ✅',
+      message: `"${updatedLoan.item.name}" has been successfully returned. Thank you for using our service!`,
+      isRead: false,
+      createdAt: new Date(),
+      relatedId: updatedLoan.id
+    };
+
+    sendNotificationToUser(updatedLoan.userId, returnNotification);
+
+    // Send notification to all admins about item return
+    const adminUsers = await User.findAll({ where: { role: 'admin' } });
+    const adminReturnNotification = {
+      id: `notif_${Date.now()}_admin`,
+      type: 'item_returned',
+      title: 'Item Returned 📦',
+      message: `${updatedLoan.user.name} returned "${updatedLoan.item.name}"`,
+      isRead: false,
+      createdAt: new Date(),
+      relatedId: updatedLoan.id
+    };
+
+    // Send to all admin users
+    adminUsers.forEach(admin => {
+      sendNotificationToUser(admin.id, { ...adminReturnNotification, userId: admin.id });
+    });
+
     res.json(updatedLoan);
   } catch (error) {
     console.error('❌ Error returning loan:', error.message);
