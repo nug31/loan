@@ -1294,179 +1294,199 @@ async function startServer() {
     await sequelize.authenticate();
     console.log('✅ PostgreSQL connected successfully');
     
-    await sequelize.sync({ force: true }); // This will recreate tables
+    await sequelize.sync(); // Sync database without dropping existing tables
     console.log('✅ Database synchronized');
     
-    // Add sample categories
-    await Category.bulkCreate([
-      {
-        name: 'Electronics',
-        description: 'Electronic devices and gadgets',
-        icon: 'Laptop',
-        color: '#3B82F6'
-      },
-      {
-        name: 'Photography',
-        description: 'Camera and photography equipment',
-        icon: 'Camera',
-        color: '#8B5CF6'
-      },
-      {
-        name: 'Audio',
-        description: 'Audio equipment and accessories',
-        icon: 'Headphones',
-        color: '#10B981'
-      },
-      {
-        name: 'Office',
-        description: 'Office supplies and equipment',
-        icon: 'FileText',
-        color: '#F59E0B'
-      },
-      {
-        name: 'Sports',
-        description: 'Sports and fitness equipment',
-        icon: 'Activity',
-        color: '#EF4444'
-      }
-    ]);
-    console.log('✅ Sample categories created');
+    // Add sample categories if they don't exist
+    const existingCategories = await Category.count();
+    if (existingCategories === 0) {
+      await Category.bulkCreate([
+        {
+          name: 'Electronics',
+          description: 'Electronic devices and gadgets',
+          icon: 'Laptop',
+          color: '#3B82F6'
+        },
+        {
+          name: 'Photography',
+          description: 'Camera and photography equipment',
+          icon: 'Camera',
+          color: '#8B5CF6'
+        },
+        {
+          name: 'Audio',
+          description: 'Audio equipment and accessories',
+          icon: 'Headphones',
+          color: '#10B981'
+        },
+        {
+          name: 'Office',
+          description: 'Office supplies and equipment',
+          icon: 'FileText',
+          color: '#F59E0B'
+        },
+        {
+          name: 'Sports',
+          description: 'Sports and fitness equipment',
+          icon: 'Activity',
+          color: '#EF4444'
+        }
+      ]);
+      console.log('✅ Sample categories created');
+    } else {
+      console.log('✅ Categories already exist, skipping creation');
+    }
 
-    // Add sample users with hashed passwords
-    const hashedAdminPassword = await bcrypt.hash('admin123', 10);
-    const hashedUserPassword = await bcrypt.hash('user123', 10);
-    
-    await User.bulkCreate([
-      {
-        name: 'Admin User',
-        email: 'admin@example.com',
-        phone: '+1234567890',
-        department: 'IT',
-        role: 'admin',
-        password: hashedAdminPassword,
-        isActive: true
-      },
-      {
-        name: 'John Doe',
-        email: 'john.doe@example.com',
-        phone: '+1234567891',
-        department: 'Engineering',
-        role: 'user',
-        password: hashedUserPassword,
-        isActive: true
-      },
-      {
-        name: 'Jane Smith',
-        email: 'jane.smith@example.com',
-        phone: '+1234567892',
-        department: 'Marketing',
-        role: 'user',
-        password: hashedUserPassword,
-        isActive: false // This matches the "Inactive" status in frontend
-      }
-    ]);
-    console.log('✅ Sample users created');
+    // Add sample users with hashed passwords if they don't exist
+    const existingUsers = await User.count();
+    if (existingUsers === 0) {
+      const hashedAdminPassword = await bcrypt.hash('admin123', 10);
+      const hashedUserPassword = await bcrypt.hash('user123', 10);
+      
+      await User.bulkCreate([
+        {
+          name: 'Admin User',
+          email: 'admin@example.com',
+          phone: '+1234567890',
+          department: 'IT',
+          role: 'admin',
+          password: hashedAdminPassword,
+          isActive: true
+        },
+        {
+          name: 'John Doe',
+          email: 'john.doe@example.com',
+          phone: '+1234567891',
+          department: 'Engineering',
+          role: 'user',
+          password: hashedUserPassword,
+          isActive: true
+        },
+        {
+          name: 'Jane Smith',
+          email: 'jane.smith@example.com',
+          phone: '+1234567892',
+          department: 'Marketing',
+          role: 'user',
+          password: hashedUserPassword,
+          isActive: false // This matches the "Inactive" status in frontend
+        }
+      ]);
+      console.log('✅ Sample users created');
+    } else {
+      console.log('✅ Users already exist, skipping creation');
+    }
 
-    // Add sample data
-    await Item.bulkCreate([
-      {
-        name: 'ROG Gaming Laptop',
-        description: 'High-performance gaming laptop untuk gaming dan development',
-        category: 'Electronics',
-        condition: 'excellent',
-        quantity: 2,
-        availableQuantity: 2,
-        images: ['/images/rog-laptop.jpg'],
-        tags: ['gaming', 'laptop', 'high-performance'],
-        location: 'Gudang'
-      },
-      {
-        name: 'Laptop Dell XPS 13',
-        description: 'Laptop untuk keperluan kerja dan presentasi',
-        category: 'Electronics',
-        condition: 'excellent',
-        quantity: 4,
-        availableQuantity: 4,
-        images: ['/images/dell-xps.jpg'],
-        tags: ['laptop', 'business', 'portable'],
-        location: 'Gudang'
-      },
-      {
-        name: 'Proyektor Epson',
-        description: 'Proyektor untuk presentasi dan meeting',
-        category: 'Electronics',
-        condition: 'good',
-        quantity: 3,
-        availableQuantity: 3,
-        images: ['/images/projector-epson.jpg'],
-        tags: ['projector', 'presentation', 'meeting'],
-        location: 'Gudang'
-      },
-      {
-        name: 'Kamera Canon DSLR',
-        description: 'Kamera untuk dokumentasi event dan kegiatan',
-        category: 'Photography',
-        condition: 'excellent',
-        quantity: 2,
-        availableQuantity: 2,
-        images: ['/images/canon-dslr.jpg'],
-        tags: ['camera', 'photography', 'documentation'],
-        location: 'Gudang'
-      },
-      {
-        name: 'Microphone Wireless',
-        description: 'Microphone untuk acara dan presentasi',
-        category: 'Audio',
-        condition: 'good',
-        quantity: 4,
-        availableQuantity: 4,
-        images: ['/images/microphone.jpg'],
-        tags: ['microphone', 'audio', 'wireless'],
-        location: 'Gudang'
-      }
-    ]);
-    console.log('✅ Sample data created');
+    // Add sample data if they don't exist
+    const existingItems = await Item.count();
+    if (existingItems === 0) {
+      await Item.bulkCreate([
+        {
+          name: 'ROG Gaming Laptop',
+          description: 'High-performance gaming laptop untuk gaming dan development',
+          category: 'Electronics',
+          condition: 'excellent',
+          quantity: 2,
+          availableQuantity: 2,
+          images: ['/images/rog-laptop.jpg'],
+          tags: ['gaming', 'laptop', 'high-performance'],
+          location: 'Gudang'
+        },
+        {
+          name: 'Laptop Dell XPS 13',
+          description: 'Laptop untuk keperluan kerja dan presentasi',
+          category: 'Electronics',
+          condition: 'excellent',
+          quantity: 4,
+          availableQuantity: 4,
+          images: ['/images/dell-xps.jpg'],
+          tags: ['laptop', 'business', 'portable'],
+          location: 'Gudang'
+        },
+        {
+          name: 'Proyektor Epson',
+          description: 'Proyektor untuk presentasi dan meeting',
+          category: 'Electronics',
+          condition: 'good',
+          quantity: 3,
+          availableQuantity: 3,
+          images: ['/images/projector-epson.jpg'],
+          tags: ['projector', 'presentation', 'meeting'],
+          location: 'Gudang'
+        },
+        {
+          name: 'Kamera Canon DSLR',
+          description: 'Kamera untuk dokumentasi event dan kegiatan',
+          category: 'Photography',
+          condition: 'excellent',
+          quantity: 2,
+          availableQuantity: 2,
+          images: ['/images/canon-dslr.jpg'],
+          tags: ['camera', 'photography', 'documentation'],
+          location: 'Gudang'
+        },
+        {
+          name: 'Microphone Wireless',
+          description: 'Microphone untuk acara dan presentasi',
+          category: 'Audio',
+          condition: 'good',
+          quantity: 4,
+          availableQuantity: 4,
+          images: ['/images/microphone.jpg'],
+          tags: ['microphone', 'audio', 'wireless'],
+          location: 'Gudang'
+        }
+      ]);
+      console.log('✅ Sample items created');
+    } else {
+      console.log('✅ Items already exist, skipping creation');
+    }
 
-    // Get created users and items for loan references
+    // Get users and items for loan references
     const users = await User.findAll();
     const items = await Item.findAll();
 
-    // Add sample loans
-    await Loan.bulkCreate([
-      {
-        userId: users[1].id, // John Doe
-        itemId: items[0].id, // ROG Gaming Laptop
-        quantity: 1,
-        startDate: new Date('2025-07-15'),
-        endDate: new Date('2025-07-22'),
-        status: 'pending',
-        purpose: 'Development project for mobile app'
-      },
-      {
-        userId: users[1].id, // John Doe
-        itemId: items[1].id, // Laptop Dell XPS 13
-        quantity: 1,
-        startDate: new Date('2025-07-10'),
-        endDate: new Date('2025-07-17'),
-        status: 'approved',
-        purpose: 'Client presentation',
-        approvedBy: users[0].id, // Admin User
-        approvedAt: new Date('2025-07-10T10:00:00Z')
-      },
-      {
-        userId: users[2].id, // Jane Smith
-        itemId: items[2].id, // Proyektor Epson
-        quantity: 1,
-        startDate: new Date('2025-07-05'),
-        endDate: new Date('2025-07-12'),
-        status: 'returned',
-        purpose: 'Marketing presentation',
-        approvedBy: users[0].id, // Admin User
-        approvedAt: new Date('2025-07-05T09:00:00Z'),
-        actualReturnDate: new Date('2025-07-12T16:00:00Z')
-      }
-    ]);
-    console.log('✅ Sample loans created');
+    // Add sample loans if they don't exist and we have users and items
+    const existingLoans = await Loan.count();
+    if (existingLoans === 0 && users.length > 0 && items.length > 0) {
+      await Loan.bulkCreate([
+        {
+          userId: users[1]?.id, // John Doe
+          itemId: items[0]?.id, // ROG Gaming Laptop
+          quantity: 1,
+          startDate: new Date('2025-07-15'),
+          endDate: new Date('2025-07-22'),
+          status: 'pending',
+          purpose: 'Development project for mobile app'
+        },
+        {
+          userId: users[1]?.id, // John Doe
+          itemId: items[1]?.id, // Laptop Dell XPS 13
+          quantity: 1,
+          startDate: new Date('2025-07-10'),
+          endDate: new Date('2025-07-17'),
+          status: 'approved',
+          purpose: 'Client presentation',
+          approvedBy: users[0]?.id, // Admin User
+          approvedAt: new Date('2025-07-10T10:00:00Z')
+        },
+        {
+          userId: users[2]?.id, // Jane Smith
+          itemId: items[2]?.id, // Proyektor Epson
+          quantity: 1,
+          startDate: new Date('2025-07-05'),
+          endDate: new Date('2025-07-12'),
+          status: 'returned',
+          purpose: 'Marketing presentation',
+          approvedBy: users[0]?.id, // Admin User
+          approvedAt: new Date('2025-07-05T09:00:00Z'),
+          actualReturnDate: new Date('2025-07-12T16:00:00Z')
+        }
+      ].filter(loan => loan.userId && loan.itemId)); // Filter out loans with null IDs
+      console.log('✅ Sample loans created');
+    } else {
+      console.log('✅ Loans already exist or missing users/items, skipping creation');
+    }
 
     app.listen(PORT, '0.0.0.0', () => {
       console.log(`🚀 PostgreSQL server running on port ${PORT}`);
