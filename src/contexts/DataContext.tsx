@@ -337,8 +337,11 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
 
   const approveLoan = async (loanId: string, approvedBy?: string) => {
     try {
+      console.log('🔄 Starting loan approval for:', loanId);
       const response = await apiService.approveLoan(loanId, approvedBy);
+      
       if (response.data) {
+        console.log('✅ Loan approval API response:', response.data);
         // Update with full loan data from backend
         setLoans(prev => prev.map(loan =>
           loan.id === loanId ? response.data : loan
@@ -347,7 +350,23 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
 
         // Refresh items to update available quantities
         await loadItems();
+        
+        // CRITICAL: Reload all loans from database to ensure consistency
+        console.log('🔄 Reloading all loans from database...');
+        const loansResponse = await apiService.getLoans();
+        if (loansResponse.data) {
+          console.log('✅ Loans reloaded after approval:', loansResponse.data.length, 'loans');
+          console.log('🔍 Updated loans by status:', {
+            pending: loansResponse.data.filter(l => l.status === 'pending').length,
+            active: loansResponse.data.filter(l => l.status === 'active').length,
+            approved: loansResponse.data.filter(l => l.status === 'approved').length,
+            returned: loansResponse.data.filter(l => l.status === 'returned').length,
+            overdue: loansResponse.data.filter(l => l.status === 'overdue').length,
+          });
+          setLoans(loansResponse.data);
+        }
       } else {
+        console.warn('⚠️ No response data from approval API, using fallback');
         // Fallback update
         setLoans(prev => prev.map(loan =>
           loan.id === loanId ? { ...loan, status: 'active' as any } : loan
@@ -355,9 +374,15 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
 
         // Refresh items to update available quantities
         await loadItems();
+        
+        // Still reload loans even in fallback case
+        const loansResponse = await apiService.getLoans();
+        if (loansResponse.data) {
+          setLoans(loansResponse.data);
+        }
       }
     } catch (error) {
-      console.error('Error approving loan:', error);
+      console.error('❌ Error approving loan:', error);
     }
   };
 
