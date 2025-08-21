@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Item, Loan, Category, AppNotification, DashboardStats } from '../types';
 import { apiService } from '../services/api';
-import { useNotifications } from '../hooks/useNotifications';
+import { useNotifications as useNotificationsHook } from '../hooks/useNotifications';
+import { useNotifications as useNotificationsContext, LoanStatusUpdate } from './NotificationContext';
 import { useAuth } from './AuthContext';
 
 interface DataContextType {
@@ -51,11 +52,13 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [recentActivity, setRecentActivity] = useState<any[]>([]);
 
-  // Use real-time notifications hook
+  // Use real-time notifications contexts
   const {
     notifications,
     markAsRead: markNotificationRead
-  } = useNotifications(user?.id);
+  } = useNotificationsHook(user?.id);
+  
+  const { broadcastLoanUpdate, subscribeLoanUpdates } = useNotificationsContext();
   const [dashboardStats, setDashboardStats] = useState<DashboardStats>({
     totalItems: 0,
     activeLoans: 0,
@@ -142,6 +145,22 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
 
     // Real-time notifications are now handled by useNotifications hook
   }, []);
+
+  // Subscribe to loan updates for real-time synchronization
+  useEffect(() => {
+    const unsubscribe = subscribeLoanUpdates((update: LoanStatusUpdate) => {
+      console.log('📡 Received loan status update:', update);
+      // Update local state when receiving updates from other tabs/users
+      setLoans(prev => prev.map(loan => {
+        if (loan.id === update.loanId) {
+          return { ...loan, status: update.newStatus as any };
+        }
+        return loan;
+      }));
+    });
+
+    return unsubscribe;
+  }, [subscribeLoanUpdates]);
 
   // Load dashboard stats from API
   const loadDashboardStats = async () => {
@@ -338,6 +357,11 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
   const approveLoan = async (loanId: string, approvedBy?: string) => {
     try {
       console.log('🔄 Starting loan approval for:', loanId);
+      
+      // Find the current loan to get details for notification
+      const currentLoan = loans.find(l => l.id === loanId);
+      const item = currentLoan ? getItemById(currentLoan.itemId) : null;
+      
       const response = await apiService.approveLoan(loanId, approvedBy);
       
       if (response.data) {
@@ -347,6 +371,16 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
           loan.id === loanId ? response.data : loan
         ));
         console.log('✅ Loan approved and moved to active status');
+
+        // Broadcast real-time update
+        broadcastLoanUpdate({
+          loanId,
+          oldStatus: currentLoan?.status || 'pending',
+          newStatus: 'active',
+          itemName: item?.name,
+          userName: currentLoan?.user?.name,
+          userId: currentLoan?.userId
+        });
 
         // Refresh items to update available quantities
         await loadItems();
@@ -372,6 +406,16 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
           loan.id === loanId ? { ...loan, status: 'active' as any } : loan
         ));
 
+        // Broadcast real-time update even in fallback
+        broadcastLoanUpdate({
+          loanId,
+          oldStatus: currentLoan?.status || 'pending',
+          newStatus: 'active',
+          itemName: item?.name,
+          userName: currentLoan?.user?.name,
+          userId: currentLoan?.userId
+        });
+
         // Refresh items to update available quantities
         await loadItems();
         
@@ -388,10 +432,24 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
 
   const rejectLoan = async (loanId: string) => {
     try {
+      // Find the current loan to get details for notification
+      const currentLoan = loans.find(l => l.id === loanId);
+      const item = currentLoan ? getItemById(currentLoan.itemId) : null;
+      
       await apiService.rejectLoan(loanId);
       setLoans(prev => prev.map(loan => 
-        loan.id === loanId ? { ...loan, status: 'rejected' as any } : loan
+        loan.id === loanId ? { ...loan, status: 'cancelled' as any } : loan
       ));
+      
+      // Broadcast real-time update
+      broadcastLoanUpdate({
+        loanId,
+        oldStatus: currentLoan?.status || 'pending',
+        newStatus: 'cancelled',
+        itemName: item?.name,
+        userName: currentLoan?.user?.name,
+        userId: currentLoan?.userId
+      });
     } catch (error) {
       console.error('Error rejecting loan:', error);
     }
@@ -399,10 +457,24 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
 
   const returnItem = async (loanId: string) => {
     try {
+      // Find the current loan to get details for notification
+      const currentLoan = loans.find(l => l.id === loanId);
+      const item = currentLoan ? getItemById(currentLoan.itemId) : null;
+      
       await apiService.returnItem(loanId);
       setLoans(prev => prev.map(loan =>
         loan.id === loanId ? { ...loan, status: 'returned' as any, actualReturnDate: new Date() } : loan
       ));
+      
+      // Broadcast real-time update
+      broadcastLoanUpdate({
+        loanId,
+        oldStatus: currentLoan?.status || 'active',
+        newStatus: 'returned',
+        itemName: item?.name,
+        userName: currentLoan?.user?.name,
+        userId: currentLoan?.userId
+      });
 
       // Refresh items to update available quantities
       await loadItems();

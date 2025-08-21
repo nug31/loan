@@ -1,22 +1,57 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Calendar, Clock, Package, AlertTriangle, CheckCircle, X, RotateCcw, Eye, Download } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useData } from '../../contexts/DataContext';
+import { useNotifications, LoanStatusUpdate } from '../../contexts/NotificationContext';
 import { Loan } from '../../types';
 
 export const MyLoans: React.FC = () => {
   const { user, isAdmin } = useAuth();
   const { getUserLoans, getItemById, returnItem, requestExtension } = useData();
+  const { subscribeLoanUpdates, addNotification } = useNotifications();
   const [activeTab, setActiveTab] = useState<'active' | 'pending' | 'history'>('active');
   const [selectedLoan, setSelectedLoan] = useState<Loan | null>(null);
   const [showReturnModal, setShowReturnModal] = useState(false);
   const [showExtensionModal, setShowExtensionModal] = useState(false);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const userLoans = getUserLoans(user?.id || '');
   const activeLoans = userLoans.filter(loan => loan.status === 'active');
   const pendingLoans = userLoans.filter(loan => loan.status === 'pending');
   const historyLoans = userLoans.filter(loan => ['returned', 'cancelled'].includes(loan.status));
+
+  // Subscribe to real-time loan updates
+  useEffect(() => {
+    const unsubscribe = subscribeLoanUpdates((update: LoanStatusUpdate) => {
+      console.log('📡 MyLoans received loan update:', update);
+      
+      // Only show notification for current user's loans
+      if (update.userId === user?.id) {
+        // Trigger a re-render to reflect updated loan status
+        setRefreshTrigger(prev => prev + 1);
+        
+        // Show user-specific notification
+        if (update.oldStatus === 'pending' && update.newStatus === 'active') {
+          addNotification({
+            type: 'success',
+            title: 'Loan Approved! 🎉',
+            message: `Your request for "${update.itemName}" has been approved and is now active.`,
+            duration: 8000
+          });
+        } else if (update.oldStatus === 'pending' && update.newStatus === 'cancelled') {
+          addNotification({
+            type: 'warning',
+            title: 'Loan Request Rejected',
+            message: `Your request for "${update.itemName}" has been rejected. Please contact admin for more information.`,
+            duration: 8000
+          });
+        }
+      }
+    });
+
+    return unsubscribe;
+  }, [subscribeLoanUpdates, user?.id, addNotification]);
 
   const getStatusColor = (status: string) => {
     switch (status) {

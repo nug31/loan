@@ -74,7 +74,7 @@ jspm_packages/
 
 # Gatsby files
 .cache/
-public
+# public
 
 # Storybook build outputs
 .out
@@ -114,3 +114,7 @@ debug-*.js
 # Backup files
 *.bak
 *.backup
+
+# Exclude unwanted project folders
+loan/
+mitragarage/
