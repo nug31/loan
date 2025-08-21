@@ -17,26 +17,26 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen }) => {
   const unreadNotifications = notifications.filter(n => !n.isRead);
 
   return (
-    <header className="bg-gradient-to-r from-orange-500 to-orange-600 shadow-lg border-b border-orange-400 sticky top-0 z-50">
+    <header className="bg-gradient-to-r from-slate-600 to-slate-700 shadow-lg border-b border-slate-500 sticky top-0 z-50">
       <div className="flex items-center justify-between px-6 py-4">
         <div className="flex items-center space-x-4">
           <button
             onClick={onMenuToggle}
-            className="lg:hidden p-2 rounded-lg hover:bg-orange-400 transition-all duration-200"
+            className="lg:hidden p-2 rounded-lg hover:bg-slate-500 transition-all duration-200"
           >
-            {isMenuOpen ? <X size={24} className="text-orange-100" /> : <Menu size={24} className="text-orange-100" />}
+            {isMenuOpen ? <X size={24} className="text-slate-100" /> : <Menu size={24} className="text-slate-100" />}
           </button>
 
           <div className="flex items-center space-x-4">
             <div className="relative">
               {/* Logo */}
               <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-lg border border-white/30">
-                <Handshake size={24} className="text-orange-100" />
+                <Handshake size={24} className="text-slate-100" />
               </div>
             </div>
 
             <div className="flex flex-col">
-              <span className="font-bold text-xl text-orange-100 hidden sm:block leading-tight">
+              <span className="font-bold text-xl text-slate-100 hidden sm:block leading-tight">
                 LoanMitra
               </span>
             </div>
@@ -47,9 +47,9 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen }) => {
           <div className="relative">
             <button
               onClick={() => setShowNotifications(!showNotifications)}
-              className="relative p-2 rounded-lg hover:bg-orange-400 transition-all duration-200"
+              className="relative p-2 rounded-lg hover:bg-slate-500 transition-all duration-200"
             >
-              <Bell size={20} className="text-orange-100" />
+              <Bell size={20} className="text-slate-100" />
               {unreadNotifications.length > 0 && (
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                   {unreadNotifications.length}
@@ -101,14 +101,14 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen }) => {
           <div className="relative">
             <button
               onClick={() => setShowProfileMenu(!showProfileMenu)}
-              className="flex items-center space-x-2 p-2 rounded-lg hover:bg-orange-400 transition-all duration-200"
+              className="flex items-center space-x-2 p-2 rounded-lg hover:bg-slate-500 transition-all duration-200"
             >
               <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
                 isAdmin ? 'bg-red-600' : 'bg-blue-600'
               }`}>
                 <User size={16} className="text-white" />
               </div>
-              <span className="hidden sm:block font-medium text-orange-100">
+              <span className="hidden sm:block font-medium text-slate-100">
                 {user?.firstName || user?.email} {user?.lastName}
               </span>
             </button>
