@@ -138,7 +138,15 @@ export const ItemCatalog: React.FC<ItemCatalogProps> = ({ onTabChange }) => {
 
 
 
-  const ItemCard: React.FC<{ item: Item }> = ({ item }) => (
+  const ItemCard: React.FC<{ item: Item }> = ({ item }) => {
+    console.log(`🔍 ItemCard rendering for ${item.name}:`, {
+      availableQuantity: item.availableQuantity,
+      totalQuantity: item.quantity,
+      condition: item.condition,
+      category: item.category
+    });
+    
+    return (
     <div className="group bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg hover:border-orange-300 transition-all duration-300 transform hover:-translate-y-1">
       {/* Image Placeholder with Gradient */}
       <div className="relative h-48 bg-gradient-to-br from-orange-100 via-orange-50 to-gray-100 flex items-center justify-center">
@@ -211,10 +219,10 @@ export const ItemCatalog: React.FC<ItemCatalogProps> = ({ onTabChange }) => {
             <span className="text-sm font-medium">View</span>
           </button>
           
-          {/* Request Button */}
+          {/* Request Button - Always show for available items */}
           {item.availableQuantity > 0 ? (
             <button
-              className="flex-1 px-3 py-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg flex items-center justify-center space-x-1"
+              className="flex-1 px-3 py-2 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg flex items-center justify-center space-x-1"
               onClick={() => openRequestForm(item)}
             >
               <ShoppingCart size={14} />
@@ -229,7 +237,8 @@ export const ItemCatalog: React.FC<ItemCatalogProps> = ({ onTabChange }) => {
         </div>
       </div>
     </div>
-  );
+    );
+  };
 
   return (
     <div className="space-y-6">
@@ -266,7 +275,7 @@ export const ItemCatalog: React.FC<ItemCatalogProps> = ({ onTabChange }) => {
             </div>
             <div className="flex flex-col sm:flex-row sm:justify-end gap-2 sm:gap-2 pt-2">
               <button type="button" onClick={closeRequestForm} className="w-full sm:w-auto px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 transition-colors">Cancel</button>
-              <button type="submit" className="w-full sm:w-auto px-4 py-2 rounded bg-orange hover:bg-orange-dark text-white transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">Submit</button>
+              <button type="submit" className="w-full sm:w-auto px-4 py-2 rounded bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">Submit</button>
             </div>
           </form>
         </div>
