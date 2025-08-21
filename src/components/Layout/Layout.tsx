@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Header } from './Header';
 import { Sidebar } from './Sidebar';
+import { Footer } from './Footer';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -20,7 +21,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeTab, onTabChange
   };
 
   return (
-    <div className="flex h-screen bg-gradient-to-br from-amber-50 via-blue-50 to-red-50">
+    <div className="flex min-h-screen bg-gradient-to-br from-amber-50 via-blue-50 to-red-50">
       <Sidebar
         activeTab={activeTab}
         onTabChange={onTabChange}
@@ -36,15 +37,19 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeTab, onTabChange
         />
       )}
 
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex-1 flex flex-col">
         <Header
           onMenuToggle={handleMenuToggle}
           isMenuOpen={isSidebarOpen}
         />
 
         <main className="flex-1 overflow-x-hidden overflow-y-auto">
-          {children}
+          <div className="min-h-full">
+            {children}
+          </div>
         </main>
+
+        <Footer />
       </div>
     </div>
   );
