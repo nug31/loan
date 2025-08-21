@@ -235,7 +235,7 @@ export const ItemCatalog: React.FC<ItemCatalogProps> = ({ onTabChange }) => {
           {/* Request Button - Always show for available items */}
           {item.availableQuantity > 0 ? (
             <button
-              className="w-full px-4 py-3 bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 text-white rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg flex items-center justify-center space-x-2"
+              className="w-full px-4 py-3 bg-gradient-to-r from-slate-600 to-slate-700 hover:from-slate-700 hover:to-slate-800 text-white rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg flex items-center justify-center space-x-2"
               onClick={() => openRequestForm(item)}
             >
               <ShoppingCart size={16} />
