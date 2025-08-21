@@ -1,5 +1,5 @@
 import React from 'react';
-import { Instagram, MessageCircle, Globe, Heart, Code, Star } from 'lucide-react';
+import { Instagram, MessageCircle, Globe, Heart, Code } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
@@ -99,27 +99,11 @@ export const Footer: React.FC = () => {
           <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
             {/* Copyright */}
             <div className="flex items-center space-x-2 text-sm text-gray-300">
-              <span>© 2024 LoanMitra.</span>
+              <span>© 2025 LoanMitra.</span>
               <span>Developed with</span>
               <Heart size={14} className="text-red-500 animate-pulse" />
               <span>by</span>
               <span className="font-semibold text-orange-400">NUG</span>
-            </div>
-
-            {/* Rating/Reviews */}
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-1">
-                <div className="flex space-x-1">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <Star key={star} size={14} className="text-yellow-400 fill-current" />
-                  ))}
-                </div>
-                <span className="text-xs text-gray-300 ml-2">5.0 Rating</span>
-              </div>
-              
-              <div className="text-xs text-gray-400 border-l border-slate-600 pl-4">
-                <span>Made in Indonesia 🇮🇩</span>
-              </div>
             </div>
           </div>
 
