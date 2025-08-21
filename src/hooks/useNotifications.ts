@@ -16,8 +16,11 @@ export const useNotifications = (userId?: string): UseNotificationsReturn => {
   useEffect(() => {
     if (!userId) return;
 
-    // Initialize SSE connection
-    const eventSource = new EventSource(`http://localhost:3002/api/notifications/stream?userId=${userId}`);
+    // Initialize SSE connection - handle both development and production
+    const baseUrl = process.env.NODE_ENV === 'production' 
+      ? 'https://loan-production-a1a2.up.railway.app'
+      : 'http://localhost:3002';
+    const eventSource = new EventSource(`${baseUrl}/api/notifications/stream?userId=${userId}`);
     eventSourceRef.current = eventSource;
 
     eventSource.onopen = () => {

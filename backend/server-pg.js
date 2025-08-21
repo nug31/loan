@@ -546,11 +546,14 @@ const sendNotificationToUser = (userId, notification) => {
   if (connection) {
     try {
       connection.write(`data: ${JSON.stringify(notification)}\n\n`);
-      console.log(`📡 Notification sent to user ${userId}:`, notification.title);
+      console.log(`📡 ✅ Notification sent to user ${userId}:`, notification.title);
+      console.log(`📡 📋 Notification details:`, { id: notification.id, type: notification.type, message: notification.message });
     } catch (error) {
-      console.error(`📡 Error sending notification to user ${userId}:`, error);
+      console.error(`📡 ❌ Error sending notification to user ${userId}:`, error);
       sseConnections.delete(userId);
     }
+  } else {
+    console.log(`📡 ⚠️ No SSE connection found for user ${userId}. Active connections:`, Array.from(sseConnections.keys()));
   }
 };
 
@@ -980,10 +983,13 @@ app.post('/api/loans', async (req, res) => {
       relatedId: loanWithAssociations.id
     };
 
+    console.log(`📡 🔄 Sending confirmation notification to user ${loanWithAssociations.userId}`);
     sendNotificationToUser(loanWithAssociations.userId, userConfirmationNotification);
 
     // Send notification to all admins about new loan request
     const adminUsers = await User.findAll({ where: { role: 'admin' } });
+    console.log(`📡 🔄 Found ${adminUsers.length} admin users to notify:`, adminUsers.map(u => `${u.name} (${u.id})`));
+    
     const newLoanNotification = {
       id: `notif_${Date.now()}`,
       type: 'new_loan_request',
@@ -996,6 +1002,7 @@ app.post('/api/loans', async (req, res) => {
 
     // Send to all admin users
     adminUsers.forEach(admin => {
+      console.log(`📡 🔄 Sending admin notification to ${admin.name} (${admin.id})`);
       sendNotificationToUser(admin.id, { ...newLoanNotification, userId: admin.id });
     });
 
@@ -1081,6 +1088,7 @@ app.put('/api/loans/:id/approve', async (req, res) => {
       relatedId: updatedLoan.id
     };
 
+    console.log(`📡 🎉 Sending approval notification to user ${updatedLoan.userId} (${updatedLoan.user.name})`);
     sendNotificationToUser(updatedLoan.userId, notification);
 
     res.json(updatedLoan);
