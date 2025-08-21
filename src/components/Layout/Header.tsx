@@ -37,7 +37,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen }) => {
 
             <div className="flex flex-col">
               <span className="font-bold text-xl text-orange-100 hidden sm:block leading-tight">
-                LoanMitra
+                SmartLend
               </span>
             </div>
           </div>

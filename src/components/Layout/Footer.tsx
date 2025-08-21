@@ -103,7 +103,7 @@ export const Footer: React.FC = () => {
           <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
             {/* Copyright */}
             <div className="flex items-center space-x-2 text-sm text-gray-300">
-              <span>© 2025 LoanMitra.</span>
+              <span>© 2025 SmartLend.</span>
               <span>Developed with</span>
               <Heart size={14} className="text-red-500 animate-pulse" />
               <span>by</span>

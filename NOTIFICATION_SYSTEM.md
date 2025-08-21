@@ -1,7 +1,7 @@
 # Notification System Documentation
 
 ## Overview
-The notification system in LoanMitra provides real-time notifications for both admin and user actions related to loan management. It uses Server-Sent Events (SSE) for real-time communication and browser notifications for immediate user feedback.
+The notification system in SmartLend provides real-time notifications for both admin and user actions related to loan management. It uses Server-Sent Events (SSE) for real-time communication and browser notifications for immediate user feedback.
 
 ## Features
 
