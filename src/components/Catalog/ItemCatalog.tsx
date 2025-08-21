@@ -175,24 +175,6 @@ export const ItemCatalog: React.FC<ItemCatalogProps> = ({ onTabChange }) => {
     
     return (
     <div className="group bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg hover:border-orange-300 transition-all duration-300 transform hover:-translate-y-1">
-      {/* Image Placeholder with Gradient */}
-      <div className="relative h-48 bg-gradient-to-br from-orange-100 via-orange-50 to-gray-100 flex items-center justify-center">
-        {getCategoryIcon(item.category)}
-        
-        {/* Availability Badge */}
-        <div className="absolute top-3 right-3">
-          <span className={`px-2 py-1 rounded-full text-xs font-semibold shadow-sm ${getAvailabilityColor(item)}`}>
-            {item.availableQuantity > 0 ? 'In Stock' : 'Out of Stock'}
-          </span>
-        </div>
-        
-        {/* Condition Badge */}
-        <div className="absolute top-3 left-3">
-          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getConditionColor(item.condition)}`}>
-            {item.condition.charAt(0).toUpperCase() + item.condition.slice(1)}
-          </span>
-        </div>
-      </div>
       
       {/* Content */}
       <div className="p-4 space-y-3">
@@ -206,6 +188,16 @@ export const ItemCatalog: React.FC<ItemCatalogProps> = ({ onTabChange }) => {
         
         {/* Item Details */}
         <div className="space-y-2">
+          {/* Status and Condition Badges */}
+          <div className="flex items-center space-x-2 mb-3">
+            <span className={`px-2 py-1 rounded-full text-xs font-semibold shadow-sm ${getAvailabilityColor(item)}`}>
+              {item.availableQuantity > 0 ? 'In Stock' : 'Out of Stock'}
+            </span>
+            <span className={`px-2 py-1 rounded-full text-xs font-medium ${getConditionColor(item.condition)}`}>
+              {item.condition.charAt(0).toUpperCase() + item.condition.slice(1)}
+            </span>
+          </div>
+          
           {/* Category with Icon */}
           <div className="flex items-center space-x-2">
             <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
