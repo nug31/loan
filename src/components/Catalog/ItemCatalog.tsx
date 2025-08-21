@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Filter, Package, MapPin, Clock, Star, Eye, ShoppingCart, Grid, List } from 'lucide-react';
+import { Search, Filter, Package, MapPin, Clock, Star, Eye, ShoppingCart, Grid, List, Truck, Car, Ambulance, Bus, Wrench } from 'lucide-react';
 import { useData } from '../../contexts/DataContext';
 import { Item } from '../../types';
 import { useAuth } from '../../contexts/AuthContext';
@@ -136,6 +136,33 @@ export const ItemCatalog: React.FC<ItemCatalogProps> = ({ onTabChange }) => {
     return 'bg-green-100 text-green-800';
   };
 
+  // Function to get category-specific icon
+  const getCategoryIcon = (category: string) => {
+    const categoryLower = category.toLowerCase();
+    
+    if (categoryLower.includes('ambulance')) {
+      return <Ambulance size={48} className="text-orange-400 group-hover:text-orange-500 transition-colors" />;
+    }
+    if (categoryLower.includes('carry') || categoryLower.includes('truck')) {
+      return <Truck size={48} className="text-orange-400 group-hover:text-orange-500 transition-colors" />;
+    }
+    if (categoryLower.includes('crv') || categoryLower.includes('car')) {
+      return <Car size={48} className="text-orange-400 group-hover:text-orange-500 transition-colors" />;
+    }
+    if (categoryLower.includes('fortuner') || categoryLower.includes('suv')) {
+      return <Bus size={48} className="text-orange-400 group-hover:text-orange-500 transition-colors" />;
+    }
+    if (categoryLower.includes('h1') || categoryLower.includes('hummer')) {
+      return <Bus size={48} className="text-orange-400 group-hover:text-orange-500 transition-colors" />;
+    }
+    if (categoryLower.includes('tool') || categoryLower.includes('equipment')) {
+      return <Wrench size={48} className="text-orange-400 group-hover:text-orange-500 transition-colors" />;
+    }
+    
+    // Default icon for unknown categories
+    return <Package size={48} className="text-orange-400 group-hover:text-orange-500 transition-colors" />;
+  };
+
 
 
   const ItemCard: React.FC<{ item: Item }> = ({ item }) => {
@@ -150,7 +177,7 @@ export const ItemCatalog: React.FC<ItemCatalogProps> = ({ onTabChange }) => {
     <div className="group bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg hover:border-orange-300 transition-all duration-300 transform hover:-translate-y-1">
       {/* Image Placeholder with Gradient */}
       <div className="relative h-48 bg-gradient-to-br from-orange-100 via-orange-50 to-gray-100 flex items-center justify-center">
-        <Package size={48} className="text-orange-400 group-hover:text-orange-500 transition-colors" />
+        {getCategoryIcon(item.category)}
         
         {/* Availability Badge */}
         <div className="absolute top-3 right-3">
