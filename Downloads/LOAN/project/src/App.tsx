@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { DataProvider, useData } from './contexts/DataContext';
+import { NotificationProvider } from './contexts/NotificationContext';
+import { ToastContainer } from './components/UI/Toast';
 
 // Version 1.0.1 - Fixed translation errors by removing i18n completely
 import { LoginForm } from './components/Auth/LoginForm';
@@ -406,9 +408,12 @@ const AppContent: React.FC = () => {
 function App() {
   return (
     <AuthProvider>
-      <DataProvider>
-        <AppContent />
-      </DataProvider>
+      <NotificationProvider>
+        <DataProvider>
+          <AppContent />
+          <ToastContainer />
+        </DataProvider>
+      </NotificationProvider>
     </AuthProvider>
   );
 }
