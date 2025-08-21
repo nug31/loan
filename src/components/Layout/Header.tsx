@@ -39,9 +39,6 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen }) => {
               <span className="font-bold text-xl text-orange-100 hidden sm:block leading-tight">
                 LoanMitra
               </span>
-              <span className="text-xs text-orange-200 font-semibold hidden sm:block -mt-1 tracking-wide">
-                by NUG
-              </span>
             </div>
           </div>
         </div>
