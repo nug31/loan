@@ -212,9 +212,9 @@ const translations = {
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [language, setLanguage] = useState<Language>(() => {
-    // Get from localStorage or default to Indonesian
+    // Get from localStorage or default to English
     const saved = localStorage.getItem('language');
-    return (saved as Language) || 'id';
+    return (saved as Language) || 'en';
   });
 
   // Save to localStorage when language changes
