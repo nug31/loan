@@ -3,7 +3,6 @@ import { Search, Filter, Package, MapPin, Clock, Star, Eye, ShoppingCart, Grid, 
 import { useData } from '../../contexts/DataContext';
 import { Item } from '../../types';
 import { useAuth } from '../../contexts/AuthContext';
-import { useLanguage } from '../../contexts/LanguageContext';
 
 interface ItemCatalogProps {
   onTabChange?: (tab: string) => void;
@@ -12,7 +11,6 @@ interface ItemCatalogProps {
 export const ItemCatalog: React.FC<ItemCatalogProps> = ({ onTabChange }) => {
   const { items, categories, searchItems, requestLoan } = useData();
   const { user } = useAuth();
-  const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedCondition, setSelectedCondition] = useState('all');
@@ -193,7 +191,7 @@ export const ItemCatalog: React.FC<ItemCatalogProps> = ({ onTabChange }) => {
           {/* Status and Condition Badges */}
           <div className="flex items-center space-x-2 mb-3">
             <span className={`px-2 py-1 rounded-full text-xs font-semibold shadow-sm ${getAvailabilityColor(item)}`}>
-              {item.availableQuantity > 0 ? t('catalog.inStock') : t('catalog.outOfStock')}
+              {item.availableQuantity > 0 ? 'In Stock' : 'Out of Stock'}
             </span>
             <span className={`px-2 py-1 rounded-full text-xs font-medium ${getConditionColor(item.condition)}`}>
               {item.condition.charAt(0).toUpperCase() + item.condition.slice(1)}
@@ -224,7 +222,7 @@ export const ItemCatalog: React.FC<ItemCatalogProps> = ({ onTabChange }) => {
               <div className="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center">
                 <Star size={12} className="text-purple-600" />
               </div>
-              <span className="text-sm text-gray-600">{t('common.available')}</span>
+              <span className="text-sm text-gray-600">Available</span>
             </div>
             <span className="text-lg font-bold text-gray-900">
               {item.availableQuantity}
@@ -241,12 +239,12 @@ export const ItemCatalog: React.FC<ItemCatalogProps> = ({ onTabChange }) => {
               onClick={() => openRequestForm(item)}
             >
               <ShoppingCart size={16} />
-              <span className="text-sm font-semibold">{t('common.request')}</span>
+              <span className="text-sm font-semibold">Request</span>
             </button>
           ) : (
             <button className="w-full px-4 py-3 bg-gray-300 text-gray-500 rounded-lg cursor-not-allowed flex items-center justify-center space-x-2">
               <Clock size={16} />
-              <span className="text-sm font-semibold">{t('common.unavailable')}</span>
+              <span className="text-sm font-semibold">Unavailable</span>
             </button>
           )}
         </div>
@@ -265,32 +263,32 @@ export const ItemCatalog: React.FC<ItemCatalogProps> = ({ onTabChange }) => {
       {showRequestForm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 p-4">
           <form onSubmit={handleRequestSubmit} className="bg-white rounded-lg shadow-lg p-4 sm:p-6 w-full max-w-md max-h-[90vh] overflow-y-auto space-y-4">
-            <h2 className="text-lg sm:text-xl font-bold mb-2">{t('request.title')}</h2>
+            <h2 className="text-lg sm:text-xl font-bold mb-2">Request Item</h2>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">{t('request.item')}</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Item</label>
               <input type="text" value={requestItem?.name || ''} readOnly className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">{t('request.reason')}</label>
-              <textarea value={reason} onChange={e => setReason(e.target.value)} required className="w-full px-3 py-2 border border-gray-300 rounded-lg" placeholder={t('request.reasonPlaceholder')} />
+              <label className="block text-sm font-medium text-gray-700 mb-1">Reason</label>
+              <textarea value={reason} onChange={e => setReason(e.target.value)} required className="w-full px-3 py-2 border border-gray-300 rounded-lg" placeholder="Enter your reason for borrowing..." />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">{t('request.startDate')}</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
                 <input type="date" value={date} onChange={e => setDate(e.target.value)} required className="w-full px-3 py-2 border border-gray-300 rounded-lg" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">{t('request.returnDate')}</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Return Date</label>
                 <input type="date" value={returnDate} onChange={e => setReturnDate(e.target.value)} required className="w-full px-3 py-2 border border-gray-300 rounded-lg" />
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">{t('request.startTime')}</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Start Time</label>
               <input type="time" value={startTime} onChange={e => setStartTime(e.target.value)} required className="w-full px-3 py-2 border border-gray-300 rounded-lg" />
             </div>
             <div className="flex flex-col sm:flex-row sm:justify-end gap-2 sm:gap-2 pt-2">
-              <button type="button" onClick={closeRequestForm} className="w-full sm:w-auto px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 transition-colors">{t('common.cancel')}</button>
-              <button type="submit" className="w-full sm:w-auto px-4 py-2 rounded bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">{t('common.submit')}</button>
+              <button type="button" onClick={closeRequestForm} className="w-full sm:w-auto px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 transition-colors">Cancel</button>
+              <button type="submit" className="w-full sm:w-auto px-4 py-2 rounded bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">Submit</button>
             </div>
           </form>
         </div>
@@ -299,14 +297,14 @@ export const ItemCatalog: React.FC<ItemCatalogProps> = ({ onTabChange }) => {
       <div className="bg-gradient-to-r from-orange-50 to-orange-100 rounded-xl p-6 border border-orange-200">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">{t('catalog.title')}</h1>
-            <p className="text-gray-600 text-sm sm:text-base">{t('catalog.subtitle')}</p>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Item Catalog</h1>
+            <p className="text-gray-600 text-sm sm:text-base">Discover and request items from our comprehensive inventory</p>
           </div>
           <div className="flex items-center space-x-4">
             <div className="bg-white rounded-lg px-4 py-2 shadow-sm border">
               <div className="text-center">
                 <div className="text-2xl font-bold text-orange-600">{items.length}</div>
-                <div className="text-xs text-gray-600">{t('catalog.totalItems')}</div>
+                <div className="text-xs text-gray-600">Total Items</div>
               </div>
             </div>
             <div className="bg-white rounded-lg px-4 py-2 shadow-sm border">
@@ -314,7 +312,7 @@ export const ItemCatalog: React.FC<ItemCatalogProps> = ({ onTabChange }) => {
                 <div className="text-2xl font-bold text-green-600">
                   {items.reduce((sum, item) => sum + item.availableQuantity, 0)}
                 </div>
-                <div className="text-xs text-gray-600">{t('catalog.available')}</div>
+                <div className="text-xs text-gray-600">Available</div>
               </div>
             </div>
           </div>
@@ -328,7 +326,7 @@ export const ItemCatalog: React.FC<ItemCatalogProps> = ({ onTabChange }) => {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
             <input
               type="text"
-              placeholder={t('common.search')}
+              placeholder="Search..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-gray-500"
@@ -340,7 +338,7 @@ export const ItemCatalog: React.FC<ItemCatalogProps> = ({ onTabChange }) => {
             className="flex items-center justify-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
           >
             <Filter size={20} />
-            <span>{t('common.filters')}</span>
+            <span>Filters</span>
           </button>
         </div>
         
