@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { DataProvider, useData } from './contexts/DataContext';
 import { NotificationProvider } from './contexts/NotificationContext';
+import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
 import { ToastContainer } from './components/UI/Toast';
 
 // Version 1.0.1 - Fixed translation errors by removing i18n completely
@@ -22,6 +23,7 @@ import { Package, FileText, Clock, AlertTriangle, TrendingUp, Calendar, Users, C
 const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChange }) => {
   const { user, isAdmin } = useAuth();
   const { dashboardStats, loans, getUserLoans, getOverdueLoans } = useData();
+  const { t } = useLanguage();
 
   const userLoans = getUserLoans(user?.id || '');
   const overdueLoans = getOverdueLoans();
@@ -43,12 +45,12 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
           <div className="relative flex items-center justify-between">
             <div className="space-y-2">
               <h1 className="text-4xl font-bold gradient-text">
-                Welcome, {user?.firstName || user?.name || user?.email?.split('@')[0] || 'User'}! 👋
+                {t('dashboard.welcome')}, {user?.firstName || user?.name || user?.email?.split('@')[0] || 'User'}! 👋
               </h1>
               <p className="text-gray-600 text-lg">
                 {isAdmin
-                  ? "Here's what's happening with your loans and items today."
-                  : "Here's an overview of your personal loan activity."
+                  ? t('dashboard.overview')
+                  : t('dashboard.personalOverview')
                 }
               </p>
             </div>
@@ -60,7 +62,7 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
             <div className="flex items-center justify-between">
               <div className="space-y-2">
                 <p className="text-sm font-medium text-gray-600">
-                  {isAdmin ? 'Total Items' : 'My Total Loans'}
+                  {isAdmin ? t('dashboard.totalItems') : t('dashboard.myTotalLoans')}
                 </p>
                 <p className="text-3xl font-bold text-gray-900">
                   {isAdmin ? dashboardStats?.totalItems || 0 : userLoans.length}
@@ -75,7 +77,7 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
             <div className="flex items-center justify-between">
               <div className="space-y-2">
                 <p className="text-sm font-medium text-gray-600">
-                  {isAdmin ? 'Active Loans' : 'My Active Loans'}
+                  {isAdmin ? t('dashboard.activeLoans') : t('dashboard.myActiveLoans')}
                 </p>
                 <p className="text-3xl font-bold text-gray-900">{isAdmin ? dashboardStats?.activeLoans || 0 : activeUserLoans.length}</p>
               </div>
@@ -88,7 +90,7 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
             <div className="flex items-center justify-between">
               <div className="space-y-2">
                 <p className="text-sm font-medium text-gray-600">
-                  {isAdmin ? 'Pending Requests' : 'My Pending Requests'}
+                  {isAdmin ? t('dashboard.pendingRequests') : t('dashboard.myPendingRequests')}
                 </p>
                 <p className="text-3xl font-bold text-gray-900">{isAdmin ? dashboardStats?.pendingRequests || 0 : pendingUserLoans.length}</p>
               </div>
@@ -101,7 +103,7 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
             <div className="flex items-center justify-between">
               <div className="space-y-2">
                 <p className="text-sm font-medium text-gray-600">
-                  {isAdmin ? 'Overdue Items' : 'My Overdue Items'}
+                  {isAdmin ? t('dashboard.overdueItems') : t('dashboard.myOverdueItems')}
                 </p>
                 <p className="text-3xl font-bold text-gray-900">{isAdmin ? overdueLoans.length : userLoans.filter(l => l.status === 'overdue').length}</p>
               </div>
@@ -407,14 +409,16 @@ const AppContent: React.FC = () => {
 
 function App() {
   return (
-    <AuthProvider>
-      <NotificationProvider>
-        <DataProvider>
-          <AppContent />
-          <ToastContainer />
-        </DataProvider>
-      </NotificationProvider>
-    </AuthProvider>
+    <LanguageProvider>
+      <AuthProvider>
+        <NotificationProvider>
+          <DataProvider>
+            <AppContent />
+            <ToastContainer />
+          </DataProvider>
+        </NotificationProvider>
+      </AuthProvider>
+    </LanguageProvider>
   );
 }
 

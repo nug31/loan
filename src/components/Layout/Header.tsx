@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Bell, Menu, X, User, Settings, LogOut, Package, Handshake } from 'lucide-react';
+import { Bell, Menu, X, User, Settings, LogOut, Package, Handshake, Languages } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useData } from '../../contexts/DataContext';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface HeaderProps {
   onMenuToggle: () => void;
@@ -11,8 +12,10 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen }) => {
   const { user, logout, isAdmin } = useAuth();
   const { notifications, markNotificationRead } = useData();
+  const { language, setLanguage, t } = useLanguage();
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [showLanguageMenu, setShowLanguageMenu] = useState(false);
 
   const unreadNotifications = notifications.filter(n => !n.isRead);
 
@@ -47,6 +50,56 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen }) => {
         </div>
 
         <div className="flex items-center space-x-4">
+          {/* Language Switcher */}
+          <div className="relative">
+            <button
+              onClick={() => setShowLanguageMenu(!showLanguageMenu)}
+              className="relative p-2 rounded-lg hover:bg-orange-400 transition-all duration-200 flex items-center space-x-1"
+            >
+              <Languages size={20} className="text-orange-100" />
+              <span className="text-orange-100 text-sm font-medium hidden sm:block">
+                {language === 'id' ? 'ID' : 'EN'}
+              </span>
+            </button>
+
+            {showLanguageMenu && (
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 z-50">
+                <div className="p-2">
+                  <button
+                    onClick={() => {
+                      setLanguage('id');
+                      setShowLanguageMenu(false);
+                    }}
+                    className={`w-full text-left px-3 py-2 text-sm rounded flex items-center space-x-2 transition-colors ${
+                      language === 'id' 
+                        ? 'bg-orange-50 text-orange-600 font-medium' 
+                        : 'text-gray-700 hover:bg-gray-100'
+                    }`}
+                  >
+                    <span className="text-lg">🇮🇩</span>
+                    <span>{t('language.indonesian')}</span>
+                    {language === 'id' && <span className="ml-auto text-orange-500">✓</span>}
+                  </button>
+                  <button
+                    onClick={() => {
+                      setLanguage('en');
+                      setShowLanguageMenu(false);
+                    }}
+                    className={`w-full text-left px-3 py-2 text-sm rounded flex items-center space-x-2 transition-colors ${
+                      language === 'en' 
+                        ? 'bg-orange-50 text-orange-600 font-medium' 
+                        : 'text-gray-700 hover:bg-gray-100'
+                    }`}
+                  >
+                    <span className="text-lg">🇺🇸</span>
+                    <span>{t('language.english')}</span>
+                    {language === 'en' && <span className="ml-auto text-orange-500">✓</span>}
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+
           <div className="relative">
             <button
               onClick={() => setShowNotifications(!showNotifications)}
