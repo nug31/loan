@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Filter, Package, MapPin, Clock, Star, Eye, ShoppingCart, Grid, List, Truck, Car, Ambulance, Bus, Wrench } from 'lucide-react';
+import { Search, Filter, Package, MapPin, Clock, Star, Eye, ShoppingCart, Grid, List, Truck, Car, Ambulance, Bus, Wrench, CarFront } from 'lucide-react';
 import { useData } from '../../contexts/DataContext';
 import { Item } from '../../types';
 import { useAuth } from '../../contexts/AuthContext';
@@ -141,19 +141,19 @@ export const ItemCatalog: React.FC<ItemCatalogProps> = ({ onTabChange }) => {
     const categoryLower = category.toLowerCase();
     
     if (categoryLower.includes('ambulance')) {
-      return <Ambulance size={48} className="text-orange-400 group-hover:text-orange-500 transition-colors" />;
+      return <Ambulance size={48} className="text-red-400 group-hover:text-red-500 transition-colors" />;
     }
     if (categoryLower.includes('carry') || categoryLower.includes('truck')) {
-      return <Truck size={48} className="text-orange-400 group-hover:text-orange-500 transition-colors" />;
+      return <Truck size={48} className="text-blue-400 group-hover:text-blue-500 transition-colors" />;
     }
     if (categoryLower.includes('crv') || categoryLower.includes('car')) {
-      return <Car size={48} className="text-orange-400 group-hover:text-orange-500 transition-colors" />;
+      return <Car size={48} className="text-green-400 group-hover:text-green-500 transition-colors" />;
     }
     if (categoryLower.includes('fortuner') || categoryLower.includes('suv')) {
-      return <Bus size={48} className="text-orange-400 group-hover:text-orange-500 transition-colors" />;
+      return <CarFront size={48} className="text-purple-400 group-hover:text-purple-500 transition-colors" />;
     }
     if (categoryLower.includes('h1') || categoryLower.includes('hummer')) {
-      return <Bus size={48} className="text-orange-400 group-hover:text-orange-500 transition-colors" />;
+      return <Truck size={48} className="text-gray-400 group-hover:text-gray-500 transition-colors" />;
     }
     if (categoryLower.includes('tool') || categoryLower.includes('equipment')) {
       return <Wrench size={48} className="text-orange-400 group-hover:text-orange-500 transition-colors" />;
