@@ -15,12 +15,12 @@ export const Footer: React.FC = () => {
               </div>
               <div>
                 <h3 className="text-lg font-bold text-orange-400">NUG</h3>
-                <p className="text-xs text-gray-300">Full Stack Developer</p>
+                <p className="text-xs text-gray-300">Engineer & Full Stack Developer</p>
               </div>
             </div>
             <p className="text-sm text-gray-300 leading-relaxed">
-              Passionate developer creating innovative solutions with modern technologies. 
-              Specialized in React, Node.js, and mobile applications.
+              Passionate engineer and developer with expertise spanning software development, automotive engineering, 
+              architectural design, and IoT systems. Creating innovative solutions across multiple domains.
             </p>
           </div>
 
@@ -80,7 +80,11 @@ export const Footer: React.FC = () => {
             {/* Skills */}
             <div className="mt-4">
               <div className="flex flex-wrap justify-center md:justify-end gap-2">
-                {['React', 'TypeScript', 'Node.js', 'Laravel'].map((skill) => (
+                {[
+                  'React', 'TypeScript', 'Node.js', 'Laravel',
+                  'Arduino', 'Automotive', 'Architecture', 'Animation',
+                  'Electric Vehicles', 'IoT Systems'
+                ].map((skill) => (
                   <span 
                     key={skill}
                     className="px-2 py-1 bg-slate-600 hover:bg-slate-500 text-xs rounded-full transition-colors cursor-default"
