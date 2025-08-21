@@ -212,26 +212,20 @@ export const ItemCatalog: React.FC<ItemCatalogProps> = ({ onTabChange }) => {
         </div>
         
         {/* Action Buttons */}
-        <div className="flex space-x-2 pt-2">
-          {/* Quick View Button */}
-          <button className="flex-1 px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors flex items-center justify-center space-x-1">
-            <Eye size={14} />
-            <span className="text-sm font-medium">View</span>
-          </button>
-          
+        <div className="pt-2">
           {/* Request Button - Always show for available items */}
           {item.availableQuantity > 0 ? (
             <button
-              className="flex-1 px-3 py-2 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg flex items-center justify-center space-x-1"
+              className="w-full px-4 py-3 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg flex items-center justify-center space-x-2"
               onClick={() => openRequestForm(item)}
             >
-              <ShoppingCart size={14} />
-              <span className="text-sm font-medium">Request</span>
+              <ShoppingCart size={16} />
+              <span className="text-sm font-semibold">Request</span>
             </button>
           ) : (
-            <button className="flex-1 px-3 py-2 bg-gray-300 text-gray-500 rounded-lg cursor-not-allowed flex items-center justify-center space-x-1">
-              <Clock size={14} />
-              <span className="text-sm font-medium">Unavailable</span>
+            <button className="w-full px-4 py-3 bg-gray-300 text-gray-500 rounded-lg cursor-not-allowed flex items-center justify-center space-x-2">
+              <Clock size={16} />
+              <span className="text-sm font-semibold">Unavailable</span>
             </button>
           )}
         </div>
