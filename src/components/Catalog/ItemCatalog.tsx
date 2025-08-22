@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Filter, Package, MapPin, Clock, Star, Eye, ShoppingCart, Grid, List, Truck, Car, Ambulance, Bus, Wrench, CarFront } from 'lucide-react';
+import { Search, Filter, Package, MapPin, Clock, Star, Eye, FileText, Grid, List, Truck, Car, Ambulance, Bus, Wrench, CarFront } from 'lucide-react';
 import { useData } from '../../contexts/DataContext';
 import { Item } from '../../types';
 import { useAuth } from '../../contexts/AuthContext';
@@ -226,7 +226,7 @@ export const ItemCatalog: React.FC<ItemCatalogProps> = ({ onTabChange }) => {
               className="w-full px-4 py-3 bg-gradient-to-r from-slate-600 to-slate-700 hover:from-slate-700 hover:to-slate-800 text-white rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg flex items-center justify-center space-x-2"
               onClick={() => openRequestForm(item)}
             >
-              <ShoppingCart size={16} />
+              <FileText size={16} />
               <span className="text-sm font-semibold">Request</span>
             </button>
           ) : (
