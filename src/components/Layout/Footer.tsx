@@ -3,7 +3,7 @@ import { Instagram, MessageCircle, Globe, Heart, Code } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="relative bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 text-white mt-auto overflow-hidden">
+    <footer className="relative bg-gradient-to-r from-gray-50 via-white to-gray-50 text-gray-800 mt-auto overflow-hidden border-t border-gray-200">
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
@@ -14,11 +14,11 @@ export const Footer: React.FC = () => {
                 <Code size={20} className="text-white" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-orange-400">NUG</h3>
-                <p className="text-xs text-gray-300">Engineer & Full Stack Developer</p>
+                <h3 className="text-lg font-bold text-orange-500">NUG</h3>
+                <p className="text-xs text-gray-600">Engineer & Full Stack Developer</p>
               </div>
             </div>
-            <p className="text-sm text-gray-300 leading-relaxed">
+            <p className="text-sm text-gray-600 leading-relaxed">
               Passionate engineer and developer with expertise spanning software development, automotive engineering, 
               architectural design, and IoT systems. Creating innovative solutions across multiple domains.
             </p>
@@ -26,7 +26,7 @@ export const Footer: React.FC = () => {
 
           {/* Contact Info */}
           <div className="text-center">
-            <h4 className="text-lg font-semibold text-orange-400 mb-4 flex items-center justify-center space-x-2">
+            <h4 className="text-lg font-semibold text-orange-600 mb-4 flex items-center justify-center space-x-2">
               <MessageCircle size={18} />
               <span>Get In Touch</span>
             </h4>
@@ -58,7 +58,7 @@ export const Footer: React.FC = () => {
 
           {/* Portfolio */}
           <div className="text-center md:text-right">
-            <h4 className="text-lg font-semibold text-orange-400 mb-4 flex items-center justify-center md:justify-end space-x-2">
+            <h4 className="text-lg font-semibold text-orange-600 mb-4 flex items-center justify-center md:justify-end space-x-2">
               <Globe size={18} />
               <span>Portfolio</span>
             </h4>
@@ -87,7 +87,7 @@ export const Footer: React.FC = () => {
                 ].map((skill) => (
                   <span 
                     key={skill}
-                    className="px-2 py-1 bg-slate-600 hover:bg-slate-500 text-xs rounded-full transition-colors cursor-default"
+                    className="px-2 py-1 bg-gray-200 hover:bg-gray-300 text-gray-700 text-xs rounded-full transition-colors cursor-default"
                   >
                     {skill}
                   </span>
@@ -98,22 +98,22 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Divider */}
-        <div className="border-t border-slate-600 pt-6">
+        <div className="border-t border-gray-300 pt-6">
           {/* Bottom Section */}
           <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
             {/* Copyright */}
-            <div className="flex items-center space-x-2 text-sm text-gray-300">
+            <div className="flex items-center space-x-2 text-sm text-gray-600">
               <span>© 2025 SmartLend.</span>
               <span>Developed with</span>
               <Heart size={14} className="text-red-500 animate-pulse" />
               <span>by</span>
-              <span className="font-semibold text-orange-400">NUG</span>
+              <span className="font-semibold text-orange-600">NUG</span>
             </div>
           </div>
 
           {/* Fun Quote */}
-          <div className="text-center mt-4 pt-4 border-t border-slate-700">
-            <p className="text-xs text-gray-400 italic">
+          <div className="text-center mt-4 pt-4 border-t border-gray-200">
+            <p className="text-xs text-gray-500 italic">
               "Code is poetry in motion, bugs are just unexpected plot twists." - NUG
             </p>
           </div>
@@ -121,9 +121,9 @@ export const Footer: React.FC = () => {
       </div>
 
       {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-10">
-        <div className="absolute -top-10 -right-10 w-40 h-40 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full blur-3xl animate-pulse delay-1000"></div>
+      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-5">
+        <div className="absolute -top-10 -right-10 w-40 h-40 bg-gradient-to-br from-orange-300 to-orange-400 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-gradient-to-br from-blue-300 to-blue-400 rounded-full blur-3xl animate-pulse delay-1000"></div>
       </div>
     </footer>
   );
