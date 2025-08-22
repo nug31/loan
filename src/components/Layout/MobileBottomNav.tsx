@@ -137,19 +137,19 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ activeTab, onT
                       flex flex-col items-center justify-center p-2 rounded-2xl
                       transition-all duration-300 ease-out touch-target
                       ${isActive 
-                        ? 'bg-gradient-to-r from-orange-500/20 to-blue-500/20 scale-110 shadow-xl transform ring-2 ring-orange-300/50' 
-                        : 'hover:bg-gradient-to-r hover:from-orange-400/15 hover:to-blue-400/15 active:bg-orange-200/30 active:scale-95 hover:scale-105'
+                        ? 'bg-gradient-to-r from-orange-500/30 to-orange-400/30 scale-110 shadow-xl transform ring-2 ring-orange-400/60' 
+                        : 'hover:bg-gradient-to-r hover:from-orange-400/20 hover:to-orange-300/20 active:bg-orange-300/40 active:scale-95 hover:scale-105'
                       }
                       min-w-[60px] relative group
                     `}
                   >
                     {/* Glow effect for active item */}
                     {isActive && (
-                      <div className="absolute inset-0 bg-gradient-to-r from-orange-400/20 to-blue-400/20 rounded-2xl blur-md animate-pulse"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-orange-400/25 to-orange-300/25 rounded-2xl blur-md animate-pulse"></div>
                     )}
                     
                     {/* Hover glow effect */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-orange-300/0 to-blue-300/0 group-hover:from-orange-300/15 group-hover:to-blue-300/15 rounded-2xl blur-sm transition-all duration-300"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-orange-300/0 to-orange-200/0 group-hover:from-orange-300/20 group-hover:to-orange-200/20 rounded-2xl blur-sm transition-all duration-300"></div>
                     
                     {/* Icon with notification badge area */}
                     <div className="relative mb-1 z-10">
@@ -159,7 +159,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ activeTab, onT
                           transition-all duration-300
                           ${isActive 
                             ? 'text-orange-600 drop-shadow-lg filter brightness-110 font-bold' 
-                            : 'text-gray-600 group-hover:text-orange-600 group-hover:drop-shadow-md group-hover:filter group-hover:brightness-125'
+                            : 'text-orange-500 group-hover:text-orange-600 group-hover:drop-shadow-md group-hover:filter group-hover:brightness-125 group-hover:scale-110'
                           }
                         `}
                         strokeWidth={isActive ? 2.5 : 2}
@@ -180,7 +180,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ activeTab, onT
                         text-xs font-semibold transition-all duration-300 truncate z-10
                         ${isActive 
                           ? 'text-orange-600 drop-shadow-md font-bold' 
-                          : 'text-gray-600 group-hover:text-orange-600 group-hover:drop-shadow-sm group-hover:font-bold'
+                          : 'text-orange-500 group-hover:text-orange-600 group-hover:drop-shadow-sm group-hover:font-bold'
                         }
                       `}
                     >
