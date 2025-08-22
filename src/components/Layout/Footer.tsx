@@ -1,5 +1,5 @@
 import React from 'react';
-import { Instagram, MessageCircle, Heart, User } from 'lucide-react';
+import { Instagram, MessageCircle, Heart } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
@@ -8,14 +8,9 @@ export const Footer: React.FC = () => {
         {/* Main Footer Content */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-8">
           {/* Developer Info */}
-          <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg border-2 border-white">
-              <User size={24} className="text-white" />
-            </div>
-            <div className="text-left">
-              <h3 className="text-xl font-bold text-orange-500">NUG</h3>
-              <p className="text-sm text-gray-600">Engineer & Full Stack Developer</p>
-            </div>
+          <div className="text-left">
+            <h3 className="text-xl font-bold text-orange-500">NUG</h3>
+            <p className="text-sm text-gray-600">Engineer & Full Stack Developer</p>
           </div>
 
           {/* Contact Info */}
