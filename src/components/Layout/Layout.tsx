@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Header } from './Header';
-import { Sidebar } from './Sidebar';
 import { Footer } from './Footer';
+import { SimpleBottomNav } from './SimpleBottomNav';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -10,46 +10,24 @@ interface LayoutProps {
 }
 
 export const Layout: React.FC<LayoutProps> = ({ children, activeTab, onTabChange }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-  const handleMenuToggle = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
-
-  const handleSidebarClose = () => {
-    setIsSidebarOpen(false);
-  };
-
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-amber-50 via-blue-50 to-red-50">
-      <Sidebar
-        activeTab={activeTab}
-        onTabChange={onTabChange}
-        isOpen={isSidebarOpen}
-        onClose={handleSidebarClose}
-      />
-
-      {/* Enhanced overlay for mobile */}
-      {isSidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-30 lg:hidden transition-all duration-300"
-          onClick={handleSidebarClose}
-        />
-      )}
-
-      <div className="flex-1 flex flex-col">
-        <Header
-          onMenuToggle={handleMenuToggle}
-          isMenuOpen={isSidebarOpen}
-        />
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-blue-50 to-red-50">
+      <div className="flex flex-col min-h-screen">
+        <Header />
 
         <main className="flex-1 overflow-x-hidden overflow-y-auto">
-          <div className="min-h-full">
+          <div className="min-h-full pb-20">
             {children}
           </div>
         </main>
 
         <Footer />
+        
+        {/* Mobile Bottom Navigation */}
+        <SimpleBottomNav 
+          activeTab={activeTab}
+          onTabChange={onTabChange}
+        />
       </div>
     </div>
   );

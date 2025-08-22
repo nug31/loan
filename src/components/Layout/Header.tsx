@@ -1,14 +1,9 @@
 import React, { useState } from 'react';
-import { Bell, Menu, X, User, Settings, LogOut, Package, Handshake } from 'lucide-react';
+import { Bell, User, Settings, LogOut, Handshake } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useData } from '../../contexts/DataContext';
 
-interface HeaderProps {
-  onMenuToggle: () => void;
-  isMenuOpen: boolean;
-}
-
-export const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen }) => {
+export const Header: React.FC = () => {
   const { user, logout, isAdmin } = useAuth();
   const { notifications, markNotificationRead } = useData();
   const [showNotifications, setShowNotifications] = useState(false);
@@ -20,13 +15,6 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMenuOpen }) => {
     <header className="bg-gradient-to-r from-orange-500 to-orange-600 shadow-lg border-b border-orange-400 sticky top-0 z-50">
       <div className="flex items-center justify-between px-6 py-4">
         <div className="flex items-center space-x-4">
-          <button
-            onClick={onMenuToggle}
-            className="lg:hidden p-2 rounded-lg hover:bg-orange-400 transition-all duration-200"
-          >
-            {isMenuOpen ? <X size={24} className="text-orange-100" /> : <Menu size={24} className="text-orange-100" />}
-          </button>
-
           <div className="flex items-center space-x-4">
             <div className="relative">
               {/* Logo */}

@@ -1,0 +1,4 @@
+id,name,email,password,phone,department,role
+1,John Doe,john@example.com,$2b$10$hash1,+1234567890,IT,user
+2,Jane Admin,admin@example.com,$2b$10$hash2,+0987654321,Admin,admin
+3,Bob Smith,bob@example.com,plaintext123,,Engineering,user

@@ -392,7 +392,7 @@ const AppContent: React.FC = () => {
       case 'admin-categories':
         return <ManageCategories />;
       case 'settings':
-        return isAdmin ? <Settings /> : <Dashboard />;
+        return <Settings />;
       default:
         return <Dashboard />;
     }

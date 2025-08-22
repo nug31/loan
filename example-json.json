@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Student 1",
+    "email": "student1@school.com",
+    "password": "$2b$10$hashedpassword1",
+    "department": "Class A"
+  },
+  {
+    "name": "Student 2", 
+    "email": "student2@school.com",
+    "password": "plainpassword",
+    "department": "Class B"
+  }
+]

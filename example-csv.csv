@@ -1,0 +1,4 @@
+name,email,password,phone,department,role
+Nida Aprilatul Hasanah,nida_aprilatul@smkind-mm2100.sch.id,$2b$10$hash1,,SMK Industri,user
+Astri Afni Wulandari,astriafniwulandari@gmail.com,$2b$10$hash2,,SMK Industri,user
+Admin User,admin@school.com,adminpass123,+628123456,Admin,admin

@@ -14,6 +14,9 @@ const MYSQL_CONFIG = {
   password: 'pv0cQbzIDAbbtcdozpbMvCdIDDEmenwKO',
   database: 'railway',
   port: 21817,
+  connectTimeout: 60000,
+  acquireTimeout: 60000,
+  timeout: 60000,
   ssl: {
     rejectUnauthorized: false
   }

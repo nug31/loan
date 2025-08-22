@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1",
+    "name": "John Doe",
+    "email": "john@example.com",
+    "password": "$2b$10$hash1",
+    "phone": "+1234567890",
+    "department": "IT",
+    "role": "user"
+  },
+  {
+    "id": "2", 
+    "name": "Jane Admin",
+    "email": "admin@example.com",
+    "password": "$2b$10$hash2",
+    "phone": "+0987654321",
+    "department": "Admin",
+    "role": "admin"
+  }
+]
