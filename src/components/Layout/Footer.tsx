@@ -1,12 +1,12 @@
 import React from 'react';
-import { Instagram, MessageCircle, Globe, Heart, Code } from 'lucide-react';
+import { Instagram, MessageCircle, Heart, Code } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
     <footer className="relative bg-gradient-to-r from-gray-50 via-white to-gray-50 text-gray-800 mt-auto overflow-hidden border-t border-gray-200">
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
           {/* Developer Info */}
           <div className="text-center md:text-left">
             <div className="flex items-center justify-center md:justify-start space-x-2 mb-4">
@@ -52,45 +52,6 @@ export const Footer: React.FC = () => {
             </div>
           </div>
 
-          {/* Portfolio */}
-          <div className="text-center md:text-right">
-            <h4 className="text-lg font-semibold text-orange-600 mb-4 flex items-center justify-center md:justify-end space-x-2">
-              <Globe size={18} />
-              <span>Portfolio</span>
-            </h4>
-            <a 
-              href="https://jsnugroho.com" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="inline-block px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl group"
-            >
-              <div className="flex items-center space-x-2">
-                <Globe size={18} />
-                <span className="font-semibold">jsnugroho.com</span>
-              </div>
-              <p className="text-xs mt-1 opacity-90 group-hover:opacity-100">
-                View My Latest Projects
-              </p>
-            </a>
-            
-            {/* Skills */}
-            <div className="mt-4">
-              <div className="flex flex-wrap justify-center md:justify-end gap-2">
-                {[
-                  'React', 'TypeScript', 'Node.js', 'Laravel',
-                  'Arduino', 'Automotive', 'Architecture', 'Animation',
-                  'Electric Vehicles', 'IoT Systems'
-                ].map((skill) => (
-                  <span 
-                    key={skill}
-                    className="px-2 py-1 bg-gray-200 hover:bg-gray-300 text-gray-700 text-xs rounded-full transition-colors cursor-default"
-                  >
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* Divider */}
