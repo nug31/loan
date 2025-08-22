@@ -514,18 +514,23 @@ export const ManageUsers: React.FC = () => {
                     {user.createdAt.toLocaleDateString()}
                   </td>
                   <td className="px-6 py-4 text-right">
-                    <div className="flex items-center justify-end gap-2">
+                    <div className="flex items-center justify-end gap-1">
                       <button
                         onClick={() => handleEdit(user)}
                         disabled={isCurrentUser(user.id)}
-                        className="p-2 text-gray-400 hover:text-blue-600 disabled:text-gray-300 disabled:cursor-not-allowed"
+                        className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 disabled:text-gray-300 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+                        title={isCurrentUser(user.id) ? "Cannot edit your own account" : "Edit user"}
                       >
                         <Edit size={16} />
                       </button>
                       <button
                         onClick={() => handleDelete(user)}
                         disabled={!canDeleteUser(user)}
-                        className="p-2 text-gray-400 hover:text-orange disabled:text-gray-300 disabled:cursor-not-allowed"
+                        className="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200 disabled:text-gray-300 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+                        title={!canDeleteUser(user) ? 
+                          (isCurrentUser(user.id) ? "Cannot delete your own account" : "Cannot delete the last admin") : 
+                          "Delete user"
+                        }
                       >
                         <Trash2 size={16} />
                       </button>
@@ -558,18 +563,23 @@ export const ManageUsers: React.FC = () => {
                       <div className="text-sm text-gray-500">{user.email}</div>
                     </div>
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex gap-1">
                     <button
                       onClick={() => handleEdit(user)}
                       disabled={isCurrentUser(user.id)}
-                      className="p-2 text-gray-400 hover:text-blue-600 disabled:text-gray-300 disabled:cursor-not-allowed"
+                      className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 disabled:text-gray-300 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+                      title={isCurrentUser(user.id) ? "Cannot edit your own account" : "Edit user"}
                     >
                       <Edit size={16} />
                     </button>
                     <button
                       onClick={() => handleDelete(user)}
                       disabled={!canDeleteUser(user)}
-                      className="p-2 text-gray-400 hover:text-orange disabled:text-gray-300 disabled:cursor-not-allowed"
+                      className="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200 disabled:text-gray-300 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+                      title={!canDeleteUser(user) ? 
+                        (isCurrentUser(user.id) ? "Cannot delete your own account" : "Cannot delete the last admin") : 
+                        "Delete user"
+                      }
                     >
                       <Trash2 size={16} />
                     </button>
