@@ -18,10 +18,6 @@ export const Footer: React.FC = () => {
                 <p className="text-xs text-gray-600">Engineer & Full Stack Developer</p>
               </div>
             </div>
-            <p className="text-sm text-gray-600 leading-relaxed">
-              Passionate engineer and developer with expertise spanning software development, automotive engineering, 
-              architectural design, and IoT systems. Creating innovative solutions across multiple domains.
-            </p>
           </div>
 
           {/* Contact Info */}
