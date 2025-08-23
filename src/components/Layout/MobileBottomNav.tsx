@@ -120,8 +120,8 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ activeTab, onT
         
         {/* Fixed Bottom Navigation */}
         <div className="fixed bottom-0 left-0 right-0 z-50">
-          {/* Background with glass effect - bright colorful theme */}
-          <div className="bg-gradient-to-r from-white/95 via-gray-50/95 to-white/95 backdrop-blur-lg border-t border-gray-200/50 shadow-2xl">
+          {/* Background with solid orange theme */}
+          <div className="bg-orange backdrop-blur-lg border-t border-orange-dark shadow-2xl">
             {/* Navigation Items */}
             <div className="flex items-center justify-between px-4 py-3">
               {navItems.map((item) => {
@@ -137,19 +137,19 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ activeTab, onT
                       flex flex-col items-center justify-center p-2 rounded-2xl
                       transition-all duration-300 ease-out touch-target
                       ${isActive 
-                        ? 'bg-gradient-to-r from-orange-500/30 to-orange-400/30 scale-110 shadow-xl transform ring-2 ring-orange-400/60' 
-                        : 'hover:bg-gradient-to-r hover:from-orange-400/20 hover:to-orange-300/20 active:bg-orange-300/40 active:scale-95 hover:scale-105'
+                        ? 'bg-orange-light scale-110 shadow-xl transform ring-2 ring-orange-dark' 
+                        : 'hover:bg-orange-light/50 active:bg-orange-light active:scale-95 hover:scale-105'
                       }
                       min-w-[60px] relative group
                     `}
                   >
                     {/* Glow effect for active item */}
                     {isActive && (
-                      <div className="absolute inset-0 bg-gradient-to-r from-orange-400/25 to-orange-300/25 rounded-2xl blur-md animate-pulse"></div>
+                      <div className="absolute inset-0 bg-orange-light rounded-2xl blur-md animate-pulse"></div>
                     )}
                     
                     {/* Hover glow effect */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-orange-300/0 to-orange-200/0 group-hover:from-orange-300/20 group-hover:to-orange-200/20 rounded-2xl blur-sm transition-all duration-300"></div>
+                    <div className="absolute inset-0 bg-orange-light/0 group-hover:bg-orange-light/30 rounded-2xl blur-sm transition-all duration-300"></div>
                     
                     {/* Icon with notification badge area */}
                     <div className="relative mb-1 z-10">
@@ -158,8 +158,8 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ activeTab, onT
                         className={`
                           transition-all duration-300
                           ${isActive 
-                            ? 'text-orange-600 drop-shadow-lg filter brightness-110 font-bold' 
-                            : 'text-orange-500 group-hover:text-orange-600 group-hover:drop-shadow-md group-hover:filter group-hover:brightness-125 group-hover:scale-110'
+                            ? 'text-white drop-shadow-lg filter brightness-110 font-bold' 
+                            : 'text-white group-hover:text-orange-light group-hover:drop-shadow-md group-hover:filter group-hover:brightness-125 group-hover:scale-110'
                           }
                         `}
                         strokeWidth={isActive ? 2.5 : 2}
@@ -167,10 +167,10 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ activeTab, onT
                       
                       {/* Badge/notification indicator */}
                       {item.id === 'my-loans' && (
-                        <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-red-400 to-red-500 rounded-full border border-white/50 shadow-lg animate-pulse"></div>
+                        <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full border border-white/50 shadow-lg animate-pulse"></div>
                       )}
                       {item.id === 'admin-loans' && isAdmin && (
-                        <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full border border-white/50 shadow-lg animate-pulse"></div>
+                        <div className="absolute -top-1 -right-1 w-3 h-3 bg-orange-light rounded-full border border-white/50 shadow-lg animate-pulse"></div>
                       )}
                     </div>
                     
@@ -179,8 +179,8 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ activeTab, onT
                       className={`
                         text-xs font-semibold transition-all duration-300 truncate z-10
                         ${isActive 
-                          ? 'text-orange-600 drop-shadow-md font-bold' 
-                          : 'text-orange-500 group-hover:text-orange-600 group-hover:drop-shadow-sm group-hover:font-bold'
+                          ? 'text-white drop-shadow-md font-bold' 
+                          : 'text-white group-hover:text-orange-light group-hover:drop-shadow-sm group-hover:font-bold'
                         }
                       `}
                     >
@@ -192,7 +192,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ activeTab, onT
             </div>
             
             {/* Safe area bottom padding for newer iPhones */}
-            <div className="pb-safe bg-gradient-to-r from-white/95 via-gray-50/95 to-white/95"></div>
+            <div className="pb-safe bg-orange"></div>
           </div>
         </div>
       </div>
