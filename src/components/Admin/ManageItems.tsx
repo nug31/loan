@@ -155,45 +155,56 @@ export const ManageItems: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      {/* Header */}
+      <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
         <h1 className="text-2xl font-bold text-gray-900">Manage Items</h1>
-        <div className="flex items-center space-x-3">
+        
+        {/* Action Buttons */}
+        <div className="flex flex-wrap gap-2 sm:space-x-3">
           <button
             onClick={() => setShowImportModal(true)}
-            className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="flex items-center space-x-2 px-3 py-2 sm:px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"
           >
-            <Upload size={20} />
-            <span>Import</span>
+            <Upload size={18} />
+            <span className="hidden sm:inline">Import</span>
           </button>
 
           <div className="relative">
             <button
               onClick={() => setShowExportMenu(!showExportMenu)}
-              className="flex items-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+              className="flex items-center space-x-2 px-3 py-2 sm:px-4 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm"
             >
-              <Download size={20} />
-              <span>Export</span>
+              <Download size={18} />
+              <span className="hidden sm:inline">Export</span>
             </button>
 
             {showExportMenu && (
-              <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
-                <div className="p-2">
-                  <button
-                    onClick={() => handleExport('excel')}
-                    className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg flex items-center space-x-2"
-                  >
-                    <FileSpreadsheet size={16} />
-                    <span>Export to Excel</span>
-                  </button>
-                  <button
-                    onClick={() => handleExport('pdf')}
-                    className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg flex items-center space-x-2"
-                  >
-                    <FileText size={16} />
-                    <span>Export to PDF</span>
-                  </button>
+              <>
+                {/* Overlay for mobile */}
+                <div 
+                  className="fixed inset-0 z-40 sm:hidden" 
+                  onClick={() => setShowExportMenu(false)}
+                ></div>
+                
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+                  <div className="p-2">
+                    <button
+                      onClick={() => handleExport('excel')}
+                      className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg flex items-center space-x-2"
+                    >
+                      <FileSpreadsheet size={16} />
+                      <span>Export to Excel</span>
+                    </button>
+                    <button
+                      onClick={() => handleExport('pdf')}
+                      className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg flex items-center space-x-2"
+                    >
+                      <FileText size={16} />
+                      <span>Export to PDF</span>
+                    </button>
+                  </div>
                 </div>
-              </div>
+              </>
             )}
           </div>
 
@@ -203,10 +214,10 @@ export const ManageItems: React.FC = () => {
               setEditingItem(null);
               setShowAddModal(true);
             }}
-            className="flex items-center space-x-2 px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors"
+            className="flex items-center space-x-2 px-3 py-2 sm:px-4 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors text-sm"
           >
-            <Plus size={20} />
-            <span>Add Item</span>
+            <Plus size={18} />
+            <span className="hidden sm:inline">Add Item</span>
           </button>
         </div>
       </div>
@@ -240,8 +251,8 @@ export const ManageItems: React.FC = () => {
         </div>
       </div>
 
-      {/* Items Table */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+      {/* Items List - Desktop Table View */}
+      <div className="hidden md:block bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-gray-50 border-b border-gray-200">
@@ -315,6 +326,66 @@ export const ManageItems: React.FC = () => {
             </tbody>
           </table>
         </div>
+      </div>
+
+      {/* Items List - Mobile Card View */}
+      <div className="md:hidden space-y-4">
+        {filteredItems.length === 0 ? (
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 text-center">
+            <Package className="mx-auto text-gray-400 mb-4" size={48} />
+            <p className="text-gray-500">No items found</p>
+          </div>
+        ) : (
+          filteredItems.map((item) => (
+            <div key={item.id} className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+              <div className="flex items-start justify-between mb-3">
+                <div className="flex items-center space-x-3 flex-1">
+                  <div className="w-12 h-12 bg-gray-200 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <Package size={24} className="text-gray-500" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-lg font-semibold text-gray-900 truncate">{item.name}</h3>
+                    <p className="text-sm text-gray-500">{item.qrCode}</p>
+                    <p className="text-sm text-gray-600 mt-1">{item.category}</p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-2 ml-3">
+                  <button 
+                    onClick={() => handleEdit(item)}
+                    className="p-2 text-gray-400 hover:text-yellow-600 transition-colors"
+                  >
+                    <Edit size={18} />
+                  </button>
+                  <button 
+                    onClick={() => handleDelete(item)}
+                    className="p-2 text-gray-400 hover:text-red-600 transition-colors"
+                  >
+                    <Trash2 size={18} />
+                  </button>
+                </div>
+              </div>
+              
+              <div className="flex items-center justify-between pt-3 border-t border-gray-100">
+                <div className="flex items-center space-x-4">
+                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${getConditionColor(item.condition)}`}>
+                    {item.condition}
+                  </span>
+                  <span className="text-sm text-gray-600">
+                    Qty: {item.availableQuantity}/{item.quantity}
+                  </span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <button className="p-2 text-gray-400 hover:text-blue-600 transition-colors">
+                    <Eye size={16} />
+                  </button>
+                  <button className="p-2 text-gray-400 hover:text-green-600 transition-colors">
+                    <QrCode size={16} />
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))
+        )}
       </div>
 
       {/* Add/Edit Modal */}
