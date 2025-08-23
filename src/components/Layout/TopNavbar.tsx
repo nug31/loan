@@ -10,7 +10,8 @@ import {
   Clock,
   LogOut,
   Bell,
-  User
+  User,
+  Handshake
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useData } from '../../contexts/DataContext';
@@ -93,13 +94,16 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ activeTab, onTabChange }) 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 overflow-hidden">
           {/* Logo/Brand */}
-          <div className="flex items-center space-x-2 lg:space-x-3">
-            <div className="flex-shrink-0">
-              <h1 className="text-xl lg:text-2xl font-bold" style={{color: '#E9631A'}}>SmartLend</h1>
+          <div className="flex items-center space-x-1 lg:space-x-2">
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg flex items-center justify-center shadow-md">
+                <Handshake size={18} className="text-white" />
+              </div>
+              <h1 className="text-lg lg:text-xl font-bold" style={{color: '#E9631A'}}>SmartLend</h1>
             </div>
             
             {/* Navigation Items */}
-            <div className="hidden lg:flex items-center space-x-0.5 xl:space-x-1 ml-2 lg:ml-4">
+            <div className="hidden lg:flex items-center space-x-0.5 ml-1 lg:ml-2">
               {navItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = activeTab === item.id;
