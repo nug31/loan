@@ -83,15 +83,15 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ activeTab, onTabChange }) 
   return (
     <nav className="hidden lg:block bg-white shadow-sm border-b border-gray-200 sticky top-0 z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-16 overflow-hidden">
           {/* Logo/Brand */}
-          <div className="flex items-center space-x-8">
+          <div className="flex items-center space-x-4 lg:space-x-8 flex-1 min-w-0">
             <div className="flex-shrink-0">
-              <h1 className="text-2xl font-bold text-orange">SmartLend</h1>
+              <h1 className="text-xl lg:text-2xl font-bold" style={{color: '#E9631A'}}>SmartLend</h1>
             </div>
             
             {/* Navigation Items */}
-            <div className="hidden lg:flex items-center space-x-1">
+            <div className="hidden lg:flex items-center space-x-1 xl:space-x-2 flex-1 overflow-x-auto scrollbar-hide">
               {navItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = activeTab === item.id;
@@ -101,13 +101,14 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ activeTab, onTabChange }) 
                     key={item.id}
                     onClick={() => onTabChange(item.id)}
                     className={`
-                      flex items-center space-x-2 px-4 py-2 rounded-lg
+                      flex items-center space-x-1 lg:space-x-2 px-2 lg:px-4 py-2 lg:py-2.5 mx-0.5 lg:mx-1 rounded-lg whitespace-nowrap text-xs lg:text-sm
                       transition-all duration-200 ease-out
                       ${isActive 
-                        ? 'bg-orange text-white shadow-lg' 
-                        : 'text-gray-600 hover:text-orange hover:bg-orange-light/10'
+                        ? 'text-white shadow-lg' 
+                        : 'text-gray-600 hover:bg-gray-50'
                       }
                     `}
+                    style={isActive ? {backgroundColor: '#E9631A'} : {}}
                   >
                     <Icon 
                       size={18} 
@@ -127,7 +128,7 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ activeTab, onTabChange }) 
           <div className="flex items-center space-x-4">
             {/* User Profile */}
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-orange rounded-full flex items-center justify-center">
+              <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{backgroundColor: '#E9631A'}}>
                 <span className="text-white text-sm font-semibold">
                   {user?.firstName?.charAt(0) || user?.name?.charAt(0) || user?.email?.charAt(0) || 'U'}
                 </span>

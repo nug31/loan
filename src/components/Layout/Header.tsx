@@ -12,7 +12,7 @@ export const Header: React.FC = () => {
   const unreadNotifications = notifications.filter(n => !n.isRead);
 
   return (
-    <header className="bg-gradient-to-r from-orange-500 to-orange-600 shadow-lg border-b border-orange-400 sticky top-0 z-50">
+    <header className="shadow-lg border-b border-gray-200 sticky top-0 z-50" style={{background: 'linear-gradient(to right, #E9631A, #C54A0A)'}}>
       <div className="flex items-center justify-between px-6 py-4">
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-4">
