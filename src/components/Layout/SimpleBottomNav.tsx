@@ -56,7 +56,7 @@ export const SimpleBottomNav: React.FC<SimpleBottomNavProps> = ({ activeTab, onT
       icon: Home,
     },
     {
-      id: 'catalog',
+      id: 'admin-items',
       label: 'Items',
       icon: Package,
     },
@@ -101,7 +101,8 @@ export const SimpleBottomNav: React.FC<SimpleBottomNavProps> = ({ activeTab, onT
                 const Icon = item.icon;
                 const isActive = activeTab === item.id || 
                   (item.id === 'search' && activeTab === 'catalog') ||
-                  (item.id === 'settings' && ['settings', 'admin-items', 'admin-categories'].includes(activeTab));
+                  (item.id === 'admin-items' && activeTab === 'admin-items') ||
+                  (item.id === 'settings' && ['settings', 'admin-categories'].includes(activeTab));
                 
                 return (
                   <button
