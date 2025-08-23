@@ -77,42 +77,52 @@ export const ManageLoans: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      {/* Header */}
+      <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
         <h1 className="text-2xl font-bold text-gray-900">Manage Loans</h1>
+        
         <div className="relative">
           <button
             onClick={() => setShowExportMenu(!showExportMenu)}
-            className="flex items-center space-x-2 px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors"
+            className="flex items-center space-x-2 px-3 py-2 sm:px-4 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors text-sm"
           >
-            <Download size={20} />
-            <span>Export Report</span>
+            <Download size={18} />
+            <span className="hidden sm:inline">Export Report</span>
           </button>
 
           {showExportMenu && (
-            <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
-              <div className="p-2">
-                <button
-                  onClick={() => handleExport('excel')}
-                  className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg flex items-center space-x-2"
-                >
-                  <FileSpreadsheet size={16} />
-                  <span>Export to Excel</span>
-                </button>
-                <button
-                  onClick={() => handleExport('pdf')}
-                  className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg flex items-center space-x-2"
-                >
-                  <FileText size={16} />
-                  <span>Export to PDF</span>
-                </button>
+            <>
+              {/* Overlay for mobile */}
+              <div 
+                className="fixed inset-0 z-40 sm:hidden" 
+                onClick={() => setShowExportMenu(false)}
+              ></div>
+              
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+                <div className="p-2">
+                  <button
+                    onClick={() => handleExport('excel')}
+                    className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg flex items-center space-x-2"
+                  >
+                    <FileSpreadsheet size={16} />
+                    <span>Export to Excel</span>
+                  </button>
+                  <button
+                    onClick={() => handleExport('pdf')}
+                    className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg flex items-center space-x-2"
+                  >
+                    <FileText size={16} />
+                    <span>Export to PDF</span>
+                  </button>
+                </div>
               </div>
-            </div>
+            </>
           )}
         </div>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <div className="flex items-center justify-between">
             <div>
@@ -197,8 +207,124 @@ export const ManageLoans: React.FC = () => {
         </div>
       </div>
 
-      {/* Loans Table */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+      {/* Mobile Card View */}
+      <div className="block lg:hidden space-y-4">
+        {filteredLoans.map((loan) => {
+          const item = getItemById(loan.itemId);
+          const isOverdue = loan.status === 'overdue';
+          const daysOverdue = isOverdue ? getDaysOverdue(loan.endDate) : 0;
+          
+          return (
+            <div key={loan.id} className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+              <div className="flex items-start justify-between mb-3">
+                <div className="flex-1">
+                  <div className="flex items-center space-x-3 mb-2">
+                    <div className="w-8 h-8 bg-gray-200 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <CheckCircle size={16} className="text-gray-500" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <h3 className="text-sm font-medium text-gray-900 truncate">
+                        {loan.item?.name || item?.name}
+                      </h3>
+                      <p className="text-xs text-gray-500">
+                        {loan.item?.category || item?.category}
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center space-x-2 mb-2">
+                    <div className="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span className="text-xs font-medium text-gray-600">
+                        {loan.user?.name?.charAt(0) || 'U'}
+                      </span>
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm font-medium text-gray-900 truncate">
+                        {loan.user?.name || `User #${loan.userId}`}
+                      </p>
+                      {loan.user?.department && (
+                        <p className="text-xs text-gray-500 truncate">{loan.user.department}</p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="flex flex-col items-end space-y-2">
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium flex items-center space-x-1 ${getStatusColor(loan.status)}`}>
+                    {getStatusIcon(loan.status)}
+                    <span className="capitalize">{loan.status}</span>
+                  </span>
+                  {isOverdue && (
+                    <span className="text-xs text-orange">
+                      {daysOverdue}d overdue
+                    </span>
+                  )}
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-3 mb-4 text-xs">
+                <div>
+                  <p className="text-gray-500">Start Date</p>
+                  <p className="font-medium text-gray-900">
+                    {new Date(loan.startDate).toLocaleDateString()}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-gray-500">End Date</p>
+                  <p className="font-medium text-gray-900">
+                    {new Date(loan.endDate).toLocaleDateString()}
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex items-center justify-between">
+                <div className="text-xs">
+                  <span className="text-gray-500">Qty: </span>
+                  <span className="font-medium text-gray-900">{loan.quantity}</span>
+                </div>
+                
+                <div className="flex items-center space-x-2">
+                  <button
+                    onClick={() => showDetails(loan)}
+                    className="p-2 text-gray-400 hover:text-blue-600 transition-colors"
+                  >
+                    <Eye size={14} />
+                  </button>
+                  
+                  {loan.status === 'pending' && (
+                    <>
+                      <button
+                        onClick={() => handleApprove(loan.id)}
+                        className="px-3 py-1 bg-green-600 text-white text-xs rounded hover:bg-green-700 transition-colors"
+                      >
+                        Approve
+                      </button>
+                      <button
+                        onClick={() => handleReject(loan.id)}
+                        className="px-3 py-1 bg-red-600 text-white text-xs rounded hover:bg-red-700 transition-colors"
+                      >
+                        Reject
+                      </button>
+                    </>
+                  )}
+                  
+                  {(loan.status === 'active' || loan.status === 'overdue') && (
+                    <button
+                      onClick={() => handleReturn(loan.id)}
+                      className="px-3 py-1 bg-gray-800 text-white text-xs rounded hover:bg-gray-900 transition-colors"
+                    >
+                      Return
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Desktop Table View */}
+      <div className="hidden lg:block bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-gray-50 border-b border-gray-200">
@@ -333,9 +459,9 @@ export const ManageLoans: React.FC = () => {
 
       {/* Loan Details Modal */}
       {showDetailsModal && selectedLoan && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-2xl max-h-screen overflow-y-auto">
-            <div className="flex items-center justify-between mb-6">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-2xl max-h-screen overflow-y-auto">
+            <div className="flex items-center justify-between mb-4 sm:mb-6">
               <h3 className="text-lg font-semibold text-gray-900">Loan Details</h3>
               <button
                 onClick={() => setShowDetailsModal(false)}
@@ -345,8 +471,8 @@ export const ManageLoans: React.FC = () => {
               </button>
             </div>
             
-            <div className="space-y-6">
-              <div className="grid grid-cols-2 gap-6">
+            <div className="space-y-4 sm:space-y-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 <div>
                   <h4 className="font-medium text-gray-900 mb-2">Loan Information</h4>
                   <div className="space-y-2 text-sm">
@@ -369,7 +495,6 @@ export const ManageLoans: React.FC = () => {
                     {selectedLoan.approvedAt && (
                       <div><span className="text-gray-500">Approved:</span> {new Date(selectedLoan.approvedAt).toLocaleDateString()}</div>
                     )}
-
                   </div>
                 </div>
                 
