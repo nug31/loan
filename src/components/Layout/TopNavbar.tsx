@@ -92,7 +92,7 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ activeTab, onTabChange }) 
   return (
     <nav className="hidden lg:block bg-white shadow-sm border-b border-gray-200 sticky top-0 z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16 overflow-hidden">
+        <div className="flex justify-between items-center h-14 overflow-hidden">
           {/* Logo/Brand */}
           <div className="flex items-center space-x-1 lg:space-x-2">
             <div className="flex items-center space-x-2">
@@ -153,11 +153,18 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ activeTab, onTabChange }) 
               </button>
 
               {showNotifications && (
-                <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-xl border border-gray-200 z-50 overflow-hidden">
-                  <div className="p-4 border-b border-gray-100 bg-gray-50">
-                    <h3 className="font-semibold text-gray-900">Notifications</h3>
-                    <p className="text-sm text-gray-600">{unreadNotifications.length} unread</p>
-                  </div>
+                <>
+                  {/* Overlay to close dropdown when clicking outside */}
+                  <div 
+                    className="fixed inset-0 z-40" 
+                    onClick={() => setShowNotifications(false)}
+                  ></div>
+                  
+                  <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-xl border border-gray-200 z-50 overflow-hidden">
+                    <div className="p-4 border-b border-gray-100 bg-gray-50">
+                      <h3 className="font-semibold text-gray-900">Notifications</h3>
+                      <p className="text-sm text-gray-600">{unreadNotifications.length} unread</p>
+                    </div>
                   <div className="max-h-80 overflow-y-auto">
                     {notifications.length === 0 ? (
                       <div className="p-6 text-center">
@@ -188,8 +195,9 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ activeTab, onTabChange }) 
                         </div>
                       ))
                     )}
+                    </div>
                   </div>
-                </div>
+                </>
               )}
             </div>
 
@@ -213,30 +221,42 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ activeTab, onTabChange }) 
               </button>
 
               {showProfileMenu && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 z-50">
-                  <div className="p-3">
-                    <div className="px-3 py-2 text-sm text-gray-600 border-b border-gray-100 bg-gray-50 rounded mb-2">
-                      {user?.email}
-                    </div>
-                    <button className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded flex items-center space-x-2">
-                      <User size={16} className="text-gray-500" />
-                      <span>Profile</span>
-                    </button>
-                    {isAdmin && (
+                <>
+                  {/* Overlay to close dropdown when clicking outside */}
+                  <div 
+                    className="fixed inset-0 z-40" 
+                    onClick={() => setShowProfileMenu(false)}
+                  ></div>
+                  
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 z-50">
+                    <div className="p-3">
+                      <div className="px-3 py-2 text-sm text-gray-600 border-b border-gray-100 bg-gray-50 rounded mb-2">
+                        {user?.email}
+                      </div>
                       <button className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded flex items-center space-x-2">
-                        <Settings size={16} className="text-gray-500" />
-                        <span>Settings</span>
+                        <User size={16} className="text-gray-500" />
+                        <span>Profile</span>
                       </button>
-                    )}
-                    <button
-                      onClick={logout}
-                      className="w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded flex items-center space-x-2 mt-2"
-                    >
-                      <LogOut size={16} className="text-red-500" />
-                      <span>Logout</span>
-                    </button>
+                      {isAdmin && (
+                        <button className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded flex items-center space-x-2">
+                          <Settings size={16} className="text-gray-500" />
+                          <span>Settings</span>
+                        </button>
+                      )}
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          logout();
+                        }}
+                        className="w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded flex items-center space-x-2 mt-2"
+                      >
+                        <LogOut size={16} className="text-red-500" />
+                        <span>Logout</span>
+                      </button>
+                    </div>
                   </div>
-                </div>
+                </>
               )}
             </div>
           </div>
