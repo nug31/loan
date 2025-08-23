@@ -93,13 +93,13 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ activeTab, onTabChange }) 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 overflow-hidden">
           {/* Logo/Brand */}
-          <div className="flex items-center space-x-4 lg:space-x-8 flex-1 min-w-0">
+          <div className="flex items-center space-x-2 lg:space-x-3">
             <div className="flex-shrink-0">
               <h1 className="text-xl lg:text-2xl font-bold" style={{color: '#E9631A'}}>SmartLend</h1>
             </div>
             
             {/* Navigation Items */}
-            <div className="hidden lg:flex items-center space-x-1 xl:space-x-2 flex-1 overflow-x-auto scrollbar-hide">
+            <div className="hidden lg:flex items-center space-x-0.5 xl:space-x-1 ml-2 lg:ml-4">
               {navItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = activeTab === item.id;
@@ -109,7 +109,7 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ activeTab, onTabChange }) 
                     key={item.id}
                     onClick={() => onTabChange(item.id)}
                     className={`
-                      flex items-center space-x-1 lg:space-x-2 px-2 lg:px-4 py-2 lg:py-2.5 mx-0.5 lg:mx-1 rounded-lg whitespace-nowrap text-xs lg:text-sm
+                      flex items-center space-x-1.5 px-3 py-2 mx-0.5 rounded-lg whitespace-nowrap text-sm
                       transition-all duration-200 ease-out
                       ${isActive 
                         ? 'text-white shadow-lg' 
