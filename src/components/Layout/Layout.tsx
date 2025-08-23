@@ -1,5 +1,4 @@
 import React from 'react';
-import { Header } from './Header';
 import { Footer } from './Footer';
 import { SimpleBottomNav } from './SimpleBottomNav';
 import { TopNavbar } from './TopNavbar';
@@ -14,11 +13,6 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeTab, onTabChange
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-blue-50 to-red-50">
       <div className="flex flex-col min-h-screen">
-        {/* Desktop Header - only visible on desktop */}
-        <div className="hidden lg:block">
-          <Header />
-        </div>
-        
         {/* Desktop Top Navigation */}
         <TopNavbar 
           activeTab={activeTab}

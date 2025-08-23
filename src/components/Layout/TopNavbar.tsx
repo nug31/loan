@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   Home, 
   Package, 
@@ -8,9 +8,12 @@ import {
   MoreHorizontal,
   BarChart3,
   Clock,
-  LogOut
+  LogOut,
+  Bell,
+  User
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import { useData } from '../../contexts/DataContext';
 
 interface TopNavbarProps {
   activeTab: string;
@@ -19,6 +22,11 @@ interface TopNavbarProps {
 
 export const TopNavbar: React.FC<TopNavbarProps> = ({ activeTab, onTabChange }) => {
   const { isAdmin, user, logout } = useAuth();
+  const { notifications, markNotificationRead } = useData();
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
+
+  const unreadNotifications = notifications.filter(n => !n.isRead);
 
   // Define navigation items for regular users
   const userNavItems = [
@@ -125,33 +133,108 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ activeTab, onTabChange }) 
           </div>
 
           {/* User Menu */}
-          <div className="flex items-center space-x-4">
-            {/* User Profile */}
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{backgroundColor: '#E9631A'}}>
-                <span className="text-white text-sm font-semibold">
-                  {user?.firstName?.charAt(0) || user?.name?.charAt(0) || user?.email?.charAt(0) || 'U'}
-                </span>
-              </div>
-              <div className="hidden xl:block">
-                <p className="text-sm font-medium text-gray-900">
-                  {user?.firstName || user?.name || user?.email?.split('@')[0]}
-                </p>
-                <p className="text-xs text-gray-500">
-                  {isAdmin ? 'Administrator' : 'User'}
-                </p>
-              </div>
+          <div className="flex items-center space-x-3">
+            {/* Notifications */}
+            <div className="relative">
+              <button
+                onClick={() => setShowNotifications(!showNotifications)}
+                className="relative p-2 rounded-lg hover:bg-gray-100 transition-all duration-200"
+              >
+                <Bell size={20} className="text-gray-600" />
+                {unreadNotifications.length > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                    {unreadNotifications.length}
+                  </span>
+                )}
+              </button>
+
+              {showNotifications && (
+                <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-xl border border-gray-200 z-50 overflow-hidden">
+                  <div className="p-4 border-b border-gray-100 bg-gray-50">
+                    <h3 className="font-semibold text-gray-900">Notifications</h3>
+                    <p className="text-sm text-gray-600">{unreadNotifications.length} unread</p>
+                  </div>
+                  <div className="max-h-80 overflow-y-auto">
+                    {notifications.length === 0 ? (
+                      <div className="p-6 text-center">
+                        <Bell className="mx-auto text-gray-300 mb-2" size={32} />
+                        <p className="text-gray-500">No notifications</p>
+                      </div>
+                    ) : (
+                      notifications.map((notification) => (
+                        <div
+                          key={notification.id}
+                          onClick={() => markNotificationRead(notification.id)}
+                          className={`p-3 border-b border-gray-100 hover:bg-gray-50 cursor-pointer ${
+                            !notification.isRead ? 'bg-blue-50' : ''
+                          }`}
+                        >
+                          <div className="flex items-start space-x-3">
+                            <div className={`w-2 h-2 rounded-full mt-2 ${
+                              !notification.isRead ? 'bg-blue-500' : 'bg-gray-300'
+                            }`} />
+                            <div className="flex-1">
+                              <p className="font-medium text-gray-900 text-sm">{notification.title}</p>
+                              <p className="text-sm text-gray-600 mt-1">{notification.message}</p>
+                              <p className="text-xs text-gray-400 mt-2">
+                                {notification.createdAt.toLocaleDateString()}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
 
-            {/* Logout Button */}
-            <button
-              onClick={logout}
-              className="flex items-center space-x-2 px-3 py-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200"
-              title="Logout"
-            >
-              <LogOut size={18} />
-              <span className="hidden xl:inline text-sm">Logout</span>
-            </button>
+            {/* User Profile */}
+            <div className="relative">
+              <button
+                onClick={() => setShowProfileMenu(!showProfileMenu)}
+                className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-all duration-200"
+              >
+                <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+                  isAdmin ? 'bg-red-600' : 'bg-blue-600'
+                }`}>
+                  <User size={16} className="text-white" />
+                </div>
+                <span className="hidden sm:block font-medium text-gray-700 text-sm">
+                  {user?.firstName || user?.name || user?.email?.split('@')[0]} {user?.lastName}
+                </span>
+                <span className="hidden lg:block text-xs text-gray-500">
+                  {isAdmin ? 'Administrator' : 'User'}
+                </span>
+              </button>
+
+              {showProfileMenu && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 z-50">
+                  <div className="p-3">
+                    <div className="px-3 py-2 text-sm text-gray-600 border-b border-gray-100 bg-gray-50 rounded mb-2">
+                      {user?.email}
+                    </div>
+                    <button className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded flex items-center space-x-2">
+                      <User size={16} className="text-gray-500" />
+                      <span>Profile</span>
+                    </button>
+                    {isAdmin && (
+                      <button className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded flex items-center space-x-2">
+                        <Settings size={16} className="text-gray-500" />
+                        <span>Settings</span>
+                      </button>
+                    )}
+                    <button
+                      onClick={logout}
+                      className="w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded flex items-center space-x-2 mt-2"
+                    >
+                      <LogOut size={16} className="text-red-500" />
+                      <span>Logout</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
