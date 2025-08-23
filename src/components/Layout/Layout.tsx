@@ -2,6 +2,7 @@ import React from 'react';
 import { Footer } from './Footer';
 import { SimpleBottomNav } from './SimpleBottomNav';
 import { TopNavbar } from './TopNavbar';
+import { MobileHeader } from './MobileHeader';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -18,6 +19,9 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeTab, onTabChange
           activeTab={activeTab}
           onTabChange={onTabChange}
         />
+        
+        {/* Mobile Header */}
+        <MobileHeader />
 
         <main className="flex-1 overflow-x-hidden overflow-y-auto">
           <div className="min-h-full lg:pb-0 pb-20">
