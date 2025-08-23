@@ -89,8 +89,8 @@ export const SimpleBottomNav: React.FC<SimpleBottomNavProps> = ({ activeTab, onT
 
   return (
     <>
-      {/* Bottom Navigation - always visible */}
-      <div>
+      {/* Bottom Navigation - mobile only */}
+      <div className="lg:hidden">
         {/* Fixed Bottom Navigation */}
         <div className="fixed bottom-0 left-0 right-0 z-50">
           {/* Background dengan warna yang lebih soft */}
@@ -152,7 +152,7 @@ export const SimpleBottomNav: React.FC<SimpleBottomNavProps> = ({ activeTab, onT
           </div>
         </div>
         
-        {/* Spacer to prevent content from being hidden behind nav */}
+        {/* Spacer to prevent content from being hidden behind nav - mobile only */}
         <div className="h-16 pb-safe"></div>
       </div>
     </>
