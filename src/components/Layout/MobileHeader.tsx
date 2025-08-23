@@ -11,18 +11,17 @@ export const MobileHeader: React.FC = () => {
   const unreadNotifications = notifications.filter(n => !n.isRead);
 
   return (
-    <header className="lg:hidden bg-gradient-to-r from-white to-orange-50 shadow-md border-b border-orange-100 sticky top-0 z-50">
+    <header className="lg:hidden bg-white shadow-lg border-b border-gray-200 sticky top-0 z-50">
       <div className="px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center space-x-3">
-            <div className="w-14 h-14 bg-gradient-to-br from-orange-400 via-orange-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-xl border-2 border-orange-300">
-              <Handshake size={28} className="text-white drop-shadow-sm" strokeWidth={2.5} />
+            <div className="w-12 h-12 bg-gradient-to-br from-orange-600 via-orange-700 to-orange-800 rounded-xl flex items-center justify-center shadow-lg border border-orange-500">
+              <Handshake size={24} className="text-white" strokeWidth={2} />
             </div>
             <div>
-              <h1 className="text-2xl font-extrabold tracking-tight" style={{
-                color: '#D97706',
-                textShadow: '0 1px 3px rgba(0,0,0,0.1)'
+              <h1 className="text-xl font-bold" style={{
+                color: '#C2410C'
               }}>
                 SmartLend
               </h1>
