@@ -228,15 +228,28 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ activeTab, onTabChange }) 
                     onClick={() => setShowProfileMenu(false)}
                   ></div>
                   
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 z-50">
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 z-[60]">
                     <div className="p-3">
                       <div className="px-3 py-2 text-sm text-gray-600 border-b border-gray-100 bg-gray-50 rounded mb-2">
                         {user?.email}
                       </div>
-                      <button className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded flex items-center space-x-2">
+                      <div 
+                        onClick={() => {
+                          onTabChange('settings');
+                          setShowProfileMenu(false);
+                        }}
+                        onMouseDown={(e) => {
+                          e.preventDefault();
+                          onTabChange('settings');
+                          setShowProfileMenu(false);
+                        }}
+                        className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded flex items-center space-x-2 cursor-pointer select-none"
+                        role="button"
+                        tabIndex={0}
+                      >
                         <User size={16} className="text-gray-500" />
                         <span>Profile</span>
-                      </button>
+                      </div>
                       {isAdmin && (
                         <button className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded flex items-center space-x-2">
                           <Settings size={16} className="text-gray-500" />
@@ -259,6 +272,16 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ activeTab, onTabChange }) 
                 </>
               )}
             </div>
+
+            {/* Logout Button */}
+            <button
+              onClick={logout}
+              className="flex items-center space-x-2 p-2 rounded-lg hover:bg-red-50 transition-all duration-200 border border-red-200 hover:border-red-300"
+              title="Logout"
+            >
+              <LogOut size={16} className="text-red-600" />
+              <span className="hidden md:block text-sm font-medium text-red-600">Logout</span>
+            </button>
           </div>
         </div>
       </div>

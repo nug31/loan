@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   Home, 
   Package, 
@@ -7,7 +7,9 @@ import {
   MoreHorizontal,
   Users,
   Search,
-  Clock
+  Clock,
+  LogOut,
+  User
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
