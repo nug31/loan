@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import { Bell, User, LogOut, Handshake } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useData } from '../../contexts/DataContext';
+import { useNotifications } from '../../hooks/useNotifications';
+import { NotificationStatus } from '../Notifications/NotificationStatus';
 
 export const MobileHeader: React.FC = () => {
   const { user, logout, isAdmin } = useAuth();
   const { notifications, markNotificationRead } = useData();
+  const { isConnected, connectionStatus } = useNotifications(user?.id);
   const [showNotifications, setShowNotifications] = useState(false);
 
   const unreadNotifications = notifications.filter(n => !n.isRead);
@@ -53,9 +56,16 @@ export const MobileHeader: React.FC = () => {
                   ></div>
                   
                   {/* Notifications Dropdown */}
-                  <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-xl border border-gray-200 z-50 overflow-hidden">
+                  <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white rounded-lg shadow-xl border border-gray-200 z-50 overflow-hidden transform -translate-x-1/4 sm:translate-x-1/4">
                     <div className="p-4 border-b border-gray-100 bg-gray-50">
-                      <h3 className="font-semibold text-gray-900">Notifications</h3>
+                      <div className="flex justify-between items-center mb-2">
+                        <h3 className="font-semibold text-gray-900">Notifications</h3>
+                        <NotificationStatus 
+                          isConnected={isConnected} 
+                          connectionStatus={connectionStatus}
+                          className=""
+                        />
+                      </div>
                       <p className="text-sm text-gray-600">{unreadNotifications.length} unread</p>
                     </div>
                     <div className="max-h-80 overflow-y-auto">

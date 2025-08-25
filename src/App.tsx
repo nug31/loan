@@ -16,6 +16,7 @@ import { ManageLoans } from './components/Admin/ManageLoans';
 import { ManageUsers } from './components/Admin/ManageUsers';
 import ManageCategories from './components/Admin/ManageCategories';
 import { Settings } from './components/Settings/Settings';
+import { NotificationTestPanel } from './components/Test/NotificationTestPanel';
 import { Package, FileText, Clock, AlertTriangle, TrendingUp, Calendar, Users, CheckCircle } from 'lucide-react';
 
 // Temporary inline Dashboard component
