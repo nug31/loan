@@ -163,7 +163,7 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ activeTab, onTabChange }) 
                     onClick={() => setShowNotifications(false)}
                   ></div>
                   
-                  <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white rounded-lg shadow-xl border border-gray-200 z-50 overflow-hidden transform -translate-x-1/2 origin-top-right animate-in slide-in-from-top-2 fade-in duration-200">
+                  <div className="absolute left-1/2 transform -translate-x-1/2 mt-2 w-80 sm:w-96 bg-white rounded-lg shadow-xl border border-gray-200 z-50 overflow-hidden origin-top animate-in slide-in-from-top-2 fade-in duration-200">
                     <div className="p-4 border-b border-gray-100 bg-gray-50">
                       <div className="flex justify-between items-center mb-2">
                         <h3 className="font-semibold text-gray-900">Notifications</h3>
