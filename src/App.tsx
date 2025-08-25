@@ -325,9 +325,9 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
           </div>
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6">
             <h3 className="text-xl font-bold text-gray-900 mb-6">Quick Actions</h3>
-            <div className="grid grid-cols-2 gap-4">
+            <div className={`grid gap-4 ${isAdmin ? 'grid-cols-2' : 'grid-cols-2'}`}>
               <button
-                onClick={() => onTabChange('catalog')}
+                onClick={() => onTabChange(isAdmin ? 'admin-browse' : 'catalog')}
                 className="flex flex-col items-center justify-center space-y-2 p-4 bg-dark-slate hover:bg-dark-slate-dark text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
               >
                 <Package size={24} />
@@ -338,16 +338,25 @@ const Dashboard: React.FC<{ onTabChange: (tab: string) => void }> = ({ onTabChan
                 className="flex flex-col items-center justify-center space-y-2 p-4 bg-orange hover:bg-orange-dark text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
               >
                 <FileText size={24} />
-                <span className="text-sm font-semibold">My Loans</span>
+                <span className="text-sm font-semibold">{isAdmin ? 'All Loans' : 'My Loans'}</span>
               </button>
               {isAdmin && (
-                <button
-                  onClick={() => onTabChange('admin-users')}
-                  className="flex flex-col items-center justify-center space-y-2 p-4 bg-orange hover:bg-orange-dark text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
-                >
-                  <Users size={24} />
-                  <span className="text-sm font-semibold">Manage Users</span>
-                </button>
+                <>
+                  <button
+                    onClick={() => onTabChange('admin-items')}
+                    className="flex flex-col items-center justify-center space-y-2 p-4 bg-orange hover:bg-orange-dark text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
+                  >
+                    <Package size={24} />
+                    <span className="text-sm font-semibold">Manage Items</span>
+                  </button>
+                  <button
+                    onClick={() => onTabChange('admin-users')}
+                    className="flex flex-col items-center justify-center space-y-2 p-4 bg-dark-slate hover:bg-dark-slate-dark text-white rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
+                  >
+                    <Users size={24} />
+                    <span className="text-sm font-semibold">Manage Users</span>
+                  </button>
+                </>
               )}
             </div>
           </div>
@@ -380,6 +389,8 @@ const AppContent: React.FC = () => {
       case 'dashboard':
         return <Dashboard onTabChange={setActiveTab} />;
       case 'catalog':
+        return <ItemCatalog onTabChange={setActiveTab} />;
+      case 'admin-browse':
         return <ItemCatalog onTabChange={setActiveTab} />;
       case 'my-loans':
         return <MyLoans />;

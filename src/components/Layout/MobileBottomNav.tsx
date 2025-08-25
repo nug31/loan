@@ -7,7 +7,8 @@ import {
   MoreHorizontal,
   Users,
   BarChart3,
-  Clock
+  Clock,
+  Search
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -66,8 +67,8 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ activeTab, onT
       bgColor: 'bg-blue-50'
     },
     {
-      id: 'catalog',
-      label: 'Items',
+      id: 'admin-items',
+      label: 'Manage',
       icon: Package,
       color: 'text-green-600',
       activeColor: 'text-green-600',
@@ -219,11 +220,19 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ activeTab, onT
               
               <div className="grid grid-cols-2 gap-3">
                 <button
-                  onClick={() => onTabChange('admin-items')}
+                  onClick={() => onTabChange('admin-browse')}
                   className="flex flex-col items-center p-4 bg-blue-50 rounded-2xl transition-colors hover:bg-blue-100"
                 >
-                  <Package className="text-blue-600 mb-2" size={24} />
-                  <span className="text-sm font-medium text-blue-900">Manage Items</span>
+                  <Search className="text-blue-600 mb-2" size={24} />
+                  <span className="text-sm font-medium text-blue-900">Browse Items</span>
+                </button>
+                
+                <button
+                  onClick={() => onTabChange('admin-items')}
+                  className="flex flex-col items-center p-4 bg-green-50 rounded-2xl transition-colors hover:bg-green-100"
+                >
+                  <Package className="text-green-600 mb-2" size={24} />
+                  <span className="text-sm font-medium text-green-900">Manage Items</span>
                 </button>
                 
                 <button

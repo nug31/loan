@@ -20,6 +20,7 @@ interface SimpleBottomNavProps {
 
 export const SimpleBottomNav: React.FC<SimpleBottomNavProps> = ({ activeTab, onTabChange }) => {
   const { isAdmin } = useAuth();
+  const [showMoreMenu, setShowMoreMenu] = useState(false);
 
   // Define navigation items for regular users (sesuai LOAN app)
   const userNavItems = [
@@ -59,7 +60,7 @@ export const SimpleBottomNav: React.FC<SimpleBottomNavProps> = ({ activeTab, onT
     },
     {
       id: 'admin-items',
-      label: 'Items',
+      label: 'Manage',
       icon: Package,
     },
     {
@@ -79,14 +80,41 @@ export const SimpleBottomNav: React.FC<SimpleBottomNavProps> = ({ activeTab, onT
     }
   ];
 
+  // Define more menu items for admin users
+  const adminMoreItems = [
+    {
+      id: 'admin-browse',
+      label: 'Browse Items',
+      icon: Search,
+    },
+    {
+      id: 'admin-items',
+      label: 'Manage Items',
+      icon: Package,
+    },
+    {
+      id: 'settings',
+      label: 'Settings',
+      icon: Settings,
+    }
+  ];
+
   const navItems = isAdmin ? adminNavItems : userNavItems;
 
   const handleTabChange = (tabId: string) => {
     if (tabId === 'search') {
       onTabChange('catalog'); // Map search to catalog
+    } else if (tabId === 'settings' && isAdmin) {
+      setShowMoreMenu(true); // Show more menu for admin
     } else {
       onTabChange(tabId);
+      setShowMoreMenu(false);
     }
+  };
+
+  const handleMoreItemClick = (itemId: string) => {
+    onTabChange(itemId);
+    setShowMoreMenu(false);
   };
 
   return (
@@ -157,6 +185,48 @@ export const SimpleBottomNav: React.FC<SimpleBottomNavProps> = ({ activeTab, onT
         {/* Spacer to prevent content from being hidden behind nav - mobile only */}
         <div className="h-16 pb-safe"></div>
       </div>
+
+      {/* Admin More Menu Modal */}
+      {showMoreMenu && isAdmin && (
+        <div className="fixed inset-0 z-50 lg:hidden">
+          {/* Overlay */}
+          <div 
+            className="absolute inset-0 bg-black/20 backdrop-blur-sm"
+            onClick={() => setShowMoreMenu(false)}
+          />
+          
+          {/* Bottom Sheet */}
+          <div className="absolute bottom-0 left-0 right-0">
+            <div className="bg-white rounded-t-3xl shadow-2xl max-h-[50vh] overflow-hidden">
+              {/* Handle */}
+              <div className="flex justify-center pt-3 pb-2">
+                <div className="w-10 h-1 bg-gray-300 rounded-full"></div>
+              </div>
+              
+              {/* Content */}
+              <div className="px-4 pb-8">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4 px-2">Admin Tools</h3>
+                
+                <div className="grid grid-cols-2 gap-3">
+                  {adminMoreItems.map((item) => {
+                    const Icon = item.icon;
+                    return (
+                      <button
+                        key={item.id}
+                        onClick={() => handleMoreItemClick(item.id)}
+                        className="flex flex-col items-center p-4 bg-gray-50 rounded-2xl transition-colors hover:bg-orange-50 hover:text-orange-600"
+                      >
+                        <Icon className="mb-2" size={24} />
+                        <span className="text-sm font-medium">{item.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
