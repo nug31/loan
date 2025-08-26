@@ -29,10 +29,8 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeTab, onTabChange
           </div>
         </main>
 
-        {/* Desktop Footer - only visible on desktop */}
-        <div className="hidden lg:block">
-          <Footer />
-        </div>
+        {/* Footer - responsive for both desktop and mobile */}
+        <Footer />
         
         {/* Mobile Bottom Navigation - only visible on mobile */}
         <SimpleBottomNav 
