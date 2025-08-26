@@ -22,6 +22,7 @@ interface DataContextType {
   approveLoan: (loanId: string, approvedBy?: string) => void;
   rejectLoan: (loanId: string) => void;
   returnItem: (loanId: string) => void;
+  requestReturn: (loanId: string) => void;
   markNotificationRead: (notificationId: string) => void;
   searchItems: (query: string) => Item[];
   getItemById: (id: string) => Item | undefined;
@@ -483,6 +484,38 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
     }
   };
 
+  const requestReturn = async (loanId: string) => {
+    try {
+      const currentLoan = loans.find(l => l.id === loanId);
+      if (!currentLoan) return;
+      const item = getItemById(currentLoan.itemId);
+
+      // Optimistically update local state
+      setLoans(prev => prev.map(l => l.id === loanId ? { ...l, returnRequested: true } : l));
+
+      // Send API request (best-effort)
+      try {
+        await apiService.requestReturn(loanId);
+      } catch (e) {
+        console.warn('⚠️ requestReturn API failed, kept optimistic state');
+      }
+
+      // Send notifications to admin and user
+      try {
+        // Lazy import to avoid circular deps
+        const { NotificationTriggers } = await import('../services/notificationTriggers');
+        const authUser = user || { id: currentLoan.userId, firstName: currentLoan.user?.name, lastName: '', email: currentLoan.user?.email, role: 'user', isActive: true, createdAt: new Date() } as any;
+        if (item) {
+          await NotificationTriggers.onReturnRequested(currentLoan as any, item as any, authUser as any);
+        }
+      } catch (error) {
+        console.error('❌ Failed to trigger return requested notifications:', error);
+      }
+    } catch (error) {
+      console.error('❌ Error requesting return:', error);
+    }
+  };
+
   // markNotificationRead is now handled by useNotifications hook
 
   const searchItems = (query: string): Item[] => {
@@ -540,6 +573,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
     approveLoan,
     rejectLoan,
     returnItem,
+    requestReturn,
     markNotificationRead,
     searchItems,
     getItemById,

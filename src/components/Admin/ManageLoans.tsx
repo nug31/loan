@@ -254,6 +254,11 @@ export const ManageLoans: React.FC = () => {
                     {getStatusIcon(loan.status)}
                     <span className="capitalize">{loan.status}</span>
                   </span>
+                  {loan.returnRequested && (
+                    <span className="ml-2 px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700">
+                      Return requested
+                    </span>
+                  )}
                   {isOverdue && (
                     <span className="text-xs text-orange">
                       {daysOverdue}d overdue
@@ -400,6 +405,11 @@ export const ManageLoans: React.FC = () => {
                         {getStatusIcon(loan.status)}
                         <span className="capitalize">{loan.status}</span>
                       </span>
+                      {loan.returnRequested && (
+                        <span className="ml-2 px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700">
+                          Return requested
+                        </span>
+                      )}
                       {isOverdue && (
                         <div className="text-xs text-orange mt-1">
                           {daysOverdue} days overdue

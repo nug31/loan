@@ -49,6 +49,7 @@ export interface Loan {
   extensionRequested?: boolean;
   extensionApproved?: boolean;
   extensionEndDate?: Date;
+  returnRequested?: boolean;
   // Associated data from backend
   user?: {
     id: string;

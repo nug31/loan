@@ -167,6 +167,36 @@ export class NotificationTriggers {
     }
   }
 
+  static async onReturnRequested(loan: Loan, item: Item, user: User) {
+    // Notify admins that a user confirmed they have returned the item
+    const adminPayload: NotificationPayload = {
+      type: 'loan_returned',
+      title: 'User Confirmed Return',
+      message: `${user.firstName || user.name || 'User'} confirmed returning "${item.name}". Please verify and mark as returned.`,
+      adminOnly: true,
+      relatedId: loan.id,
+    };
+
+    // Notify the user that the confirmation was sent
+    const userPayload: NotificationPayload = {
+      type: 'loan_returned',
+      title: 'Return Confirmation Sent',
+      message: `Your return confirmation for "${item.name}" has been sent to admin. Please wait for verification.`,
+      userId: user.id,
+      relatedId: loan.id,
+    };
+
+    try {
+      await Promise.all([
+        notificationService.sendNotification(adminPayload),
+        notificationService.sendNotification(userPayload)
+      ]);
+      console.log('✅ Return confirmation notifications sent (user and admin)');
+    } catch (error) {
+      console.error('❌ Failed to send return confirmation notifications:', error);
+    }
+  }
+
   // System notifications
   static async onWelcomeUser(user: User) {
     const payload: NotificationPayload = {

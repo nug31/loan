@@ -374,6 +374,12 @@ class ApiService {
     });
   }
 
+  async requestReturn(loanId: string) {
+    return this.request<any>(`/loans/${loanId}/request-return`, {
+      method: 'PUT',
+    });
+  }
+
   // Categories API
   async getCategories() {
     return this.request<any[]>('/categories');

@@ -7,7 +7,7 @@ import { Loan } from '../../types';
 
 export const MyLoans: React.FC = () => {
   const { user, isAdmin } = useAuth();
-  const { getUserLoans, getItemById, returnItem, requestExtension } = useData();
+  const { getUserLoans, getItemById, returnItem, requestExtension, requestReturn } = useData();
   const { subscribeLoanUpdates, addNotification } = useNotifications();
   const [activeTab, setActiveTab] = useState<'active' | 'pending' | 'history'>('active');
   const [selectedLoan, setSelectedLoan] = useState<Loan | null>(null);
@@ -136,6 +136,11 @@ export const MyLoans: React.FC = () => {
                   {getStatusIcon(loan.status)}
                   <span className="capitalize">{loan.status}</span>
                 </span>
+                {loan.returnRequested && (
+                  <span className="px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700">
+                    Return pending
+                  </span>
+                )}
               </div>
             </div>
           </div>
@@ -170,15 +175,25 @@ export const MyLoans: React.FC = () => {
                 <Eye size={16} />
               </button>
               
-              {loan.status === 'active' && (
+              {(loan.status === 'active' || loan.status === 'overdue') && (
                 <>
-                  <button
-                    onClick={() => handleExtension(loan)}
-                    className="px-3 py-1 bg-yellow-600 text-white text-sm rounded-md hover:bg-yellow-700 transition-colors flex items-center space-x-1"
-                  >
-                    <RotateCcw size={14} />
-                    <span>Extend</span>
-                  </button>
+                  {!loan.returnRequested && (
+                    <button
+                      onClick={() => handleExtension(loan)}
+                      className="px-3 py-1 bg-yellow-600 text-white text-sm rounded-md hover:bg-yellow-700 transition-colors flex items-center space-x-1"
+                    >
+                      <RotateCcw size={14} />
+                      <span>Extend</span>
+                    </button>
+                  )}
+                  {!isAdmin && !loan.returnRequested && (
+                    <button
+                      onClick={() => requestReturn(loan.id)}
+                      className="px-3 py-1 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 transition-colors"
+                    >
+                      Confirm Returned
+                    </button>
+                  )}
                   {isAdmin && (
                     <button
                       onClick={() => handleReturn(loan)}
