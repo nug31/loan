@@ -15,58 +15,59 @@ export const Footer: React.FC = () => {
               <p className="text-sm text-gray-600">Engineer & Full Stack Developer</p>
             </div>
 
-          {/* Contact Info */}
-          <div className="flex flex-col sm:flex-row items-center gap-4">
-            <div className="flex items-center space-x-2 text-orange-600 font-semibold mb-2 sm:mb-0">
-              <MessageCircle size={18} />
-              <span>Get In Touch</span>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-3">
-              <a 
-                href="https://wa.me/6281316052316" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="flex items-center space-x-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg group"
-              >
-                <MessageCircle size={16} />
-                <span className="text-sm font-medium">WhatsApp</span>
-                <span className="text-xs bg-green-500 px-2 py-1 rounded-full group-hover:bg-green-400 transition-colors">
-                  Fast
-                </span>
-              </a>
-              
-              <a 
-                href="https://instagram.com/j.s_nugroho" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
-              >
-                <Instagram size={16} />
-                <span className="text-sm font-medium">@j.s_nugroho</span>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        {/* Divider */}
-        <div className="border-t border-gray-300 pt-6">
-          {/* Bottom Section */}
-          <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
-            {/* Copyright */}
-            <div className="flex items-center space-x-2 text-sm text-gray-600">
-              <span>© 2025 SmartLend.</span>
-              <span>Developed with</span>
-              <Heart size={14} className="text-red-500 animate-pulse" />
-              <span>by</span>
-              <span className="font-semibold text-orange-600">NUG</span>
+            {/* Contact Info */}
+            <div className="flex flex-col sm:flex-row items-center gap-4">
+              <div className="flex items-center space-x-2 text-orange-600 font-semibold mb-2 sm:mb-0">
+                <MessageCircle size={18} />
+                <span>Get In Touch</span>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <a 
+                  href="https://wa.me/6281316052316" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg group"
+                >
+                  <MessageCircle size={16} />
+                  <span className="text-sm font-medium">WhatsApp</span>
+                  <span className="text-xs bg-green-500 px-2 py-1 rounded-full group-hover:bg-green-400 transition-colors">
+                    Fast
+                  </span>
+                </a>
+                
+                <a 
+                  href="https://instagram.com/j.s_nugroho" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
+                >
+                  <Instagram size={16} />
+                  <span className="text-sm font-medium">@j.s_nugroho</span>
+                </a>
+              </div>
             </div>
           </div>
 
-          {/* Fun Quote */}
-          <div className="text-center mt-4 pt-4 border-t border-gray-200">
-            <p className="text-xs text-gray-500 italic">
-              "Code is poetry in motion, bugs are just unexpected plot twists." - NUG
-            </p>
+          {/* Divider */}
+          <div className="border-t border-gray-300 pt-6">
+            {/* Bottom Section */}
+            <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
+              {/* Copyright */}
+              <div className="flex items-center space-x-2 text-sm text-gray-600">
+                <span>© 2025 SmartLend.</span>
+                <span>Developed with</span>
+                <Heart size={14} className="text-red-500 animate-pulse" />
+                <span>by</span>
+                <span className="font-semibold text-orange-600">NUG</span>
+              </div>
+            </div>
+
+            {/* Fun Quote */}
+            <div className="text-center mt-4 pt-4 border-t border-gray-200">
+              <p className="text-xs text-gray-500 italic">
+                "Code is poetry in motion, bugs are just unexpected plot twists." - NUG
+              </p>
+            </div>
           </div>
         </div>
       </div>
