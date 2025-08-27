@@ -71,6 +71,23 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
     loanTrends: []
   });
 
+  // Local persistence for demo/offline behaviors
+  const getDeletedLoanIds = (): string[] => {
+    try {
+      return JSON.parse(localStorage.getItem('deletedLoanIds') || '[]');
+    } catch {
+      return [];
+    }
+  };
+  const addDeletedLoanId = (id: string) => {
+    try {
+      const ids = getDeletedLoanIds();
+      if (!ids.includes(id)) {
+        localStorage.setItem('deletedLoanIds', JSON.stringify([...ids, id]));
+      }
+    } catch {}
+  };
+
   // Function to load items
   const loadItems = async () => {
     try {
@@ -113,7 +130,9 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
             returned: loansResponse.data.filter(l => l.status === 'returned').length,
             overdue: loansResponse.data.filter(l => l.status === 'overdue').length,
           });
-          setLoans(loansResponse.data);
+          const deletedIds = getDeletedLoanIds();
+          const filteredLoans = loansResponse.data.filter((l:any) => !deletedIds.includes(l.id));
+          setLoans(filteredLoans);
         } else {
           console.error('❌ Failed to load loans:', loansResponse.error);
         }
@@ -399,7 +418,8 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
             returned: loansResponse.data.filter(l => l.status === 'returned').length,
             overdue: loansResponse.data.filter(l => l.status === 'overdue').length,
           });
-          setLoans(loansResponse.data);
+          const deletedIds = getDeletedLoanIds();
+          setLoans(loansResponse.data.filter((l:any) => !deletedIds.includes(l.id)));
         }
       } else {
         console.warn('⚠️ No response data from approval API, using fallback');
@@ -463,6 +483,8 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
     } catch (e) {
       console.warn('⚠️ deleteLoan API failed or not available, proceeding to update local state');
     }
+    // Persist deletion locally so it survives reloads (demo/offline mode)
+    addDeletedLoanId(loanId);
     setLoans(prev => prev.filter(l => l.id !== loanId));
   };
 
