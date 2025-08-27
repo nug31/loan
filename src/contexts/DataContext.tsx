@@ -198,14 +198,19 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
       const response = await apiService.getDashboardStats();
       if (response.data) {
         console.log('✅ Dashboard stats loaded from API:', response.data);
-        console.log('📊 API vs Expected comparison:');
-        console.log('  API activeLoans:', response.data.activeLoans);
-        console.log('  Expected activeLoans:', loans.filter(l => l.status === 'active').length);
-        console.log('  API pendingRequests:', response.data.pendingRequests);
-        console.log('  Expected pendingRequests:', loans.filter(l => l.status === 'pending').length);
-        console.log('  API overdueItems:', response.data.overdueItems);
-        console.log('  Expected overdueItems:', loans.filter(l => l.status === 'overdue').length);
-        setDashboardStats(response.data);
+        // Reconcile API stats with current client-side state to reflect local deletions/filters
+        const computedActive = loans.filter(l => l.status === 'active').length;
+        const computedPending = loans.filter(l => l.status === 'pending').length;
+        const computedOverdue = loans.filter(l => l.status === 'overdue').length;
+        const reconciledStats: DashboardStats = {
+          ...response.data,
+          totalItems: items.length,
+          activeLoans: computedActive,
+          pendingRequests: computedPending,
+          overdueItems: computedOverdue
+        } as DashboardStats;
+        console.log('📊 Reconciled stats (client > API when conflict):', reconciledStats);
+        setDashboardStats(reconciledStats);
       } else {
         console.error('❌ Failed to load dashboard stats:', response.error);
         console.log('🔄 Using fallback calculation...');
