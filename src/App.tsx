@@ -10,6 +10,7 @@ import { RegisterForm } from './components/Auth/RegisterForm';
 import { Layout } from './components/Layout/Layout';
 // import { Dashboard } from './components/Dashboard/Dashboard';
 import { ItemCatalog } from './components/Catalog/ItemCatalog';
+import { BrowseCategories } from './components/Catalog/BrowseCategories';
 import { MyLoans } from './components/Loans/MyLoans';
 import { ManageItems } from './components/Admin/ManageItems';
 import { ManageLoans } from './components/Admin/ManageLoans';
@@ -391,6 +392,8 @@ const AppContent: React.FC = () => {
         return <Dashboard onTabChange={setActiveTab} />;
       case 'catalog':
         return <ItemCatalog onTabChange={setActiveTab} />;
+      case 'categories':
+        return <BrowseCategories onTabChange={setActiveTab} />;
       case 'admin-browse':
         return <ItemCatalog onTabChange={setActiveTab} />;
       case 'my-loans':

@@ -7,6 +7,7 @@ import {
   MoreHorizontal,
   Users,
   Search,
+  Grid,
   Clock,
   LogOut,
   User
@@ -40,9 +41,9 @@ export const SimpleBottomNav: React.FC<SimpleBottomNavProps> = ({ activeTab, onT
       icon: FileText,
     },
     {
-      id: 'search',
-      label: 'Browse',
-      icon: Search,
+      id: 'categories',
+      label: 'Categories',
+      icon: Grid,
     },
     {
       id: 'settings',
@@ -102,8 +103,8 @@ export const SimpleBottomNav: React.FC<SimpleBottomNavProps> = ({ activeTab, onT
   const navItems = isAdmin ? adminNavItems : userNavItems;
 
   const handleTabChange = (tabId: string) => {
-    if (tabId === 'search') {
-      onTabChange('catalog'); // Map search to catalog
+    if (tabId === 'categories') {
+      onTabChange('categories');
     } else if (tabId === 'settings' && isAdmin) {
       setShowMoreMenu(true); // Show more menu for admin
     } else {

@@ -13,6 +13,25 @@ export const ItemCatalog: React.FC<ItemCatalogProps> = ({ onTabChange }) => {
   const { user } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
+
+  // Initialize selectedCategory from localStorage if present (set by BrowseCategories)
+  React.useEffect(() => {
+    try {
+      const saved = localStorage.getItem('catalog.selectedCategory');
+      if (saved && saved !== 'all') {
+        setSelectedCategory(saved);
+        // Optionally clear after applying so future visits reset
+        // localStorage.removeItem('catalog.selectedCategory');
+      }
+    } catch {}
+  }, []);
+
+  // Persist selection changes
+  React.useEffect(() => {
+    try {
+      localStorage.setItem('catalog.selectedCategory', selectedCategory);
+    } catch {}
+  }, [selectedCategory]);
   const [selectedCondition, setSelectedCondition] = useState('all');
   const [sortBy, setSortBy] = useState('name');
 
