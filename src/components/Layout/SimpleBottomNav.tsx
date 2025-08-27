@@ -151,8 +151,8 @@ export const SimpleBottomNav: React.FC<SimpleBottomNavProps> = ({ activeTab, onT
                         className={`
                           transition-all duration-200
                           ${isActive 
-                            ? 'text-orange-600' 
-                            : 'text-gray-500 group-hover:text-orange-500'
+                            ? 'text-[#274C5B]' 
+                            : 'text-gray-500 group-hover:text-[#274C5B]'
                           }
                         `}
                         fill={isActive ? 'currentColor' : 'none'}
@@ -165,8 +165,8 @@ export const SimpleBottomNav: React.FC<SimpleBottomNavProps> = ({ activeTab, onT
                       className={`
                         text-xs font-medium transition-all duration-200 truncate
                         ${isActive 
-                          ? 'text-orange-600' 
-                          : 'text-gray-500 group-hover:text-orange-500'
+                          ? 'text-[#274C5B]' 
+                          : 'text-gray-500 group-hover:text-[#274C5B]'
                         }
                       `}
                     >

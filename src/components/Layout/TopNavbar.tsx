@@ -116,11 +116,11 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ activeTab, onTabChange }) 
                     key={item.id}
                     onClick={() => onTabChange(item.id)}
                     className={`
-                      flex items-center space-x-1.5 px-3 py-2 mx-0.5 rounded-lg whitespace-nowrap text-sm
+                      group flex items-center space-x-1.5 px-3 py-2 mx-0.5 rounded-lg whitespace-nowrap text-sm
                       transition-all duration-200 ease-out
                       ${isActive 
                         ? 'text-white shadow-lg' 
-                        : 'text-gray-600 hover:bg-gray-50 hover:text-[#274C5B]'
+                        : 'text-gray-600 hover:bg-gray-50'
                       }
                     `}
                     style={isActive ? {backgroundColor: '#E9631A'} : {}}
@@ -129,10 +129,10 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ activeTab, onTabChange }) 
                       size={18} 
                       className={`
                         transition-colors duration-200
-                        ${isActive ? 'text-white' : 'text-current'}
+                        ${isActive ? 'text-white' : 'text-gray-600 group-hover:text-[#274C5B]'}
                       `}
                     />
-                    <span className="font-medium text-sm">{item.label}</span>
+                    <span className={`font-medium text-sm ${isActive ? 'text-white' : 'text-gray-600 group-hover:text-[#274C5B]'}`}>{item.label}</span>
                   </button>
                 );
               })}
