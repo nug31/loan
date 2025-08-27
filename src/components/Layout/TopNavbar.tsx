@@ -120,7 +120,7 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ activeTab, onTabChange }) 
                       transition-all duration-200 ease-out
                       ${isActive 
                         ? 'text-white shadow-lg' 
-                        : 'text-gray-600 hover:bg-gray-50'
+                        : 'text-gray-600 hover:bg-gray-50 hover:text-[#274C5B]'
                       }
                     `}
                     style={isActive ? {backgroundColor: '#E9631A'} : {}}
