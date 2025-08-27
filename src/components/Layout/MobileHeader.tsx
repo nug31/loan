@@ -19,8 +19,8 @@ export const MobileHeader: React.FC = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-gradient-to-br from-orange-600 via-orange-700 to-orange-800 rounded-xl flex items-center justify-center shadow-lg border border-orange-400">
-              <Handshake size={26} className="text-white" strokeWidth={2.5} fill="currentColor" />
+            <div className="w-12 h-12 bg-red-600 rounded-xl flex items-center justify-center shadow-lg border border-red-500">
+              <Handshake size={26} className="text-white" strokeWidth={3} />
             </div>
             <div>
               <h1 className="text-xl font-bold" style={{
