@@ -18,8 +18,8 @@ export const Header: React.FC = () => {
           <div className="flex items-center space-x-4">
             <div className="relative">
               {/* Logo */}
-              <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-lg border border-white/30">
-                <Handshake size={24} className="text-orange-100" />
+              <div className="w-12 h-12 bg-white/30 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-lg border border-white/40">
+                <Handshake size={26} className="text-white" strokeWidth={2.5} fill="currentColor" />
               </div>
             </div>
 
