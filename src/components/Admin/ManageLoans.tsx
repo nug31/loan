@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Search, Filter, CheckCircle, X, Clock, AlertTriangle, Eye, Download, FileSpreadsheet, FileText } from 'lucide-react';
+import { Search, Filter, CheckCircle, X, Clock, AlertTriangle, Eye, Download, FileSpreadsheet, FileText, Trash2 } from 'lucide-react';
 import { useData } from '../../contexts/DataContext';
 import { useAuth } from '../../contexts/AuthContext';
 import { Loan } from '../../types';
 import { exportLoansData } from '../../utils/exportUtils';
 
 export const ManageLoans: React.FC = () => {
-  const { loans, getItemById, approveLoan, rejectLoan, returnItem } = useData();
+  const { loans, getItemById, approveLoan, rejectLoan, returnItem, deleteLoan } = useData();
   const { user } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
@@ -52,6 +52,12 @@ export const ManageLoans: React.FC = () => {
 
   const handleReject = (loanId: string) => {
     rejectLoan(loanId);
+  };
+
+  const handleDelete = (loanId: string) => {
+    if (window.confirm('Delete this loan request? This action cannot be undone.')) {
+      deleteLoan(loanId);
+    }
   };
 
   const handleReturn = (loanId: string) => {
@@ -312,6 +318,15 @@ export const ManageLoans: React.FC = () => {
                       </button>
                     </>
                   )}
+                  {loan.status === 'pending' && (
+                    <button
+                      onClick={() => handleDelete(loan.id)}
+                      className="px-3 py-1 bg-red-600 text-white text-xs rounded hover:bg-red-700 transition-colors flex items-center space-x-1"
+                    >
+                      <Trash2 size={14} />
+                      <span>Delete</span>
+                    </button>
+                  )}
                   
                   {(loan.status === 'active' || loan.status === 'overdue') && (
                     <button
@@ -447,6 +462,14 @@ export const ManageLoans: React.FC = () => {
                               Reject
                             </button>
                           </>
+                        )}
+                        {loan.status === 'pending' && (
+                          <button
+                            onClick={() => handleDelete(loan.id)}
+                            className="px-2 py-1 bg-red-600 text-white text-xs rounded hover:bg-red-700 transition-colors"
+                          >
+                            Delete
+                          </button>
                         )}
                         
                         {(loan.status === 'active' || loan.status === 'overdue') && (

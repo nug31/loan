@@ -142,6 +142,9 @@ class ApiService {
           ];
           console.log('🎭 Mock loans data (synced with real DB):', mockLoans);
           resolve({ data: mockLoans as T });
+        } else if (endpoint.startsWith('/loans/') && options.method === 'DELETE') {
+          // Simulate loan deletion success
+          resolve({ data: { success: true } as T });
         } else if (endpoint.startsWith('/loans/')) {
           resolve({ data: {} as T });
         } else if (endpoint.startsWith('/users')) {
@@ -365,6 +368,12 @@ class ApiService {
   async rejectLoan(loanId: string) {
     return this.request<any>(`/loans/${loanId}/reject`, {
       method: 'PUT',
+    });
+  }
+
+  async deleteLoan(loanId: string) {
+    return this.request<any>(`/loans/${loanId}`, {
+      method: 'DELETE',
     });
   }
 

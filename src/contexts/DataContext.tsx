@@ -21,6 +21,7 @@ interface DataContextType {
   requestLoan: (loan: Omit<Loan, 'id' | 'requestedAt'>) => void;
   approveLoan: (loanId: string, approvedBy?: string) => void;
   rejectLoan: (loanId: string) => void;
+  deleteLoan: (loanId: string) => void;
   returnItem: (loanId: string) => void;
   requestReturn: (loanId: string) => void;
   markNotificationRead: (notificationId: string) => void;
@@ -456,6 +457,15 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
     }
   };
 
+  const deleteLoan = async (loanId: string) => {
+    try {
+      await apiService.deleteLoan(loanId);
+    } catch (e) {
+      console.warn('⚠️ deleteLoan API failed or not available, proceeding to update local state');
+    }
+    setLoans(prev => prev.filter(l => l.id !== loanId));
+  };
+
   const returnItem = async (loanId: string) => {
     try {
       // Find the current loan to get details for notification
@@ -572,6 +582,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
     requestLoan,
     approveLoan,
     rejectLoan,
+    deleteLoan,
     returnItem,
     requestReturn,
     markNotificationRead,
