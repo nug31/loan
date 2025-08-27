@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Bell, User, LogOut, Handshake, CreditCard } from 'lucide-react';
+import { Bell, User, LogOut, Handshake } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useData } from '../../contexts/DataContext';
 import { useNotifications } from '../../hooks/useNotifications';
@@ -20,7 +20,7 @@ export const MobileHeader: React.FC = () => {
           {/* Logo */}
           <div className="flex items-center space-x-3">
         <div className="w-10 h-10 bg-gray-600 rounded-lg flex items-center justify-center shadow-md border border-gray-500">
-          <CreditCard size={22} className="text-white" strokeWidth={3} />
+          <Handshake size={22} className="text-white" strokeWidth={3} />
         </div>
             <div>
               <h1 className="text-xl font-bold" style={{

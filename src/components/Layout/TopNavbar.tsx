@@ -11,8 +11,7 @@ import {
   LogOut,
   Bell,
   User,
-  Handshake,
-  CreditCard
+  Handshake
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useData } from '../../contexts/DataContext';
@@ -101,7 +100,7 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ activeTab, onTabChange }) 
           <div className="flex items-center space-x-1 lg:space-x-2">
             <div className="flex items-center space-x-2">
           <div className="w-12 h-12 bg-gray-600 rounded-xl flex items-center justify-center shadow-lg border border-gray-500">
-            <CreditCard size={26} className="text-white" strokeWidth={3} />
+            <Handshake size={26} className="text-white" strokeWidth={3} />
           </div>
               <h1 className="text-lg lg:text-xl font-bold" style={{color: '#E9631A'}}>SmartLend</h1>
             </div>
