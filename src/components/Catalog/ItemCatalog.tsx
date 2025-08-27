@@ -210,7 +210,7 @@ export const ItemCatalog: React.FC<ItemCatalogProps> = ({ onTabChange }) => {
           {/* Status and Condition Badges */}
           <div className="flex items-center space-x-2 mb-3">
             <span className={`px-2 py-1 rounded-full text-xs font-semibold shadow-sm ${getAvailabilityColor(item)}`}>
-              {item.availableQuantity > 0 ? 'In Stock' : 'Out of Stock'}
+              {item.availableQuantity > 0 ? 'In Stock' : 'Dipinjam'}
             </span>
             <span className={`px-2 py-1 rounded-full text-xs font-medium ${getConditionColor(item.condition)}`}>
               {item.condition.charAt(0).toUpperCase() + item.condition.slice(1)}
