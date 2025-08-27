@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Bell, User, Settings, LogOut, Handshake } from 'lucide-react';
+import { Bell, User, Settings, LogOut, Handshake, CreditCard } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useData } from '../../contexts/DataContext';
 
@@ -19,7 +19,7 @@ export const Header: React.FC = () => {
             <div className="relative">
               {/* Logo */}
               <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg border border-gray-300">
-                <Handshake size={26} className="text-orange-600" strokeWidth={2.5} />
+                <CreditCard size={26} className="text-orange-600" strokeWidth={2.5} />
               </div>
             </div>
 
