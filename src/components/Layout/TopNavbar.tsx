@@ -99,7 +99,7 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ activeTab, onTabChange }) 
           {/* Logo/Brand */}
           <div className="flex items-center space-x-1 lg:space-x-2">
             <div className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center shadow-lg border border-gray-700">
+              <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center shadow-lg border border-blue-400">
                 <Handshake size={20} className="text-white" strokeWidth={3} />
               </div>
               <h1 className="text-lg lg:text-xl font-bold" style={{color: '#E9631A'}}>SmartLend</h1>
