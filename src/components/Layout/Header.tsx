@@ -19,7 +19,7 @@ export const Header: React.FC = () => {
             <div className="relative">
               {/* Logo */}
               <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg border border-gray-300">
-                <Handshake size={26} className="text-orange-600" strokeWidth={2.5} />
+                <Handshake size={26} className="text-gray-800" strokeWidth={2.5} />
               </div>
             </div>
 
