@@ -378,8 +378,16 @@ export const MyLoans: React.FC = () => {
                     <p className="font-medium text-gray-900">{new Date(selectedLoan.startDate).toLocaleDateString()}</p>
                   </div>
                   <div>
+                    <p className="text-sm text-gray-600">Start Time</p>
+                    <p className="font-medium text-gray-900">{new Date(selectedLoan.startDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</p>
+                  </div>
+                  <div>
                     <p className="text-sm text-gray-600">Due Date</p>
                     <p className="font-medium text-gray-900">{new Date(selectedLoan.endDate).toLocaleDateString()}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600">Due Time</p>
+                    <p className="font-medium text-gray-900">{new Date(selectedLoan.endDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</p>
                   </div>
                   {selectedLoan.status === 'active' && (
                     <div>
@@ -398,6 +406,18 @@ export const MyLoans: React.FC = () => {
                     <p className="text-sm text-gray-600">Created Date</p>
                     <p className="font-medium text-gray-900">{new Date(selectedLoan.createdAt).toLocaleDateString()}</p>
                   </div>
+                  {selectedLoan.actualReturnDate && (
+                    <div>
+                      <p className="text-sm text-gray-600">Return Date</p>
+                      <p className="font-medium text-gray-900">{new Date(selectedLoan.actualReturnDate).toLocaleDateString()}</p>
+                    </div>
+                  )}
+                  {selectedLoan.actualReturnDate && (
+                    <div>
+                      <p className="text-sm text-gray-600">Return Time</p>
+                      <p className="font-medium text-gray-900">{new Date(selectedLoan.actualReturnDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</p>
+                    </div>
+                  )}
                 </div>
               </div>
               
