@@ -307,22 +307,6 @@ export const ItemCatalog: React.FC<ItemCatalogProps> = ({ onTabChange }) => {
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Item Catalog</h1>
             <p className="text-gray-600 text-sm sm:text-base">Discover and request items from our comprehensive inventory</p>
           </div>
-          <div className="flex items-center space-x-4">
-            <div className="bg-white rounded-lg px-4 py-2 shadow-sm border">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-orange-600">{items.length}</div>
-                <div className="text-xs text-gray-600">Total Items</div>
-              </div>
-            </div>
-            <div className="bg-white rounded-lg px-4 py-2 shadow-sm border">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-green-600">
-                  {items.reduce((sum, item) => sum + item.availableQuantity, 0)}
-                </div>
-                <div className="text-xs text-gray-600">Available</div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 
