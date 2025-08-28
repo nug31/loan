@@ -54,8 +54,14 @@ export const ManageLoans: React.FC = () => {
     rejectLoan(loanId);
   };
 
-  const handleDelete = (loanId: string) => {
-    if (window.confirm('Delete this loan request? This action cannot be undone.')) {
+  const handleDelete = (loanId: string, loanStatus?: string) => {
+    let confirmMessage = 'Delete this loan request? This action cannot be undone.';
+    
+    if (loanStatus === 'overdue') {
+      confirmMessage = 'Delete this overdue loan? This will permanently remove the loan record and cannot be undone.';
+    }
+    
+    if (window.confirm(confirmMessage)) {
       deleteLoan(loanId);
     }
   };
@@ -336,6 +342,18 @@ export const ManageLoans: React.FC = () => {
                       Return
                     </button>
                   )}
+                  
+                  {/* Delete button untuk overdue loans */}
+                  {loan.status === 'overdue' && (
+                    <button
+                      onClick={() => handleDelete(loan.id, loan.status)}
+                      className="px-3 py-1 bg-red-600 text-white text-xs rounded hover:bg-red-700 transition-colors flex items-center space-x-1"
+                      title="Delete overdue loan"
+                    >
+                      <Trash2 size={14} />
+                      <span>Delete</span>
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -478,6 +496,18 @@ export const ManageLoans: React.FC = () => {
                             className="px-2 py-1 bg-gray-800 text-white text-xs rounded hover:bg-gray-900 transition-colors"
                           >
                             Mark Returned
+                          </button>
+                        )}
+                        
+                        {/* Delete button untuk overdue loans */}
+                        {loan.status === 'overdue' && (
+                          <button
+                            onClick={() => handleDelete(loan.id, loan.status)}
+                            className="px-2 py-1 bg-red-600 text-white text-xs rounded hover:bg-red-700 transition-colors flex items-center space-x-1"
+                            title="Delete overdue loan"
+                          >
+                            <Trash2 size={14} />
+                            <span>Delete</span>
                           </button>
                         )}
                       </div>
