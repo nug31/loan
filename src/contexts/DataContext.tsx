@@ -484,13 +484,34 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
 
   const deleteLoan = async (loanId: string) => {
     try {
+      // Find the loan before deleting to get item details
+      const loanToDelete = loans.find(l => l.id === loanId);
+      const item = loanToDelete ? getItemById(loanToDelete.itemId) : null;
+      
       await apiService.deleteLoan(loanId);
+      
+      // Broadcast real-time update before deletion
+      if (loanToDelete && item) {
+        broadcastLoanUpdate({
+          loanId,
+          oldStatus: loanToDelete.status,
+          newStatus: 'deleted',
+          itemName: item.name,
+          userName: loanToDelete.user?.name,
+          userId: loanToDelete.userId
+        });
+      }
+      
     } catch (e) {
       console.warn('⚠️ deleteLoan API failed or not available, proceeding to update local state');
     }
+    
     // Persist deletion locally so it survives reloads (demo/offline mode)
     addDeletedLoanId(loanId);
     setLoans(prev => prev.filter(l => l.id !== loanId));
+    
+    // Refresh items to update available quantities (return stock)
+    await loadItems();
   };
 
   const returnItem = async (loanId: string) => {
