@@ -3,6 +3,8 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { DataProvider, useData } from './contexts/DataContext';
 import { NotificationProvider } from './contexts/NotificationContext';
 import { ToastContainer } from './components/UI/Toast';
+import { NotificationPopup } from './components/UI/NotificationPopup';
+import { NotificationBell } from './components/UI/NotificationBell';
 
 // Version 1.0.1 - Fixed translation errors by removing i18n completely
 import { LoginForm } from './components/Auth/LoginForm';
@@ -427,6 +429,7 @@ function App() {
         <DataProvider>
           <AppContent />
           <ToastContainer />
+          <NotificationPopup />
         </DataProvider>
       </NotificationProvider>
     </AuthProvider>
