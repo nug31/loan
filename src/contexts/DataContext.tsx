@@ -25,8 +25,6 @@ interface DataContextType {
   returnItem: (loanId: string) => void;
   requestReturn: (loanId: string) => void;
   markNotificationRead: (notificationId: string) => void;
-  createNotification: (notification: { title: string; message: string; type: string; userId?: string }) => Promise<void>;
-  deleteNotification: (notificationId: string) => Promise<void>;
   searchItems: (query: string) => Item[];
   getItemById: (id: string) => Item | undefined;
   getLoanById: (id: string) => Loan | undefined;
@@ -371,36 +369,6 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
       if (response.data) {
         console.log('✅ Loan request successful:', response.data);
         setLoans(prev => [...prev, response.data]);
-        
-        // 🔔 TRIGGER ADMIN NOTIFICATION
-        try {
-          const item = getItemById(loanData.itemId);
-          const requestingUser = user || { 
-            id: loanData.userId, 
-            firstName: 'User', 
-            name: 'User', 
-            email: 'user@example.com', 
-            role: 'user', 
-            isActive: true, 
-            createdAt: new Date() 
-          } as any;
-          
-          if (item && requestingUser) {
-            const { NotificationTriggers } = await import('../services/notificationTriggers');
-            await NotificationTriggers.onLoanRequested(
-              response.data,
-              item,
-              requestingUser
-            );
-            console.log('✅ Admin notification sent for new loan request');
-          } else {
-            console.warn('⚠️ Could not send admin notification - missing item or user data');
-          }
-        } catch (notificationError) {
-          console.error('❌ Failed to send loan request notification to admin:', notificationError);
-          // Don't fail the whole request if notification fails
-        }
-        
         return response.data;
       } else {
         console.error('❌ No data in loan response:', response);
@@ -429,32 +397,6 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
           loan.id === loanId ? response.data : loan
         ));
         console.log('✅ Loan approved and moved to active status');
-
-        // 🔔 TRIGGER LOAN APPROVAL NOTIFICATION
-        try {
-          if (currentLoan && item) {
-            const loanUser = currentLoan.user || {
-              id: currentLoan.userId,
-              firstName: 'User',
-              name: 'User',
-              email: 'user@example.com',
-              role: 'user',
-              isActive: true,
-              createdAt: new Date()
-            } as any;
-            
-            const { NotificationTriggers } = await import('../services/notificationTriggers');
-            await NotificationTriggers.onLoanApproved(
-              response.data,
-              item,
-              loanUser,
-              approvedBy || user?.email || 'Admin'
-            );
-            console.log('✅ Loan approval notifications sent to user and admin');
-          }
-        } catch (notificationError) {
-          console.error('❌ Failed to send loan approval notifications:', notificationError);
-        }
 
         // Broadcast real-time update
         broadcastLoanUpdate({
@@ -526,31 +468,6 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
         loan.id === loanId ? { ...loan, status: 'cancelled' as any } : loan
       ));
       
-      // 🔔 TRIGGER LOAN REJECTION NOTIFICATION
-      try {
-        if (currentLoan && item) {
-          const loanUser = currentLoan.user || {
-            id: currentLoan.userId,
-            firstName: 'User',
-            name: 'User',
-            email: 'user@example.com',
-            role: 'user',
-            isActive: true,
-            createdAt: new Date()
-          } as any;
-          
-          const { NotificationTriggers } = await import('../services/notificationTriggers');
-          await NotificationTriggers.onLoanRejected(
-            currentLoan as any,
-            item,
-            loanUser
-          );
-          console.log('✅ Loan rejection notification sent to user');
-        }
-      } catch (notificationError) {
-        console.error('❌ Failed to send loan rejection notification:', notificationError);
-      }
-      
       // Broadcast real-time update
       broadcastLoanUpdate({
         loanId,
@@ -604,35 +521,9 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
       const item = currentLoan ? getItemById(currentLoan.itemId) : null;
       
       await apiService.returnItem(loanId);
-      const updatedLoan = { ...currentLoan, status: 'returned' as any, actualReturnDate: new Date() };
       setLoans(prev => prev.map(loan =>
-        loan.id === loanId ? updatedLoan : loan
+        loan.id === loanId ? { ...loan, status: 'returned' as any, actualReturnDate: new Date() } : loan
       ));
-      
-      // 🔔 TRIGGER ITEM RETURN NOTIFICATION
-      try {
-        if (currentLoan && item) {
-          const loanUser = currentLoan.user || {
-            id: currentLoan.userId,
-            firstName: 'User',
-            name: 'User',
-            email: 'user@example.com',
-            role: 'user',
-            isActive: true,
-            createdAt: new Date()
-          } as any;
-          
-          const { NotificationTriggers } = await import('../services/notificationTriggers');
-          await NotificationTriggers.onItemReturned(
-            updatedLoan as any,
-            item,
-            loanUser
-          );
-          console.log('✅ Item return notifications sent to user and admin');
-        }
-      } catch (notificationError) {
-        console.error('❌ Failed to send item return notifications:', notificationError);
-      }
       
       // Broadcast real-time update
       broadcastLoanUpdate({
@@ -723,36 +614,6 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
     ));
   };
 
-  const createNotification = async (notification: { title: string; message: string; type: string; userId?: string }) => {
-    try {
-      console.log('📝 Creating notification:', notification);
-      const response = await apiService.createNotification(notification);
-      if (response.error) {
-        console.error('❌ Error creating notification:', response.error);
-        throw new Error(response.error);
-      }
-      console.log('✅ Notification created successfully:', response.data);
-    } catch (error) {
-      console.error('❌ Error creating notification:', error);
-      throw error;
-    }
-  };
-
-  const deleteNotification = async (notificationId: string) => {
-    try {
-      console.log('🗑️ Deleting notification:', notificationId);
-      const response = await apiService.deleteNotification(notificationId);
-      if (response.error) {
-        console.error('❌ Error deleting notification:', response.error);
-        throw new Error(response.error);
-      }
-      console.log('✅ Notification deleted successfully');
-    } catch (error) {
-      console.error('❌ Error deleting notification:', error);
-      throw error;
-    }
-  };
-
   const value: DataContextType = {
     items,
     loans,
@@ -773,8 +634,6 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
     returnItem,
     requestReturn,
     markNotificationRead,
-    createNotification,
-    deleteNotification,
     searchItems,
     getItemById,
     getLoanById,

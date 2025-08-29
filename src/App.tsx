@@ -3,8 +3,6 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { DataProvider, useData } from './contexts/DataContext';
 import { NotificationProvider } from './contexts/NotificationContext';
 import { ToastContainer } from './components/UI/Toast';
-import { NotificationPopup } from './components/UI/NotificationPopup';
-import { NotificationBell } from './components/UI/NotificationBell';
 
 // Version 1.0.1 - Fixed translation errors by removing i18n completely
 import { LoginForm } from './components/Auth/LoginForm';
@@ -20,7 +18,6 @@ import { ManageUsers } from './components/Admin/ManageUsers';
 import ManageCategories from './components/Admin/ManageCategories';
 import { Settings } from './components/Settings/Settings';
 import { NotificationTestPanel } from './components/Test/NotificationTestPanel';
-import { NotificationBellDemo } from './components/Demo/NotificationBellDemo';
 import { Package, FileText, Clock, AlertTriangle, TrendingUp, Calendar, Users, CheckCircle } from 'lucide-react';
 
 // Temporary inline Dashboard component
@@ -411,8 +408,6 @@ const AppContent: React.FC = () => {
         return <ManageCategories />;
       case 'settings':
         return <Settings />;
-      case 'notification-demo':
-        return <NotificationBellDemo />;
       default:
         return <Dashboard />;
     }
@@ -432,7 +427,6 @@ function App() {
         <DataProvider>
           <AppContent />
           <ToastContainer />
-          <NotificationPopup />
         </DataProvider>
       </NotificationProvider>
     </AuthProvider>
