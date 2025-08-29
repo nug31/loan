@@ -20,6 +20,7 @@ import { ManageUsers } from './components/Admin/ManageUsers';
 import ManageCategories from './components/Admin/ManageCategories';
 import { Settings } from './components/Settings/Settings';
 import { NotificationTestPanel } from './components/Test/NotificationTestPanel';
+import { NotificationBellDemo } from './components/Demo/NotificationBellDemo';
 import { Package, FileText, Clock, AlertTriangle, TrendingUp, Calendar, Users, CheckCircle } from 'lucide-react';
 
 // Temporary inline Dashboard component
@@ -410,6 +411,8 @@ const AppContent: React.FC = () => {
         return <ManageCategories />;
       case 'settings':
         return <Settings />;
+      case 'notification-demo':
+        return <NotificationBellDemo />;
       default:
         return <Dashboard />;
     }

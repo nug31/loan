@@ -54,17 +54,13 @@ export const NotificationBell: React.FC = () => {
       {/* Bell Icon with Badge */}
       <button
         onClick={handleBellClick}
-        className={`relative p-2 rounded-full transition-colors duration-200 ${
-          unreadCount > 0 
-            ? 'text-yellow-600 bg-yellow-50 hover:bg-yellow-100' 
-            : 'text-gray-600 hover:bg-gray-100'
-        }`}
+        className="relative p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200"
       >
-        <Bell className={`w-6 h-6 ${unreadCount > 0 ? 'animate-pulse' : ''}`} />
+        <Bell className="w-6 h-6 text-gray-600" />
         
-        {/* Notification Badge */}
+        {/* Notification Badge - Matches the design from image */}
         {unreadCount > 0 && (
-          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold animate-bounce">
+          <span className="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-xs rounded-full min-w-[18px] h-[18px] flex items-center justify-center font-bold shadow-lg border-2 border-white">
             {unreadCount > 99 ? '99+' : unreadCount}
           </span>
         )}
