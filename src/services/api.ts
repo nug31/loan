@@ -203,6 +203,46 @@ class ApiService {
           ];
           console.log('🎭 Mock recent activity (synced with real DB):', mockActivity);
           resolve({ data: mockActivity as T });
+        } else if (endpoint === '/notifications' && options.method === 'POST') {
+          // Mock notification creation
+          const notificationData = options.body ? JSON.parse(options.body as string) : {};
+          const newNotification = {
+            id: Date.now().toString(),
+            ...notificationData,
+            createdAt: new Date().toISOString(),
+            read: false
+          };
+          console.log('🎭 Mock notification create:', newNotification);
+          resolve({ data: newNotification as T });
+        } else if (endpoint.startsWith('/notifications/') && options.method === 'DELETE') {
+          // Mock notification deletion
+          const notificationId = endpoint.split('/')[2];
+          console.log('🎭 Mock notification delete:', notificationId);
+          resolve({ data: { success: true } as T });
+        } else if (endpoint.startsWith('/notifications')) {
+          // Mock get notifications
+          const mockNotifications = [
+            {
+              id: '1',
+              title: 'New Loan Request',
+              message: 'John Doe has requested to borrow ROG Gaming Laptop',
+              type: 'loan_request',
+              userId: 'admin',
+              read: false,
+              createdAt: '2025-01-23T10:00:00.000Z'
+            },
+            {
+              id: '2', 
+              title: 'Test Notification',
+              message: 'This is a test notification',
+              type: 'info',
+              userId: 'admin',
+              read: false,
+              createdAt: '2025-01-23T09:00:00.000Z'
+            }
+          ];
+          console.log('🎭 Mock notifications:', mockNotifications);
+          resolve({ data: mockNotifications as T });
         } else {
           resolve({ data: {} as T });
         }
@@ -480,6 +520,31 @@ class ApiService {
   // Recent Activity
   async getRecentActivity(): Promise<ApiResponse<any>> {
     return this.request('/dashboard/recent-activity');
+  }
+
+  // Notifications API
+  async createNotification(notification: { title: string; message: string; type: string; userId?: string }) {
+    return this.request<any>('/notifications', {
+      method: 'POST',
+      body: JSON.stringify(notification),
+    });
+  }
+
+  async deleteNotification(notificationId: string) {
+    return this.request<any>(`/notifications/${notificationId}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async getNotifications(userId?: string) {
+    const endpoint = userId ? `/notifications?userId=${userId}` : '/notifications';
+    return this.request<any[]>(endpoint);
+  }
+
+  async markNotificationAsRead(notificationId: string) {
+    return this.request<any>(`/notifications/${notificationId}/read`, {
+      method: 'PUT',
+    });
   }
 }
 
