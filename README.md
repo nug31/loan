@@ -70,6 +70,13 @@ A comprehensive loan management system built with React (TypeScript) frontend an
 - **CORS** enabled
 - RESTful API design
 
+## 📚 Documentation
+
+- **[📖 User Guide](./USER_GUIDE.md)** - Complete guide on how to use the application
+- **[🔧 Installation Guide](./INSTALLATION_GUIDE.md)** - Detailed step-by-step installation instructions
+- **[⚡ Quick Start](./QUICK_START.md)** - Quick setup guide for experienced developers
+- **[🔔 Role-Based Notifications](./ROLE_BASED_NOTIFICATIONS.md)** - Documentation about notification system
+
 ## Installation & Setup
 
 ### Prerequisites
