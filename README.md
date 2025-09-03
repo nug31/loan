@@ -203,11 +203,16 @@ loan/
 
 ## Contributing
 
+We welcome contributions from the community! Please read our [**Contributing Guide**](./CONTRIBUTING.md) for detailed information on how to contribute to this project.
+
+**Quick contributing steps:**
 1. Fork the repository
-2. Create a feature branch
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Make your changes
 4. Test thoroughly
 5. Submit a pull request
+
+For detailed guidelines, development setup, and coding standards, please see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## License
 
