@@ -2,7 +2,7 @@
 
 A comprehensive loan management system built with React (TypeScript) frontend and Node.js backend with PostgreSQL database.
 
-**Latest Update**: Removed i18n dependencies for improved performance and simplified codebase.
+**Latest Update**: Implemented role-based notification filtering system with real-time updates and improved user experience.
 
 ## Features
 
@@ -29,6 +29,13 @@ A comprehensive loan management system built with React (TypeScript) frontend an
 - Return tracking
 - Overdue notifications
 - Loan history
+
+### 🔔 Smart Notification System
+- Role-based notification filtering
+- Real-time notification updates
+- Bell icon with unread count badge
+- Dismiss and clear all functionality
+- Mobile-responsive notification panel
 
 ### 👥 User Management (Admin)
 - User registration approval
@@ -153,6 +160,12 @@ The system comes with pre-seeded users:
 
 ### Dashboard
 - `GET /api/dashboard/stats` - Get dashboard statistics
+
+### Notifications
+- `GET /api/notifications` - Get role-based notifications
+- `PUT /api/notifications/:id/read` - Mark notification as read
+- `DELETE /api/notifications/:id` - Delete notification
+- `DELETE /api/notifications/clear-all` - Clear all notifications
 
 ## Project Structure
 
