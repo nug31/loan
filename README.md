@@ -72,9 +72,17 @@ A comprehensive loan management system built with React (TypeScript) frontend an
 
 ## 📚 Documentation
 
-- **[📖 User Guide](./USER_GUIDE.md)** - Complete guide on how to use the application
+**📋 User Guides:**
+- **[📖 Complete User Guide](./USER_GUIDE.md)** - Comprehensive guide for all users
+- **[📋 Borrowing Guide](./BORROWING_GUIDE.md)** - Detailed guide for users who want to borrow items
+- **[📸 Visual Borrowing Tutorial](./VISUAL_BORROWING_TUTORIAL.md)** - Step-by-step visual guide for beginners
+
+**🔧 Setup & Development:**
 - **[🔧 Installation Guide](./INSTALLATION_GUIDE.md)** - Detailed step-by-step installation instructions
 - **[⚡ Quick Start](./QUICK_START.md)** - Quick setup guide for experienced developers
+- **[🤝 Contributing Guide](./CONTRIBUTING.md)** - Guidelines for contributing to the project
+
+**📖 Technical Documentation:**
 - **[🔔 Role-Based Notifications](./ROLE_BASED_NOTIFICATIONS.md)** - Documentation about notification system
 
 ## Installation & Setup

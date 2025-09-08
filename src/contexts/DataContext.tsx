@@ -23,6 +23,7 @@ interface DataContextType {
   rejectLoan: (loanId: string) => void;
   deleteLoan: (loanId: string) => void;
   returnItem: (loanId: string) => void;
+  undoReturnItem: (loanId: string) => void;
   requestReturn: (loanId: string) => void;
   markNotificationRead: (notificationId: string) => void;
   searchItems: (query: string) => Item[];
@@ -542,6 +543,34 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
     }
   };
 
+  const undoReturnItem = async (loanId: string) => {
+    try {
+      // Find the current loan to get details for notification
+      const currentLoan = loans.find(l => l.id === loanId);
+      const item = currentLoan ? getItemById(currentLoan.itemId) : null;
+      
+      await apiService.undoReturnItem(loanId);
+      setLoans(prev => prev.map(loan =>
+        loan.id === loanId ? { ...loan, status: 'active' as any, actualReturnDate: null } : loan
+      ));
+      
+      // Broadcast real-time update
+      broadcastLoanUpdate({
+        loanId,
+        oldStatus: 'returned',
+        newStatus: 'active',
+        itemName: item?.name,
+        userName: currentLoan?.user?.name,
+        userId: currentLoan?.userId
+      });
+
+      // Refresh items to update available quantities
+      await loadItems();
+    } catch (error) {
+      console.error('Error undoing item return:', error);
+    }
+  };
+
   const requestReturn = async (loanId: string) => {
     try {
       const currentLoan = loans.find(l => l.id === loanId);
@@ -632,6 +661,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
     rejectLoan,
     deleteLoan,
     returnItem,
+    undoReturnItem,
     requestReturn,
     markNotificationRead,
     searchItems,

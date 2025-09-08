@@ -383,6 +383,13 @@ class ApiService {
     });
   }
 
+  async undoReturnItem(loanId: string, notes?: string) {
+    return this.request<any>(`/loans/${loanId}/undo-return`, {
+      method: 'PUT',
+      body: JSON.stringify({ notes }),
+    });
+  }
+
   async requestReturn(loanId: string) {
     return this.request<any>(`/loans/${loanId}/request-return`, {
       method: 'PUT',

@@ -916,6 +916,65 @@ app.put('/api/loans/:id/return', async (req, res) => {
   }
 });
 
+// Undo return endpoint - allows admin to revert a returned loan back to active
+app.put('/api/loans/:id/undo-return', async (req, res) => {
+  try {
+    const loan = await Loan.findByPk(req.params.id);
+    if (!loan) {
+      return res.status(404).json({ error: 'Loan not found' });
+    }
+
+    // Check if loan is actually returned
+    if (loan.status !== 'returned') {
+      return res.status(400).json({ error: 'Only returned loans can be reverted' });
+    }
+
+    // Get the item to update available quantity
+    const item = await Item.findByPk(loan.itemId);
+    if (!item) {
+      return res.status(404).json({ error: 'Item not found' });
+    }
+
+    // Check if there's enough available quantity to undo the return
+    if (item.availableQuantity < loan.quantity) {
+      return res.status(400).json({ 
+        error: `Cannot undo return: insufficient available quantity. Available: ${item.availableQuantity}, Required: ${loan.quantity}` 
+      });
+    }
+
+    console.log(`🔄 Before undo return: ${item.name} - Available: ${item.availableQuantity}, Removing: ${loan.quantity}`);
+
+    // Remove the quantity from available stock (since item is being borrowed again)
+    await item.update({
+      availableQuantity: item.availableQuantity - loan.quantity
+    });
+
+    console.log(`✅ After undo return: ${item.name} - Available: ${item.availableQuantity - loan.quantity} (decreased by ${loan.quantity})`);
+
+    // Revert loan status back to active and clear return date
+    await loan.update({
+      status: 'active',
+      actualReturnDate: null,
+      notes: req.body.notes || loan.notes
+    });
+
+    const updatedLoan = await Loan.findByPk(loan.id, {
+      include: [
+        { model: User, as: 'user', attributes: ['id', 'name', 'email'] },
+        { model: Item, as: 'item', attributes: ['id', 'name', 'category'] },
+        { model: User, as: 'approver', attributes: ['id', 'name', 'email'] }
+      ]
+    });
+
+    console.log(`✅ PUT /api/loans/${req.params.id}/undo-return - reverted loan back to active`);
+
+    res.json(updatedLoan);
+  } catch (error) {
+    console.error('❌ Error undoing loan return:', error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Fix data endpoint - reset ROG Gaming Laptop quantity
 app.post('/api/admin/fix-rog-quantity', async (req, res) => {
   try {

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Search, Filter, CheckCircle, X, Clock, AlertTriangle, Eye, Download, FileSpreadsheet, FileText, Trash2 } from 'lucide-react';
+import { Search, Filter, CheckCircle, X, Clock, AlertTriangle, Eye, Download, FileSpreadsheet, FileText, Trash2, Undo2 } from 'lucide-react';
 import { useData } from '../../contexts/DataContext';
 import { useAuth } from '../../contexts/AuthContext';
 import { Loan } from '../../types';
 import { exportLoansData } from '../../utils/exportUtils';
 
 export const ManageLoans: React.FC = () => {
-  const { loans, getItemById, approveLoan, rejectLoan, returnItem, deleteLoan } = useData();
+  const { loans, getItemById, approveLoan, rejectLoan, returnItem, undoReturnItem, deleteLoan } = useData();
   const { user } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
@@ -68,6 +68,12 @@ export const ManageLoans: React.FC = () => {
 
   const handleReturn = (loanId: string) => {
     returnItem(loanId);
+  };
+
+  const handleUndoReturn = (loanId: string) => {
+    if (window.confirm('Are you sure you want to undo this return? The loan will become active again and the item will be marked as borrowed.')) {
+      undoReturnItem(loanId);
+    }
   };
 
   const showDetails = (loan: Loan) => {
@@ -343,6 +349,18 @@ export const ManageLoans: React.FC = () => {
                     </button>
                   )}
                   
+                  {/* Undo Return button for returned loans */}
+                  {loan.status === 'returned' && (
+                    <button
+                      onClick={() => handleUndoReturn(loan.id)}
+                      className="px-3 py-1 bg-yellow-600 text-white text-xs rounded hover:bg-yellow-700 transition-colors flex items-center space-x-1"
+                      title="Undo return - make loan active again"
+                    >
+                      <Undo2 size={14} />
+                      <span>Undo Return</span>
+                    </button>
+                  )}
+                  
                   {/* Delete button untuk overdue loans */}
                   {loan.status === 'overdue' && (
                     <button
@@ -496,6 +514,18 @@ export const ManageLoans: React.FC = () => {
                             className="px-2 py-1 bg-gray-800 text-white text-xs rounded hover:bg-gray-900 transition-colors"
                           >
                             Mark Returned
+                          </button>
+                        )}
+                        
+                        {/* Undo Return button for returned loans */}
+                        {loan.status === 'returned' && (
+                          <button
+                            onClick={() => handleUndoReturn(loan.id)}
+                            className="px-2 py-1 bg-yellow-600 text-white text-xs rounded hover:bg-yellow-700 transition-colors flex items-center space-x-1"
+                            title="Undo return - make loan active again"
+                          >
+                            <Undo2 size={14} />
+                            <span>Undo</span>
                           </button>
                         )}
                         
