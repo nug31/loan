@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
-import { Search, Filter, CheckCircle, X, Clock, AlertTriangle, Eye, Download, FileSpreadsheet, FileText, Trash2, Undo2 } from 'lucide-react';
+import { Search, Filter, CheckCircle, X, Clock, AlertTriangle, Eye, Download, FileSpreadsheet, FileText, Trash2, Undo2, RefreshCw } from 'lucide-react';
 import { useData } from '../../contexts/DataContext';
 import { useAuth } from '../../contexts/AuthContext';
 import { Loan } from '../../types';
 import { exportLoansData } from '../../utils/exportUtils';
 
 export const ManageLoans: React.FC = () => {
-  const { loans, getItemById, approveLoan, rejectLoan, returnItem, undoReturnItem, deleteLoan } = useData();
+  const { loans, getItemById, approveLoan, rejectLoan, returnItem, undoReturnItem, deleteLoan, refreshLoans } = useData();
   const { user } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [selectedLoan, setSelectedLoan] = useState<Loan | null>(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [showExportMenu, setShowExportMenu] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const filteredLoans = loans.filter(loan => {
     const item = getItemById(loan.itemId);
@@ -93,20 +94,41 @@ export const ManageLoans: React.FC = () => {
     setShowExportMenu(false);
   };
 
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    try {
+      await refreshLoans();
+    } catch (error) {
+      console.error('Error refreshing loans:', error);
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
         <h1 className="text-2xl font-bold text-gray-900">Manage Loans</h1>
         
-        <div className="relative">
+        <div className="flex items-center space-x-3">
           <button
-            onClick={() => setShowExportMenu(!showExportMenu)}
-            className="flex items-center space-x-2 px-3 py-2 sm:px-4 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors text-sm"
+            onClick={handleRefresh}
+            disabled={isRefreshing}
+            className="flex items-center space-x-2 px-3 py-2 sm:px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-400 transition-colors text-sm"
           >
-            <Download size={18} />
-            <span className="hidden sm:inline">Export Report</span>
+            <RefreshCw size={18} className={isRefreshing ? 'animate-spin' : ''} />
+            <span className="hidden sm:inline">{isRefreshing ? 'Refreshing...' : 'Refresh'}</span>
           </button>
+          
+          <div className="relative">
+            <button
+              onClick={() => setShowExportMenu(!showExportMenu)}
+              className="flex items-center space-x-2 px-3 py-2 sm:px-4 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors text-sm"
+            >
+              <Download size={18} />
+              <span className="hidden sm:inline">Export Report</span>
+            </button>
 
           {showExportMenu && (
             <>

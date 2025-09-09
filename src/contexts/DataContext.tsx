@@ -25,6 +25,7 @@ interface DataContextType {
   returnItem: (loanId: string) => void;
   undoReturnItem: (loanId: string) => void;
   requestReturn: (loanId: string) => void;
+  refreshLoans: () => Promise<void>;
   markNotificationRead: (notificationId: string) => void;
   searchItems: (query: string) => Item[];
   getItemById: (id: string) => Item | undefined;
@@ -101,6 +102,31 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
       }
     } catch (error) {
       console.error('❌ Error refreshing items:', error);
+    }
+  };
+
+  // Function to refresh loans data
+  const refreshLoans = async () => {
+    try {
+      console.log('🔄 Refreshing loans data...');
+      const loansResponse = await apiService.getLoans();
+      if (loansResponse.data) {
+        console.log('✅ Loans refreshed:', loansResponse.data.length, 'loans');
+        console.log('🔍 Refreshed loans by status:', {
+          pending: loansResponse.data.filter(l => l.status === 'pending').length,
+          active: loansResponse.data.filter(l => l.status === 'active').length,
+          approved: loansResponse.data.filter(l => l.status === 'approved').length,
+          returned: loansResponse.data.filter(l => l.status === 'returned').length,
+          overdue: loansResponse.data.filter(l => l.status === 'overdue').length,
+        });
+        const deletedIds = getDeletedLoanIds();
+        const filteredLoans = loansResponse.data.filter((l:any) => !deletedIds.includes(l.id));
+        setLoans(filteredLoans);
+      } else {
+        console.error('❌ Failed to refresh loans:', loansResponse.error);
+      }
+    } catch (error) {
+      console.error('❌ Error refreshing loans:', error);
     }
   };
 
@@ -663,6 +689,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
     returnItem,
     undoReturnItem,
     requestReturn,
+    refreshLoans,
     markNotificationRead,
     searchItems,
     getItemById,

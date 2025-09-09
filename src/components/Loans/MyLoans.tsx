@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, Clock, Package, AlertTriangle, CheckCircle, X, RotateCcw, Eye, Download } from 'lucide-react';
+import { Calendar, Clock, Package, AlertTriangle, CheckCircle, X, RotateCcw, Eye, Download, RefreshCw } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useData } from '../../contexts/DataContext';
 import { useNotifications, LoanStatusUpdate } from '../../contexts/NotificationContext';
@@ -7,7 +7,7 @@ import { Loan } from '../../types';
 
 export const MyLoans: React.FC = () => {
   const { user, isAdmin } = useAuth();
-  const { getUserLoans, getItemById, returnItem, requestExtension, requestReturn } = useData();
+  const { getUserLoans, getItemById, returnItem, requestExtension, requestReturn, refreshLoans } = useData();
   const { subscribeLoanUpdates, addNotification } = useNotifications();
   const [activeTab, setActiveTab] = useState<'active' | 'pending' | 'history'>('active');
   const [selectedLoan, setSelectedLoan] = useState<Loan | null>(null);
@@ -15,6 +15,7 @@ export const MyLoans: React.FC = () => {
   const [showExtensionModal, setShowExtensionModal] = useState(false);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const userLoans = getUserLoans(user?.id || '');
   const activeLoans = userLoans.filter(loan => loan.status === 'active');
@@ -111,6 +112,18 @@ export const MyLoans: React.FC = () => {
       requestExtension(selectedLoan.id, new Date(Date.now() + 7 * 24 * 60 * 60 * 1000));
       setShowExtensionModal(false);
       setSelectedLoan(null);
+    }
+  };
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    try {
+      await refreshLoans();
+      setRefreshTrigger(prev => prev + 1);
+    } catch (error) {
+      console.error('Error refreshing loans:', error);
+    } finally {
+      setIsRefreshing(false);
     }
   };
 
@@ -218,10 +231,20 @@ export const MyLoans: React.FC = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">My Loans</h1>
-        <button className="flex items-center space-x-2 px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors">
-          <Download size={20} />
-          <span>Export Report</span>
-        </button>
+        <div className="flex items-center space-x-3">
+          <button 
+            onClick={handleRefresh}
+            disabled={isRefreshing}
+            className="flex items-center space-x-2 px-3 py-2 sm:px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-400 transition-colors text-sm"
+          >
+            <RefreshCw size={18} className={isRefreshing ? 'animate-spin' : ''} />
+            <span className="hidden sm:inline">{isRefreshing ? 'Refreshing...' : 'Refresh'}</span>
+          </button>
+          <button className="flex items-center space-x-2 px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors">
+            <Download size={20} />
+            <span className="hidden sm:inline">Export Report</span>
+          </button>
+        </div>
       </div>
 
       {/* Tabs */}
