@@ -158,6 +158,7 @@ export const ManageLoans: React.FC = () => {
               </div>
             </>
           )}
+          </div>
         </div>
       </div>
 
