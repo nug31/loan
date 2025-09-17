@@ -2,12 +2,11 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { ItemRequest } from '../types';
 
-// Extend jsPDF type to include autoTable
-declare module 'jspdf' {
-  interface jsPDF {
-    autoTable: (options: any) => jsPDF;
-  }
-}
+// Type for jsPDF with autoTable plugin
+type jsPDFWithPlugin = jsPDF & {
+  autoTable: (options: any) => jsPDF;
+  lastAutoTable?: { finalY: number };
+};
 
 /**
  * Exports monthly report data to PDF file
@@ -37,7 +36,7 @@ export const exportMonthlyReportToPDF = (
   month: number,
   filename?: string
 ): Blob => {
-  const doc = new jsPDF();
+  const doc = new jsPDF() as jsPDFWithPlugin;
   const monthName = new Date(year, month - 1).toLocaleString('default', { month: 'long' });
   let yPosition = 20;
 
@@ -87,7 +86,7 @@ export const exportMonthlyReportToPDF = (
     margin: { left: 20, right: 20 }
   });
 
-  yPosition = (doc as any).lastAutoTable.finalY + 15;
+  yPosition = doc.lastAutoTable?.finalY ? doc.lastAutoTable.finalY + 15 : yPosition + 50;
 
   // Most Requested Items Section
   if (summary.mostRequestedItems.length > 0) {
@@ -122,7 +121,7 @@ export const exportMonthlyReportToPDF = (
       margin: { left: 20, right: 20 }
     });
 
-    yPosition = (doc as any).lastAutoTable.finalY + 15;
+    yPosition = doc.lastAutoTable?.finalY ? doc.lastAutoTable.finalY + 15 : yPosition + 50;
   }
 
   // Top Requesters Section
@@ -158,7 +157,7 @@ export const exportMonthlyReportToPDF = (
       margin: { left: 20, right: 20 }
     });
 
-    yPosition = (doc as any).lastAutoTable.finalY + 15;
+    yPosition = doc.lastAutoTable?.finalY ? doc.lastAutoTable.finalY + 15 : yPosition + 50;
   }
 
   // Detailed Requests Section
