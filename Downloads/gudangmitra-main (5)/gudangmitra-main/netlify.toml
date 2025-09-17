@@ -1,5 +1,5 @@
 [build]
-  command = "npm ci && npm run build"
+  command = "ls -la && pwd && cat package.json && npm ci && npm run build"
   publish = "dist"
   
 [build.environment]
