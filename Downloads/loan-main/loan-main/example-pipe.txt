@@ -1,0 +1,3 @@
+name|email|password|phone|department
+Bob Wilson|bob@example.com|bobpass|+111222|Engineering
+Alice Brown|alice@example.com|alicepass|+333444|Marketing

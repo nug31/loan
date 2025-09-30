@@ -1,0 +1,16 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Logo geometris dengan warna hitam dan oranye -->
+  <g>
+    <!-- Bagian kiri hitam -->
+    <path d="M6 6 L21 6 L21 21 L12 21 L12 42 L6 42 Z" fill="#000000"/>
+    
+    <!-- Bagian tengah oranye -->
+    <path d="M12 12 L30 12 L21 21 L12 21 Z" fill="#FF6B35"/>
+    
+    <!-- Bagian kanan hitam -->
+    <path d="M21 15 L42 15 L42 36 L27 36 L27 27 L21 27 Z" fill="#000000"/>
+    
+    <!-- Detail tambahan -->
+    <path d="M27 6 L42 6 L42 15 L27 15 Z" fill="#000000"/>
+  </g>
+</svg>
