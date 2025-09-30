@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { User } from '../types';
-import { apiService } from '../services/api';
+import { api } from '../services/api';
 
 interface AuthContextType {
   user: User | null;
@@ -49,25 +49,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       console.log('🔐 Attempting login with:', email);
 
-      const response = await apiService.login(email, password);
+      const response = await api.login({ username: email, password });
       console.log('🔍 Login response:', response);
 
-      // Backend returns user data directly in response.data (without wrapper)
-      if (response.data && response.data.id && response.data.email) {
-        console.log('✅ Login successful (direct user data):', response.data);
-        setUser(response.data);
-        localStorage.setItem('user', JSON.stringify(response.data));
-        return true;
-      }
-      // Fallback: Handle case where backend returns { user: ... } wrapped
-      else if (response.data && response.data.user) {
-        console.log('✅ Login successful (wrapped):', response.data.user);
-        setUser(response.data.user);
-        localStorage.setItem('user', JSON.stringify(response.data.user));
+      if (response.user && response.token) {
+        console.log('✅ Login successful:', response.user);
+        setUser(response.user);
+        localStorage.setItem('user', JSON.stringify(response.user));
+        localStorage.setItem('token', response.token);
         return true;
       } else {
-        console.error('❌ Login failed:', response.error || 'Unknown error');
-        console.error('❌ Response structure:', response);
+        console.error('❌ Login failed: Invalid response structure');
         return false;
       }
     } catch (error) {
@@ -82,25 +74,23 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       // Prepare data for backend
       const registerData = {
-        name: `${userData.firstName} ${userData.lastName}`,
-        email: userData.email,
+        username: userData.firstName || userData.email || 'user',
+        email: userData.email || '',
         password: userData.password,
-        department: userData.department,
-        phone: userData.phoneNumber
+        role: 'user' as const
       };
 
-      const response = await apiService.register(registerData);
+      const response = await api.register(registerData);
       console.log('🔍 Registration response:', response);
 
-      // Backend returns { user: ... } directly in response.data
-      if (response.data && response.data.user) {
-        console.log('✅ Registration successful:', response.data.user);
-        setUser(response.data.user);
-        localStorage.setItem('user', JSON.stringify(response.data.user));
+      if (response.user && response.token) {
+        console.log('✅ Registration successful:', response.user);
+        setUser(response.user);
+        localStorage.setItem('user', JSON.stringify(response.user));
+        localStorage.setItem('token', response.token);
         return true;
       } else {
-        console.error('❌ Registration failed:', response.error || 'Unknown error');
-        console.error('❌ Response structure:', response);
+        console.error('❌ Registration failed: Invalid response structure');
         return false;
       }
     } catch (error) {
@@ -112,6 +102,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const logout = () => {
     setUser(null);
     localStorage.removeItem('user');
+    localStorage.removeItem('token');
   };
 
   const updateUser = (userData: Partial<User>) => {

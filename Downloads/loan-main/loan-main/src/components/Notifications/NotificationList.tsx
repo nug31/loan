@@ -13,7 +13,7 @@ import {
 import { useAuth } from '../../contexts/AuthContext';
 import { useData } from '../../contexts/DataContext';
 import { useNotificationCount } from '../../contexts/NotificationCountContext';
-import { apiService } from '../../services/api';
+import { api } from '../../services/api';
 
 export interface NotificationItem {
   id: string;
@@ -44,7 +44,7 @@ const NotificationList: React.FC = () => {
         const userRole = isAdmin ? 'admin' : 'user';
         const userId = user?.id;
         
-        const response = await apiService.getNotifications(userRole, userId);
+        const response = await api.getNotifications(userRole, userId);
         if (response.data) {
           // Convert API response to our NotificationItem format
           const apiNotifications: NotificationItem[] = response.data.map((notif: any) => ({

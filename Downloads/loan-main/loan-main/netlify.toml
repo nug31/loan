@@ -1,9 +1,12 @@
 [build]
   publish = "dist"
-  command = "npm run build"
+  command = "npm ci && npm run build"
 
 [build.environment]
   NODE_VERSION = "18"
+  NPM_VERSION = "9"
+  VITE_API_URL = "https://lms-backend-production.up.railway.app"
+  VITE_DEMO_MODE = "true"
 
 [[redirects]]
   from = "/*"

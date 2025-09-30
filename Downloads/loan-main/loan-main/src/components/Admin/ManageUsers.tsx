@@ -3,7 +3,7 @@ import { Search, Plus, Edit, Trash2, Shield, User, Mail, Phone, Building, Downlo
 import { User as UserType } from '../../types';
 import { exportUsersData } from '../../utils/exportUtils';
 import { useAuth } from '../../contexts/AuthContext';
-import { apiService } from '../../services/api';
+import { api } from '../../services/api';
 
 // Transform API user data to match frontend UserType
 // Updated: Simple and clean design for better UX
@@ -53,7 +53,7 @@ export const ManageUsers: React.FC = () => {
       setError(null);
       console.log('🔄 Loading users from API...');
 
-      const response = await apiService.getUsers();
+      const response = await api.getUsers();
       console.log('🔍 Raw API response:', response);
 
       if (response.data) {
@@ -169,7 +169,7 @@ export const ManageUsers: React.FC = () => {
           role: formData.role,
           isActive: formData.isActive
         };
-        const response = await apiService.updateUser(editingUser.id, apiData);
+        const response = await api.updateUser(editingUser.id, apiData);
 
         if (response.data) {
           console.log('✅ User updated successfully');
@@ -192,7 +192,7 @@ export const ManageUsers: React.FC = () => {
           isActive: formData.isActive,
           password: 'defaultPassword123' // In production, this should be handled properly
         };
-        const response = await apiService.createUser(apiData);
+        const response = await api.createUser(apiData);
 
         if (response.data) {
           console.log('✅ User created successfully');
@@ -242,7 +242,7 @@ export const ManageUsers: React.FC = () => {
 
       try {
         console.log('🔄 Deleting user:', userToDelete.id);
-        const response = await apiService.deleteUser(userToDelete.id);
+        const response = await api.deleteUser(userToDelete.id);
 
         if (response.data || response.message) {
           console.log('✅ User deleted successfully');
@@ -288,7 +288,7 @@ export const ManageUsers: React.FC = () => {
         role: user.role,
         isActive: !user.isActive
       };
-      const response = await apiService.updateUser(userId, apiData);
+      const response = await api.updateUser(userId, apiData);
 
       if (response.data) {
         console.log('✅ User status updated successfully');

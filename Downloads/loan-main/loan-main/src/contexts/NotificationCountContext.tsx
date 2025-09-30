@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { apiService } from '../services/api';
+import { api } from '../services/api';
 import { useAuth } from './AuthContext';
 
 interface NotificationCountContextType {
@@ -36,7 +36,7 @@ export const NotificationCountProvider: React.FC<NotificationCountProviderProps>
       const userRole = isAdmin ? 'admin' : 'user';
       const userId = user?.id;
       
-      const response = await apiService.getNotifications(userRole, userId);
+      const response = await api.getNotifications(userRole, userId);
       if (response.data) {
         const total = response.data.length;
         const unread = response.data.filter((n: any) => !n.isRead).length;

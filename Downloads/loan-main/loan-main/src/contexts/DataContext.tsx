@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Item, Loan, Category, AppNotification, DashboardStats } from '../types';
-import { apiService } from '../services/api';
+import { api } from '../services/api';
 import { useNotifications as useNotificationsHook } from '../hooks/useNotifications';
 import { useNotifications as useNotificationsContext, LoanStatusUpdate } from './NotificationContext';
 import { useAuth } from './AuthContext';
@@ -91,7 +91,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
   // Function to load items
   const loadItems = async () => {
     try {
-      const itemsResponse = await apiService.getItems();
+      const itemsResponse = await api.getItems();
       if (itemsResponse.data) {
         console.log('✅ Items refreshed:', itemsResponse.data.length, 'items');
         setItems(itemsResponse.data);
@@ -110,7 +110,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
         console.log('🔄 Loading data from API...');
         
         // Load items from API
-        const itemsResponse = await apiService.getItems();
+        const itemsResponse = await api.getItems();
         if (itemsResponse.data) {
           console.log('✅ Items loaded:', itemsResponse.data.length, 'items');
           setItems(itemsResponse.data);
@@ -119,7 +119,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
         }
 
         // Load loans from API
-        const loansResponse = await apiService.getLoans();
+        const loansResponse = await api.getLoans();
         if (loansResponse.data) {
           console.log('✅ Loans loaded:', loansResponse.data.length, 'loans');
           console.log('🔍 Loans data:', loansResponse.data);
@@ -138,7 +138,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
         }
 
         // Load categories from API
-        const categoriesResponse = await apiService.getCategories();
+        const categoriesResponse = await api.getCategories();
         if (categoriesResponse.data) {
           console.log('✅ Categories loaded:', categoriesResponse.data.length, 'categories');
           setCategories(categoriesResponse.data);
@@ -195,7 +195,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
         itemId: l.itemId?.substring(0, 8)
       })));
 
-      const response = await apiService.getDashboardStats();
+      const response = await api.getDashboardStats();
       if (response.data) {
         console.log('✅ Dashboard stats loaded from API:', response.data);
         // Reconcile API stats with current client-side state to reflect local deletions/filters
@@ -254,7 +254,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
 
   const addItem = async (itemData: Omit<Item, 'id' | 'createdAt' | 'updatedAt'>) => {
     try {
-      const response = await apiService.createItem(itemData);
+      const response = await api.createItem(itemData);
       if (response.data) {
         setItems(prev => [...prev, response.data]);
         console.log('✅ Item added successfully:', response.data);
@@ -271,7 +271,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
 
   const updateItem = async (id: string, itemData: Partial<Item>) => {
     try {
-      const response = await apiService.updateItem(id, itemData);
+      const response = await api.updateItem(id, itemData);
       if (response.data) {
         // Update state dengan data yang dikembalikan dari server
         setItems(prev => prev.map(item =>
@@ -291,7 +291,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
 
   const deleteItem = async (id: string) => {
     try {
-      await apiService.deleteItem(id);
+      await api.deleteItem(id);
       setItems(prev => prev.filter(item => item.id !== id));
     } catch (error) {
       console.error('Error deleting item:', error);
@@ -300,7 +300,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
 
   const addCategory = async (categoryData: Omit<Category, 'id' | 'createdAt' | 'updatedAt'>) => {
     try {
-      const response = await apiService.createCategory(categoryData);
+      const response = await api.createCategory(categoryData);
       if (response.data) {
         setCategories(prev => [...prev, response.data]);
         console.log('✅ Category added successfully:', response.data);
@@ -317,7 +317,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
 
   const updateCategory = async (id: string, categoryData: Partial<Category>) => {
     try {
-      const response = await apiService.updateCategory(id, categoryData);
+      const response = await api.updateCategory(id, categoryData);
       if (response.data) {
         setCategories(prev => prev.map(category =>
           category.id === id ? { ...category, ...response.data } : category
@@ -336,7 +336,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
 
   const deleteCategory = async (id: string) => {
     try {
-      const response = await apiService.deleteCategory(id);
+      const response = await api.deleteCategory(id);
       if (response.error) {
         throw new Error(response.error);
       }
@@ -359,7 +359,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
         startDateValue: loanData.startDate,
         endDateValue: loanData.endDate
       });
-      const response = await apiService.createLoan(loanData);
+      const response = await api.createLoan(loanData);
 
       if (response.error) {
         console.error('❌ API error:', response.error);
@@ -388,7 +388,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
       const currentLoan = loans.find(l => l.id === loanId);
       const item = currentLoan ? getItemById(currentLoan.itemId) : null;
       
-      const response = await apiService.approveLoan(loanId, approvedBy);
+      const response = await api.approveLoan(loanId, approvedBy);
       
       if (response.data) {
         console.log('✅ Loan approval API response:', response.data);
@@ -413,7 +413,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
         
         // CRITICAL: Reload all loans from database to ensure consistency
         console.log('🔄 Reloading all loans from database...');
-        const loansResponse = await apiService.getLoans();
+        const loansResponse = await api.getLoans();
         if (loansResponse.data) {
           console.log('✅ Loans reloaded after approval:', loansResponse.data.length, 'loans');
           console.log('🔍 Updated loans by status:', {
@@ -447,7 +447,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
         await loadItems();
         
         // Still reload loans even in fallback case
-        const loansResponse = await apiService.getLoans();
+        const loansResponse = await api.getLoans();
         if (loansResponse.data) {
           setLoans(loansResponse.data);
         }
@@ -463,7 +463,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
       const currentLoan = loans.find(l => l.id === loanId);
       const item = currentLoan ? getItemById(currentLoan.itemId) : null;
       
-      await apiService.rejectLoan(loanId);
+      await api.rejectLoan(loanId);
       setLoans(prev => prev.map(loan => 
         loan.id === loanId ? { ...loan, status: 'cancelled' as any } : loan
       ));
@@ -488,7 +488,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
       const loanToDelete = loans.find(l => l.id === loanId);
       const item = loanToDelete ? getItemById(loanToDelete.itemId) : null;
       
-      await apiService.deleteLoan(loanId);
+      await api.deleteLoan(loanId);
       
       // Broadcast real-time update before deletion
       if (loanToDelete && item) {
@@ -520,7 +520,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
       const currentLoan = loans.find(l => l.id === loanId);
       const item = currentLoan ? getItemById(currentLoan.itemId) : null;
       
-      await apiService.returnItem(loanId);
+      await api.returnItem(loanId);
       setLoans(prev => prev.map(loan =>
         loan.id === loanId ? { ...loan, status: 'returned' as any, actualReturnDate: new Date() } : loan
       ));
@@ -553,7 +553,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
 
       // Send API request (best-effort)
       try {
-        await apiService.requestReturn(loanId);
+        await api.requestReturn(loanId);
       } catch (e) {
         console.warn('⚠️ requestReturn API failed, kept optimistic state');
       }
