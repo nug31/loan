@@ -21,6 +21,10 @@
     "socket.io-client": "^4.8.1",
     "xlsx": "^0.18.5"
   },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
   "devDependencies": {
     "@eslint/js": "^9.9.1",
     "@types/react": "^18.3.5",
